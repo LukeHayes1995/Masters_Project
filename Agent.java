@@ -2,6 +2,7 @@ package org.cloudbus.cloudsim.power;
 
 import java.util.List;
 
+import org.cloudbus.cloudsim.Host;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
 
@@ -14,6 +15,7 @@ public class Agent {
 	private Algorithm algorithm; 
 	private List<PowerVm> MigratableVmList;
 	private Environment env;
+	private Host host;
 	
 	
 	public Agent(Algorithm algorithm, Environment env) {
@@ -38,8 +40,10 @@ public class Agent {
 		this.env = env;
 	}
 	
-	public PowerVm getAction(PowerHost host, List<PowerVm> MigratableVmList) {
-		System.out.println("here");
+	public PowerVm getAction(PowerHost host, List<PowerVm> MigratableVmList, boolean migrateMoreThanOne) {
+		setHost(host);
+
+		//System.out.println("here");
 		//THIS IS GOING TO BE CALLED EACH TIME THAT A HOST IS OVERRUN 
 		
 		//THIS IS JUST A PLACEHOLDER TO ALLOW THE FUNCTION TO WORK 
@@ -58,28 +62,44 @@ public class Agent {
 			
 			//WE WILL SOMEHOW CALL THE Q-Learning ALGORITHM AND USE THE Q-Learning FUNCTIONALITY IN THE ALGORITHM CLASS
 			//Log.printLine(MigratableVmList);
-			VmToMigrate = algorithm.QLearning(host, MigratableVmList);
+			VmToMigrate = algorithm.QLearningNew(host, MigratableVmList, migrateMoreThanOne);
 		}
 		
+		//Log.printLine("Are we leaving here with a vm to migrate?");
+		//Log.printLine(VmToMigrate.getId());
 		return VmToMigrate;
 	}
 
-	public void updateQValues(PowerHost host, List<PowerVm> MigratableVmList) {
+	public void updateQValues(PowerHost host, List<PowerVm> MigratableVmList, PowerVm vm) {
 		//WHAT DO WE NEED TO DO HERE?
 		//WE NEED TO 
+		
+		Host oldHost = getHost();
 		
 		//Log.printLine("DO WE GET HERE");
 		
 		if (algorithm.getAlgorithm().contentEquals("SARSA")) {
-			algorithm.SARSAUpdateQValues(host, MigratableVmList);
+			algorithm.SARSAUpdateQValues(host, MigratableVmList, vm);
 		}
 		
 		else if(algorithm.getAlgorithm().contentEquals("Q-Learning")) {
-			algorithm.QLearningUpdateQValues(host, MigratableVmList);
+			algorithm.QLearningUpdateQValues(host, MigratableVmList, vm);
 
 		}
 		
-		
+
+	}
+	
+	public void reset() {
+		algorithm.reset();
+	}
+
+	public Host getHost() {
+		return host;
+	}
+
+	public void setHost(Host host) {
+		this.host = host;
 	}
 	
 

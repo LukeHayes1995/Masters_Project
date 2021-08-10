@@ -34,9 +34,10 @@ public abstract class PowerVmSelectionPolicy {
 	 * Gets the vms to migrate.
 	 * 
 	 * @param host the host
+	 * @param migrateMoreThanOne 
 	 * @return the vms to migrate
 	 */
-	public abstract Vm getVmToMigrate(PowerHost host);
+	public abstract Vm getVmToMigrate(PowerHost host, boolean migrateMoreThanOne);
 
 	/**
 	 * Gets the migratable vms.
@@ -63,7 +64,11 @@ public abstract class PowerVmSelectionPolicy {
 		return migratableVms;
 	}
 	
-	public void updateQValues(PowerHost host) {
+	public void updateQValues(PowerHost host, PowerVm vm) {
+		
+	}
+	
+	public void reset() {
 		
 	}
 

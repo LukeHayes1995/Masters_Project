@@ -15,6 +15,8 @@ import java.util.Map;
 
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.power.PowerHost;
+import org.cloudbus.cloudsim.power.PowerHostUtilizationHistory;
+import org.cloudbus.cloudsim.power.PowerVm;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicy;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEntity;
@@ -255,7 +257,14 @@ public class Datacenter extends SimEntity {
 				break;
 
 			case CloudSimTags.VM_DATACENTER_EVENT:
-				updateCloudletProcessingReinforcementLearning();
+				updateCloudletProcessingReinforcementLearningNew(true);
+				//updateCloudletProcessing();
+				checkCloudletCompletion();
+				break;
+				
+			case CloudSimTags.VM_DATACENTER_EVENT_UNDER:
+
+				updateCloudletProcessingReinforcementLearningNew(false);
 				//updateCloudletProcessing();
 				checkCloudletCompletion();
 				break;
@@ -526,6 +535,8 @@ public class Datacenter extends SimEntity {
 		}
 
 		if (ack) {
+			
+			
 			int[] data = new int[3];
 			data[0] = getId();
 			data[1] = vm.getId();
@@ -549,6 +560,7 @@ public class Datacenter extends SimEntity {
 		//WEIRDLY THE DATACENTRE OBJECT DOES NOT REQUIRE THE NEED FOR VmSelectionPolicy to be chosen 
 		
 		PowerHost h = (PowerHost) host;
+		PowerVm p = (PowerVm) vm;
 		
 		//getPowerVmSelectionPolicy().updateQValues(h);
 		//this.getVmAllocationPolicy().
@@ -556,7 +568,7 @@ public class Datacenter extends SimEntity {
 		//WE CANT JUST CALL THIS HERE 
 		//MIGRATIONS CAN OCCUR WHEN THERE ARE UNDER UTILIZED HOSTS 
 		//SO WE WILL NEED TO SOMEHOW GIVE THE NAME OF THE 
-		getVmAllocationPolicy().getVmSelectionPolicy().updateQValues(h);
+		getVmAllocationPolicy().getVmSelectionPolicy().updateQValues(h, p);
 		
 	}
 	
@@ -704,7 +716,7 @@ public class Datacenter extends SimEntity {
 	 * @post $none
 	 */
 	protected void processCloudletMove(int[] receivedData, int type) {
-		updateCloudletProcessingReinforcementLearning();
+		updateCloudletProcessingReinforcementLearningNew(false);
 		//updateCloudletProcessing();
 
 		int[] array = receivedData;
@@ -774,7 +786,7 @@ public class Datacenter extends SimEntity {
 	 * @post $none
 	 */
 	protected void processCloudletSubmit(SimEvent ev, boolean ack) {
-		updateCloudletProcessingReinforcementLearning();
+		updateCloudletProcessingReinforcementLearningNew(false);
 		//updateCloudletProcessing();
 
 		try {
@@ -992,6 +1004,10 @@ public class Datacenter extends SimEntity {
 	}
 	
 	protected void updateCloudletProcessingReinforcementLearning() {
+
+	}
+
+	protected void updateCloudletProcessingReinforcementLearningNew(boolean type) {
 
 	}
 

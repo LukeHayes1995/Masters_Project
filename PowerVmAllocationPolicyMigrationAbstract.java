@@ -128,7 +128,7 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 	}
 	
 	//WE PASS IT A LIST WITH ONLY ONE VM IN IT 
-	public List<Map<String, Object>> optimizeAllocationReinforcementLearning(List<PowerHostUtilizationHistory> host) {
+	public List<Map<String, Object>> optimizeAllocationReinforcementLearning(List<PowerHostUtilizationHistory> host, List<PowerHostUtilizationHistory> overutilizedHosts, boolean lastHost) {
 		
 		//Log.printLine("Overutilized hosts call incoming");
 		List<PowerHostUtilizationHistory> overUtilizedHosts = getOverUtilizedHosts();
@@ -154,11 +154,17 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 		ExecutionTimeMeasurer.start("optimizeAllocationVmReallocation");
 		List<Map<String, Object>> migrationMap = getNewVmPlacement(vmsToMigrate, new HashSet<Host>(
 				host));
+		
 		getExecutionTimeHistoryVmReallocation().add(
 				ExecutionTimeMeasurer.end("optimizeAllocationVmReallocation"));
 		Log.printLine();
-
-		migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(host));
+		
+		if(lastHost==true) {
+			double currentTime = CloudSim.clock();
+			System.out.print(currentTime + " ");
+			Log.printLine("We should definetly be in here");
+			migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overutilizedHosts));
+		}
 
 		restoreAllocation();
 
@@ -408,14 +414,17 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 			getVmsToMigrateFromHosts(List<PowerHostUtilizationHistory> overUtilizedHosts) {
 		List<Vm> vmsToMigrate = new LinkedList<Vm>();
 		for (PowerHostUtilizationHistory host : overUtilizedHosts) {
+			boolean migrateMoreThanOne = false;
 			while (true) {
-				Vm vm = getVmSelectionPolicy().getVmToMigrate(host);
+				Vm vm = getVmSelectionPolicy().getVmToMigrate(host, migrateMoreThanOne);
 				if (vm == null) {
 					break;
 				}
 				vmsToMigrate.add(vm);
 				host.vmDestroy(vm);
+				migrateMoreThanOne = true;
 				if (!isHostOverUtilized(host)) {
+					
 					break;
 				}
 			}
@@ -432,13 +441,15 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 	 */
 	protected Vm getVmToMigrateFromHostReinforcementLearning(PowerHostUtilizationHistory overUtilizedHost) {
 		Vm vmToMigrate = null;
+		boolean migrateMoreThanOne = false;
 		while (true) {
-			Vm vm = getVmSelectionPolicy().getVmToMigrate(overUtilizedHost);
+			Vm vm = getVmSelectionPolicy().getVmToMigrate(overUtilizedHost, migrateMoreThanOne);
 			if (vm == null) {
 				break;
 			}
 			vmToMigrate = vm;
 			overUtilizedHost.vmDestroy(vm);
+			migrateMoreThanOne = true;
 			if (!isHostOverUtilized(overUtilizedHost)) {
 				break;
 			}
@@ -523,6 +534,9 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 			double utilization = host.getUtilizationOfCpu();
 			if (utilization > 0 && utilization < minUtilization
 					&& !areAllVmsMigratingOutOrAnyVmMigratingIn(host)) {
+				//Log.printLine("The following i the utilization of the host that is underutilized");
+				//Log.printLine(utilization);
+				//Log.printLine(minUtilization);
 				minUtilization = utilization;
 				underUtilizedHost = host;
 			}

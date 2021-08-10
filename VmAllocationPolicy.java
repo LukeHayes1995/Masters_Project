@@ -79,7 +79,7 @@ public abstract class VmAllocationPolicy {
 	 * @post $none
 	 */
 	
-	public abstract List<Map<String, Object>> optimizeAllocationReinforcementLearning(List<PowerHostUtilizationHistory> overUtilizedHost);
+	public abstract List<Map<String, Object>> optimizeAllocationReinforcementLearning(List<PowerHostUtilizationHistory> overUtilizedHost, List<PowerHostUtilizationHistory> overutilizedHosts, boolean lastHost);
 
 	
 	public abstract void deallocateHostForVm(Vm vm);

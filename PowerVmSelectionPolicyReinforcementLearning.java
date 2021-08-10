@@ -47,8 +47,8 @@ public class PowerVmSelectionPolicyReinforcementLearning extends PowerVmSelectio
 	//NEED TO SOMEHOW GIVE THE ENVIRONMENT THE HOST
 	
 	@Override
-	public Vm getVmToMigrate(PowerHost host) {
-		Log.printLine("We have to get here right?");
+	public Vm getVmToMigrate(PowerHost host, boolean migrateMoreThanOne) {
+		//Log.printLine("We have to get here right?");
 		//Log.printLine("Surely we get in here:::::::::::::::::::::::::::::");
 		
 		if(runBefore==false) {
@@ -66,10 +66,10 @@ public class PowerVmSelectionPolicyReinforcementLearning extends PowerVmSelectio
 		}
 		//Log.printLine("Migratable VMS Key");
 		//Log.printLine(migratableVms);
-		PowerVm action = agent.getAction(host, migratableVms);
+		PowerVm action = agent.getAction(host, migratableVms, migrateMoreThanOne);
 
-		
-
+		Log.printLine("Do we get out of here");
+		Log.printLine(action);
 		//HERE WE SHOULD 
 
 		//Here we somehow have to get the choice from the agent 
@@ -84,22 +84,28 @@ public class PowerVmSelectionPolicyReinforcementLearning extends PowerVmSelectio
 
 	//Host is still the same object except now there should be one less host on it and thus we should be in a new state 
 	@Override
-	public void updateQValues(PowerHost host) {
+	public void updateQValues(PowerHost host, PowerVm vm) {
 		//NOW WE JUST NEED TO PUT THE FUNCTIONALITY IN HERE FOR THIS FUNCTION AND DO SOME TESTING WHICH NO DOUBT REVEAL NUMEROUS BUGS 
 		//FIRST WE NEED A VARIABLE THAT IS GOING TO STORE THE CURRENT STATE, NEXT STATE AND THE REWARD
 		
 		//WHAT DO WE NEED TO PASS THIS 
 		List<PowerVm> migratableVms = getMigratableVms(host);
 
-		agent.updateQValues(host, migratableVms);
+		agent.updateQValues(host, migratableVms, vm);
 		
 		
 		
 	}
+	
 	@Override
 	public String toString() {
 		return "ReinforcementLearning";
 		
+	}
+	
+	@Override
+	public void reset() {
+		agent.reset();
 	}
 	
 	//I THINK WE SHOULD CREATE A METHOD HERE THAT WE WILL CALL AFTER MIGRATION 

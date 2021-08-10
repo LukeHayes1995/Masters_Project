@@ -77,7 +77,179 @@ public class PowerDatacenter extends Datacenter {
 		setCloudletSubmitted(-1);
 		setMigrationCount(0);
 	}
+	
+	/**
+	 * Updates processing of each cloudlet running in this PowerDatacenter. It is necessary because
+	 * Hosts and VirtualMachines are simple objects, not entities. So, they don't receive events and
+	 * updating cloudlets inside them must be called from the outside.
+	 * 
+	 * @pre $none
+	 * @post $none
+	 */
+	//IN THIS METHOD WE SIMPLY TAKE ONE OF THE OVER UTILIZED HOSTS AND WORK WITH THAT 
+	//
+	@Override
+	protected void updateCloudletProcessingReinforcementLearningNew(boolean type) {
+		//Log.printLine("This must be called - POWER");
+		if (getCloudletSubmitted() == -1 || getCloudletSubmitted() == CloudSim.clock()) {
+			CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
+			schedule(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT);
+			schedule(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT_UNDER);
 
+			return;
+		}
+		double currentTime = CloudSim.clock();
+
+		// if some time passed since last processing
+		if (currentTime > getLastProcessTime()) {
+			System.out.print(currentTime + " ");
+			//Log.printLine("Migration Count Incoming: ");
+			//Log.printLine(this.getMigrationCount());
+			
+			double minTime = updateCloudetProcessingWithoutSchedulingFutureEventsForce();
+
+			if (!isDisableMigrations()) {
+				//Log.printLine("About to call Optimize Allocation");
+				
+				if(started==false) {
+					Log.printLine("We should never come back in here");
+					List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
+					List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
+
+					
+					//Log.printLine("In the first important loop");
+					List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
+					started = true;
+				}
+				
+				List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
+				
+				Log.printLine("Here is the number of over-utilized hosts");
+				Log.print(overUtilizedHostList.size());
+
+				
+				//THEN WE WILL WORK ON THE FIRST HOST
+				Log.printLine("type next");
+				Log.printLine(type);
+				if(type==true) {
+	
+					List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
+					
+					if(overUtilizedHostList.size() > 0) {
+						overUtilizedHost.add(overUtilizedHostList.get(0));
+					}
+
+					List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, false);
+					
+					//Log.printLine(migrationMap);
+	
+					if (migrationMap != null) {
+						for (Map<String, Object> migrate : migrationMap) {
+							Vm vm = (Vm) migrate.get("vm");
+							PowerHost targetHost = (PowerHost) migrate.get("host");
+							PowerHost oldHost = (PowerHost) vm.getHost();
+	
+							if (oldHost == null) {
+								Log.formatLine(
+										"%.2f: Migration of VM #%d to Host #%d is started",
+										currentTime,
+										vm.getId(),
+										targetHost.getId());
+							} else {
+								Log.formatLine(
+										"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+										currentTime,
+										vm.getId(),
+										oldHost.getId(),
+										targetHost.getId());
+							}
+	
+							targetHost.addMigratingInVm(vm);
+							incrementMigrationCount();
+	
+							/** VM migration delay = RAM / bandwidth **/
+							// we use BW / 2 to model BW available for migration purposes, the other
+							// half of BW is for VM communication
+							// around 16 seconds for 1024 MB using 1 Gbit/s network
+							send(
+									getId(),
+									vm.getRam() / ((double) targetHost.getBw() / (2 * 8000)),
+									CloudSimTags.VM_MIGRATE,
+									migrate);
+						}
+					}
+				}
+	
+			
+				//WE HAVE NO OVERUTILIZED HOSTS SO WE DO THE UNDER UTILIZED
+				else {
+						Log.printLine("Should only enter this every once in a while");
+						List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
+	
+						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
+						
+						//Log.printLine(migrationMap);
+		
+						if (migrationMap != null) {
+							for (Map<String, Object> migrate : migrationMap) {
+								Vm vm = (Vm) migrate.get("vm");
+								PowerHost targetHost = (PowerHost) migrate.get("host");
+								PowerHost oldHost = (PowerHost) vm.getHost();
+		
+								if (oldHost == null) {
+									Log.formatLine(
+											"%.2f: Migration of VM #%d to Host #%d is started",
+											currentTime,
+											vm.getId(),
+											targetHost.getId());
+								} else {
+									Log.formatLine(
+											"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+											currentTime,
+											vm.getId(),
+											oldHost.getId(),
+											targetHost.getId());
+								}
+		
+								targetHost.addMigratingInVm(vm);
+								incrementMigrationCount();
+		
+								/** VM migration delay = RAM / bandwidth **/
+								// we use BW / 2 to model BW available for migration purposes, the other
+								// half of BW is for VM communication
+								// around 16 seconds for 1024 MB using 1 Gbit/s network
+								send(
+										getId(),
+										vm.getRam() / ((double) targetHost.getBw() / (2 * 8000)),
+										CloudSimTags.VM_MIGRATE_UNDER,
+										migrate);
+							}
+						}
+					}
+	
+				}
+				
+				// schedules an event to the next time
+				if (minTime != Double.MAX_VALUE) {
+					CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
+					send(getId(), 30, CloudSimTags.VM_DATACENTER_EVENT);
+					if(type==false) {
+						send(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT_UNDER);
+					}
+
+				}
+	
+				setLastProcessTime(currentTime);
+			}
+		}
+	
+
+
+	
+	
+	
+	
+	
 	/**
 	 * Updates processing of each cloudlet running in this PowerDatacenter. It is necessary because
 	 * Hosts and VirtualMachines are simple objects, not entities. So, they don't receive events and
@@ -100,7 +272,9 @@ public class PowerDatacenter extends Datacenter {
 		// if some time passed since last processing
 		if (currentTime > getLastProcessTime()) {
 			System.out.print(currentTime + " ");
-
+			//Log.printLine("Migration Count Incoming: ");
+			//Log.printLine(this.getMigrationCount());
+			
 			double minTime = updateCloudetProcessingWithoutSchedulingFutureEventsForce();
 
 			if (!isDisableMigrations()) {
@@ -162,6 +336,8 @@ public class PowerDatacenter extends Datacenter {
 			setLastProcessTime(currentTime);
 		}
 	}
+	
+	
 	/**
 	 * Updates processing of each cloudlet running in this PowerDatacenter. It is necessary because
 	 * Hosts and VirtualMachines are simple objects, not entities. So, they don't receive events and
@@ -172,6 +348,8 @@ public class PowerDatacenter extends Datacenter {
 	 */
 	@Override
 	protected void updateCloudletProcessingReinforcementLearning() {
+		
+		getVmAllocationPolicy().getVmSelectionPolicy().reset();
 		
 		//WE WANT THIS TO CALL OPTIMIZEALLOCATION BUT ONLY FOR ONE HOST
 		
@@ -184,10 +362,10 @@ public class PowerDatacenter extends Datacenter {
 		String selectionPolicy = getVmAllocationPolicy().getVmSelectionPolicy().toString();
 		PowerVmSelectionPolicyReinforcementLearning pVmPolicy = new PowerVmSelectionPolicyReinforcementLearning();
 		String st = "ReinforcementLearning";
-		
-		Log.printLine(selectionPolicy.equalsIgnoreCase(st));
-		Log.printLine("Selection Policy Incoming: ");
-		Log.printLine(pVmPolicy);
+	
+		//Log.printLine(selectionPolicy.equalsIgnoreCase(st));
+		//Log.printLine("Selection Policy Incoming: ");
+		//Log.printLine(pVmPolicy);
 		
 		if(!selectionPolicy.equalsIgnoreCase(st)) {
 			updateCloudletProcessing();
@@ -196,7 +374,9 @@ public class PowerDatacenter extends Datacenter {
 		
 			if (getCloudletSubmitted() == -1 || getCloudletSubmitted() == CloudSim.clock()) {
 				CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
-				schedule(getId(), getSchedulingInterval(), CloudSimTags.VM_DATACENTER_EVENT);
+				Log.printLine("Is this where we start scheduling events?");
+				Log.printLine(getSchedulingInterval());
+				schedule(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT);
 				return;
 			}
 			double currentTime = CloudSim.clock();
@@ -204,17 +384,21 @@ public class PowerDatacenter extends Datacenter {
 			// if some time passed since last processing
 			if (currentTime > getLastProcessTime()) {
 				System.out.print(currentTime + " ");
-				
+				//Log.printLine("Migration Count Incoming: ");
+				//Log.printLine(this.getMigrationCount());
 	
 				double minTime = updateCloudetProcessingWithoutSchedulingFutureEventsForce();
 	
 				if (!isDisableMigrations()) {
 					
 					if(started==false) {
+						//Log.printLine("We should never come back in here");
 						List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
+						List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
+
 						
 						//Log.printLine("In the first important loop");
-						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost);
+						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
 						started = true;
 					}
 			
@@ -225,19 +409,21 @@ public class PowerDatacenter extends Datacenter {
 		
 					
 					List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
-			
-					//Log.print(overUtilizedHostList);
-					//Log.printLine("Second Step");
+					
+					Log.printLine("Overutilized host zise");
+					Log.print(overUtilizedHostList.size());
 			
 					//IF OVERUTILIZED HOSTS ARE EMPTY THEN WE STILL NEED TO CALL THE METHOD SO T WILL LOOK AFTER THE UNDERUTILIZED HOSTS 
 					
 					if(overUtilizedHostList.size() == 0) {
+						Log.printLine("In with no overutilized hosts");
 						
 						//List<PowerHostUtilizationHistory> underUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
-						
+						List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
+
 					
-						//Log.printLine("Do we get to this part just befofe we call optimizeAllocation");
-						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(getVmList());
+						//YEAH WE WILL DO THE UNDERUTILIZED PART WHEN THERE ARE NO OVERUTILIZED HOSTS 
+						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
 					
 						if (migrationMap != null) {
 							for (Map<String, Object> migrate : migrationMap) {
@@ -262,6 +448,7 @@ public class PowerDatacenter extends Datacenter {
 		
 								targetHost.addMigratingInVm(vm);
 								incrementMigrationCount();
+								//Number of VM migrations
 		
 								/** VM migration delay = RAM / bandwidth **/
 								// we use BW / 2 to model BW available for migration purposes, the other
@@ -273,74 +460,110 @@ public class PowerDatacenter extends Datacenter {
 										CloudSimTags.VM_MIGRATE_UNDER,
 										migrate);
 								}	
+
 							}
 					}
 					
-					Log.printLine("About to print the host that are overutilized that we should be looping over then");
-					Log.printLine(overUtilizedHostList);
-					for (PowerHostUtilizationHistory h: overUtilizedHostList) {
-						Log.printLine("Should be moving this host");
-						Log.printLine(h.getId());
+					//Log.printLine("About to print the host that are overutilized that we should be looping over then");
+					//Log.printLine(overUtilizedHostList);
 					
-					//FOR EACH HOST WE WANT TO PASS IT TO OPTIMIZE ALLOCATION AND THEN DO THE MIGRATON OF IT 
-					//WE WANT THIS TO RETURN A MIGRATION MAP
-					//
 					
-						List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
-					
-						overUtilizedHost.add(h);
-					
-						//Log.printLine("Do we get to this part just befofe we call optimizeAllocation");
-						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost);
-					
-						if (migrationMap != null) {
-							for (Map<String, Object> migrate : migrationMap) {
-								Vm vm = (Vm) migrate.get("vm");
-								PowerHost targetHost = (PowerHost) migrate.get("host");
-								PowerHost oldHost = (PowerHost) vm.getHost();
-		
-								if (oldHost == null) {
-									Log.formatLine(
-											"%.2f: Migration of VM #%d to Host #%d is started",
-											currentTime,
-											vm.getId(),
-											targetHost.getId());
-								} else {
-									Log.formatLine(
-											"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
-											currentTime,
-											vm.getId(),
-											oldHost.getId(),
-											targetHost.getId());
-								}
-		
-								targetHost.addMigratingInVm(vm);
-								incrementMigrationCount();
-		
-								/** VM migration delay = RAM / bandwidth **/
-								// we use BW / 2 to model BW available for migration purposes, the other
-								// half of BW is for VM communication
-								// around 16 seconds for 1024 MB using 1 Gbit/s network
-								send(
-										getId(),
-										vm.getRam() / ((double) targetHost.getBw() / (2 * 8000)),
-										CloudSimTags.VM_MIGRATE,
-										migrate);
-								}	
-							}
-					
-					}
+					else {
+						int loopSize = overUtilizedHostList.size();
+						int loopMax = loopSize;
+						int loopCounter = 1;
+						boolean lastHost = false;
+						int tag = CloudSimTags.VM_MIGRATE;
+						
+						for(int i=0; i <= loopMax; i++) {
+						//for (PowerHostUtilizationHistory h: overUtilizedHostList) {
+							
+							//Log.printLine("Should be moving this host");
+							//Log.printLine(h.getId());
+						
+						//FOR EACH HOST WE WANT TO PASS IT TO OPTIMIZE ALLOCATION AND THEN DO THE MIGRATON OF IT 
+						//WE WANT THIS TO RETURN A MIGRATION MAP
+						//
+						
+							List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
+							
+							if(i!=loopMax) {
+								overUtilizedHost.add(overUtilizedHostList.get(i));
+
 	
-			   }
-				
+							}
+							else {
+								Log.printLine("Only now should we be going in to do the underutilized hosts");
+								lastHost = true;	
+								tag = CloudSimTags.VM_MIGRATE_UNDER;
+							}
+							
+							//if(loopSize==loopCounter) {
+								//lastHost = true;
+							//}
+						
+							//Log.printLine("Do we get to this part just befofe we call optimizeAllocation- Check the following variables lasHost should be True");
+							//Log.printLine(lastHost);
+							//Log.printLine(loopCounter);
+							//Log.printLine(loopSize);
+							
+							List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, lastHost);
+							loopCounter+=1;
+							
+							if (migrationMap != null) {
+								for (Map<String, Object> migrate : migrationMap) {
+									Vm vm = (Vm) migrate.get("vm");
+									PowerHost targetHost = (PowerHost) migrate.get("host");
+									PowerHost oldHost = (PowerHost) vm.getHost();
+			
+									if (oldHost == null) {
+										Log.formatLine(
+												"%.2f: Migration of VM #%d to Host #%d is started",
+												currentTime,
+												vm.getId(),
+												targetHost.getId());
+									} else {
+										Log.formatLine(
+												"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+												currentTime,
+												vm.getId(),
+												oldHost.getId(),
+												targetHost.getId());
+									}
+			
+									targetHost.addMigratingInVm(vm);
+									incrementMigrationCount();
+			
+									/** VM migration delay = RAM / bandwidth **/
+									// we use BW / 2 to model BW available for migration purposes, the other
+									// half of BW is for VM communication
+									// around 16 seconds for 1024 MB using 1 Gbit/s network
+									send(
+											getId(),
+											vm.getRam() / ((double) targetHost.getBw() / (2 * 8000)),
+											tag,
+											migrate);
+									
+	
+								}
+						
+						}
+						
+						
+		
+						}
+					}
 				
 				// schedules an event to the next time
 				if (minTime != Double.MAX_VALUE) {
+					Log.printLine("DO WE GET TO THIS SECOND SEND EVENT?");
 					CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
 					send(getId(), getSchedulingInterval(), CloudSimTags.VM_DATACENTER_EVENT);
 				}
 	
 				setLastProcessTime(currentTime);
+				}			
+
 			}
 		}
 		
