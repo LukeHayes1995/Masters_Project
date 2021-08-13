@@ -12,14 +12,25 @@ import org.cloudbus.cloudsim.core.CloudSim;
 public class Environment {
 	
 	private Host host;
-	private Hashtable<Pair,Double> qValues = new Hashtable<Pair,Double>();
+	public static Hashtable<Pair,Double> qValues = new Hashtable<Pair,Double>();
 	private List<Integer> uniqueIDS = new ArrayList<Integer>();
 	private Hashtable<Integer,Integer> movedVmList = new Hashtable<Integer,Integer>();
 	private Hashtable<Pair,Pair> stateValues = new Hashtable<Pair,Pair>();
 	private Hashtable<Integer,Integer> oldHost = new Hashtable<Integer,Integer>();
+	public static boolean multipleRuns = false;
 	
 	public Environment() {
 
+	}
+	
+
+	
+	public static void setMultipleRuns(boolean multipleRun) {
+		multipleRuns = multipleRun;
+	}
+	
+	public static boolean getMultipleRuns() {
+		return multipleRuns;
 	}
 	
 	public void setOldHost(int vmID, int hostID) {
@@ -70,25 +81,47 @@ public class Environment {
 		return state;
 	}
 	
+	public int getStateLukeNew(Integer oldState, Integer oldAction) {
+		int state = oldState - oldAction;
+		return state;
+	}
 	
 	public int getStateLuke(PowerHost host) {
-		int totalMIPS = host.getTotalMips();
+		//int totalMIPS = host.getTotalMips();
 		
 		List<PowerVm> hostVmList = host.getVmList();
 		double inUseMIPS = 0.0;
-		
+		//double inUseMIPS2 = 0.0;
+		//double totalRequestedMips = 0.0;
+	
 		for(PowerVm vm: hostVmList) {
+			//Log.printLine(vm.getId());
 			inUseMIPS += vm.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips();
-			Log.printLine(vm.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips());
+			//inUseMIPS2 += vm.getTotalUtilizationOfCpuMips(CloudSim.clock());
+			//totalRequestedMips += vm.getCurrentRequestedTotalMips();
+
+			//Log.printLine(vm.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips());
 		}
 		
 		double stateDbl = inUseMIPS * 100;
 		int state = (int) stateDbl;
-		
-		Log.printLine("MIPS Incoming");
+		//Log.printLine("State in getState");
+		//Log.printLine(state);
+		/*
+		Log.printLine("State Incoming");
+		Log.printLine(stateDbl);
+		Log.printLine(state);
 		Log.printLine(inUseMIPS);
-		Log.printLine(totalMIPS);
-		
+		Log.printLine(inUseMIPS2);
+		Log.printLine(totalRequestedMips);
+		Log.printLine(host.getTotalMips());
+		Log.printLine(inUseMIPS2/host.getTotalMips());
+		*/
+
+		//if(state > 100) {
+			//System.exit(0);
+		//}
+
 		return state;
 	}
 
@@ -249,7 +282,7 @@ public class Environment {
 		
 		//The states are the problem 
 		//int numStates = 1000;
-		int numStates = 150;
+		int numStates = 200;
 
 		//int numActions = host.getDatacenter().getVmList().size();
 		int numActions = 101;
@@ -367,8 +400,11 @@ public class Environment {
 	
 	public void setHost(Host host) {
 		//setHost(host);
-		List<Integer> uniqueIDList = initQValues(host);
-		this.setUniqueIDS(uniqueIDList);
+		boolean multRuns = getMultipleRuns();
+		if(multRuns==false) {
+			List<Integer> uniqueIDList = initQValues(host);
+			this.setUniqueIDS(uniqueIDList);
+		}
 		
 	}
 	
@@ -383,10 +419,77 @@ public class Environment {
 		return reward;
 	}
 	
+	public double getRewardLuke(Integer action) {
+		int reward = (action - 10) * 2;
+		return reward;
+		
+	}
+
+	
+	//HERE WE WANT TO SET A REWARD FOR THE NEW STATE 
+	//LOW UTILIZATION OF THE OLD HOST AFTER THE MOVE IS GOOD - HIGHER IS BAD
+	public double getRewardState(PowerHost oldHost) {
+		
+		double totalUtilizationOldHost = 0.0;
+		int reward = 0;
+		List<PowerVm> hostVmList = oldHost.getVmList();
+
+		for(PowerVm vm: hostVmList) {
+			totalUtilizationOldHost += vm.getTotalUtilizationOfCpuMips(CloudSim.clock()) / oldHost.getTotalMips();
+		}
+		
+		//Log.printLine("Utilization Incoming");
+		//Log.printLine(totalUtilizationOldHost);
+		
+		if(totalUtilizationOldHost > 1.4) {
+			reward = -10;
+		}
+		else if(totalUtilizationOldHost > 1.2) {
+			reward = -7;
+
+		}
+		else if(totalUtilizationOldHost > 1.0) {
+			reward = -4;
+
+		}
+		else if(totalUtilizationOldHost > 0.8) {
+			reward = -1;
+
+		}
+		else if(totalUtilizationOldHost > 0.65) {
+			reward = 1;
+
+		}
+		else if(totalUtilizationOldHost > 0.6) {
+			reward = 5;
+
+		}
+		else if(totalUtilizationOldHost > 0.5) {
+			reward = 10;
+
+		}
+		else if(totalUtilizationOldHost > 0.4) {
+			reward = 15;
+
+		}
+		else if(totalUtilizationOldHost > 0.2) {
+			reward = 20;
+
+		}
+		else {
+			reward = 0;
+		}
+		
+		Log.printLine("Reward incoming");
+		Log.printLine(reward);
+		return reward;
+	} 
+
+	
 	//COULD DO ONE HHERE WHERE WE ASSIGN THE REWARD BASED ON HOW BIG THE VM TRANSPORTED IS
 	public double getRewardNew(double oldHostUtilization, double oldVmUtilisation) {
 			
-		double reward = oldHostUtilization/oldVmUtilisation;
+		double reward = (oldVmUtilisation/oldHostUtilization) * 10.0;
 
 		//Log.printLine("Reward incoming");
 		//Log.printLine(reward);
@@ -470,12 +573,12 @@ public class Environment {
 		
 	}
 
-	public Hashtable<Pair,Double> getqValues() {
+	public static Hashtable<Pair,Double> getqValues() {
 		return qValues;
 	}
 
-	public void setqValues(Hashtable<Pair,Double> qValues) {
-		this.qValues = qValues;
+	public static void setqValues(Hashtable<Pair,Double> qValue) {
+		qValues = qValue;
 	}
 	
 	//*********************************************************************
