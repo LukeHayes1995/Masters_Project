@@ -35,10 +35,15 @@ public class Algorithm {
 	List<Double> newPowerList = new ArrayList<Double>();
 	List<Double> oldHostUtilizationList = new ArrayList<Double>();
 	List<Double> oldVmUtilizationList = new ArrayList<Double>();
-	private int migrationCounter = 0;
+	public static int migrationCounter = 0;
 	private int testCounter = 1;
 	public boolean testVar = false;
-	public static double eGreedyValue = 0.0;
+	public static double randomActionValue = 0.0;
+	public static String actionSelectionPolicy = "";
+	public static String selectedAlgorithm = ""; 
+	public static double alpha = 0.0;
+	public static double gamma = 0.0;
+
 	
 	HashMap<PowerVm,Integer> VmActionPair = new HashMap<PowerVm,Integer>();
 	HashMap<PowerVm,Integer> VmStatePair = new HashMap<PowerVm,Integer>();
@@ -49,6 +54,7 @@ public class Algorithm {
 
 	HashMap<Pair,Integer> stateActionCounter = new HashMap<Pair,Integer>();
 	HashMap<Integer,Integer> stateCounter = new HashMap<Integer,Integer>();
+	
 
 
 
@@ -58,8 +64,52 @@ public class Algorithm {
 		//initStateActionCounter();
 	}
 	
-	public static void setEGreedyValue(double d) {
-		eGreedyValue = d;
+	public static void setMigrationCount(int d) {
+		migrationCounter = d;
+	}
+	
+	public static int getMigrationCount() {
+		return migrationCounter;
+	}
+	
+	public static void setActionSelectionPolicy(String policy) {
+		actionSelectionPolicy = policy;
+	}
+	
+	public static String getActionSelectionPolicy() {
+		return actionSelectionPolicy;
+	}
+	
+	public static void setAlpha(double newAlpha) {
+		alpha = newAlpha;
+	}
+	
+	public static double getAlpha() {
+		return alpha;
+	}
+
+	public static void setGamma(double newGamma) {
+		gamma = newGamma;
+	}
+	
+	public static double getGamma() {
+		return gamma;
+	}
+	
+	public static void setRandomActionValue(double d) {
+		randomActionValue = d;
+	}
+	
+	public static double getRandomActionValue() {
+		return randomActionValue;
+	}
+	
+	public static void setSelectedAlgorithm(String alg) {
+		selectedAlgorithm = alg;
+	}
+	
+	public static String getSelectedAlgorithm() {
+		return selectedAlgorithm;
 	}
 	
 	public void initStateActionCounter() {
@@ -142,215 +192,59 @@ public class Algorithm {
 		
 	}
 	
-	public PowerVm QLearning(PowerHost host, List<PowerVm> MigratableVmList) {
-		//Log.printLine("Printing Migratable VMS");
-		//Log.printLine(MigratableVmList);
-		
-		
-		
-		//THE STATE IS THE NUMBER OF ACTIVE HOSTS/TOTAL HOSTS - LESS HOSTS THE BETTER, THEREFORE WILL LEARN ACTIONS TO DO SO 
-		
-		//FIRST STATE
-		
-		
-		//THEN WE NEED TO TAKE AN ACTION
-		//HOW DO WE TAKE AN ACTION?
-		//TAKE THE ACTION WITH THE HIGHEST Q VALUE 
-		
-		
-		//NOW WE NEED TO GO GET THE REWARD
-		//TO GET THE REWARD WE WILL ESSENTIALLY HAVE TO MOVE THE VM WHICH MEANS WE HAVE TO RETURN FROM THE METHOD
-		//SO WE CAN EITHER:
-		//1 DO IT ON THE NEXT CALL
-		//2 TRY CALL AN UPDATE STEP AFTER THE VM HAS BEEN MIGRATED 
-		//3 COME UP WITH A REWARD THAT ALLOWS US TO NOT NEED TO MOVE THE VM BEFORE WE CAN SEE IT 
-		//4 
-		
-		//WILL ASK ENDA THE BEST WAY TO GO BUT FOR NOW I AM GOING TO JUST USE OE THAT MEANS WE DON'T HAVE TO MOVE THE VM (SOMEHTING TO DO WITH THE VM)
-		
-		//JUST TO MAKE IT WORK
-		PowerVm VmToMigrate = null;
-		
-		//STEPS ARE AS FOLLOWS
-		//1 WE NEED TO GET THE CURRENT STATE 
-		//2 FROM THIS STATE WE NEED TO GET THE MIGRATABLE VMS 
-		//3 LOOP THROUGH ALL THESE POSSIBLE VMS THAT WE CAN MIGRATE AND GET THE Q VALUES OF EACH - PUT THEM IN A LIST
-		//4 SELECT THE ONE WITH THE HIGHEST Q VALUE 
-		//5 OBSERVE THE REWARD
-		//6 CALCULATE THE NEW Q VALUE
-		//7 UPDATE THE Q VALUE TABLE 
-		
-		//1
-		//THE CURRENT STATE IS THE NUMBER OF ACTIVE HOSTS/TOTAL HOSTS * 100
-		//double curSt = this.getEnv().getStateRachel(host);
-		
-		Log.printLine("State before migration");
-		//int currentState = this.getEnv().getStateKieran(host, MigratableVmList);
-		int currentState = this.getEnv().getStateRachel(host);
 
-		//Log.printLine(currentState);
-		//Log.printLine(currentState);
-		
-		setCurrentState(currentState);
-		
-		
-		//2
-		//LETS CREATE A LIST OF ALL THE IDS OF THE MIGRATABLE VMS 
-		List<Integer> MigratableVmIDList =  new ArrayList<Integer>();
-		
-		for (PowerVm v : MigratableVmList) {
-			MigratableVmIDList.add(v.getId());
-		}
-		
-		//NOW LETS GET THE CURRENT Q VALUE TABLE
-		Hashtable<Pair,Double> currentQTable = this.getEnv().getqValues();
-		//Log.printLine(currentQTable);
-		int hostID = host.getId();
-		
-		Hashtable<Pair, Double> QValueList = new Hashtable<Pair, Double>(); 
-		
-		for(Integer i : MigratableVmIDList) {
-			
-
-			Pair<Integer, Integer> pair = new Pair<Integer, Integer>(hostID, i);
-			
-			//Log.printLine("Important info coming next:");
-			//Log.printLine(hostID);
-			//Log.printLine(i);
-			Log.printLine(currentQTable.contains(pair));
-			QValueList.put(pair, currentQTable.get(pair));
-			
-		}
-		
-		//NOW WE HAVE A LIST OF ALL THE VM IDS AND TS CORRESPONDING Q VALUES 
-		//NOW WE NEED TO CHOOSE THE MAXIMUM AND THE LOOP BACK OVER THEM ALL AND ADD THEM IF THEY ARE EQUAL TO THE MAXIMUM
-		
-		List<Pair> maxRewardKeys = new ArrayList<Pair>(); 
-		
-        Double maxQVal = (Collections.max(QValueList.values())); 
-        
-        Set<Entry<Pair, Double>> entrySet = QValueList.entrySet();
-
-        int listSize = 0; 
-        for (Entry<Pair, Double> entry : entrySet) { 
-        	
-            if (entry.getValue() == maxQVal) {
-            	
-                //ADD THE ENTRY TO THE LIST 
-                maxRewardKeys.add(entry.getKey());
-                listSize+=1;
-            }
-            
-        }
-        
-        //NOW WE HAVE A LIST RIGHT AND FIRSTLY WE SHOULD CHECK IF THAT LIST IS BIGGER THAN 1 IN SIZE
-        
-        //IF THERE ARE MORE THAN ONE VMS WITH THE SAME Q VALUE WE WILL RANDOMLY SELECT ONE
-        int VmIDToMigrate;
-        
-        if(listSize > 1) {
-
-            Random rand = new Random();
-            VmIDToMigrate = (int) maxRewardKeys.get(rand.nextInt(maxRewardKeys.size())).getValue();
-            
-        
-        }
-        
-        //OTHERWISE WE SET THE VM WE ARE RETURNING TO MIGRATE AS THE ONLY ONE IN THE LIST 
-        else {
-            VmIDToMigrate = (int) maxRewardKeys.get(0).getValue();
-	
-        }
-		
-        //NOW THAT WE HAVE THE ID OF THE VM WE ARE GOING TO MIGRATE WE NEED TO LOOP THROUGH THE VM LIST AND TAKE THE VM OBJECT THAT MACTHES THE ID 
-		List<PowerVm> vmList = new ArrayList<PowerVm>();
-		vmList = host.getDatacenter().getVmList();
-		
-		//PowerVm VmToMigrate;
-		
-		for(PowerVm Vm : vmList) {
-			if(Vm.getId()==VmIDToMigrate) {
-				//Log.printLine("Should be in this very important loop");
-				VmToMigrate = Vm;
-			}
-		}
-        
-        //Log.printLine(VmToMigrate);
-
-
-
-		//NOW WE HAVE TO
-		//1 UPDATE THE STATE 
-		//2 CALCULATE THE NEW Q VALUE 
-		//3 UPDATE THE Q TABLE WITH NEW VALUE 
-		//4 
-		
-		//TO FO THIS WE NEED TO BE ABLE TO OBSERVE THE HOST UTILIZATION AFTER WE HAVE MOVED 
-		//I THINK THIS MEANS WE SHOULD DO THIS AT THE START 
-		
-		//lastVmMoved = VmToMigrate;
-		setLastVmMoved(VmToMigrate);
-		this.getEnv().setMovedVm(host.getId(), VmToMigrate.getId());
-		this.getEnv().setCurrentStateValue(host.getId(), VmToMigrate.getId(), currentState);
-		this.getEnv().setOldHost(VmToMigrate.getId(), hostID);
-
-		return VmToMigrate;		
-		
-		
-		
-	}
 	
 	//SO HERE WE ARE GOING TO IMPLEMENT THE NEW VERSION OF THE Q LEARNING 
-	public PowerVm QLearningNew(PowerHost host, List<PowerVm> MigratableVmList, boolean migrateMoreThanOne) {
+	public PowerVm Migrate(PowerHost host, List<PowerVm> MigratableVmList, boolean migrateMoreThanOne) {
 		
-		Log.printLine("Entering first Q learning");
+		//Log.printLine("Entering first Q learning");
 		migrationCounter = migrationCounter + 1;
 		
 		
 		double currentTime = CloudSim.clock();
 
 		if(currentTime > 86300) {
-			Log.printLine("Here is the number of over-utilized mgrations::::::::::::::::::::::::::::::::::::::");
-			Log.printLine(migrationCounter);
+			//Log.printLine("Here is the number of over-utilized mgrations::::::::::::::::::::::::::::::::::::::");
+			//Log.printLine(migrationCounter);
 			
-			Log.printLine("Here are the Q values: ");
+			//Log.printLine("Here are the Q values: ");
 			Hashtable<Pair,Double> qvls = this.env.getqValues();
 			
 	        Enumeration<Pair> e = qvls.keys();
 	        
-	        while (e.hasMoreElements()) {
-	        	Pair key = e.nextElement();
+	        //while (e.hasMoreElements()) {
+	        	//Pair key = e.nextElement();
 				//Log.printLine(key);
 				//Log.printLine(qvls.get(key));
 
-	        }
+	        //}
 	        
-			Log.printLine("Number of times the state action pairs are visited::::::::::::::::::::::::::::::::: ");
+			//Log.printLine("Number of times the state action pairs are visited::::::::::::::::::::::::::::::::: ");
 			
 			HashMap<Pair, Integer> q = stateActionCounter;
 
 			
 	        Set<Pair> val = q.keySet();
 	        
-	        for (Pair key : val) {
-	        	Log.printLine(key);
-	        	Log.printLine(stateActionCounter.get(key));
-	        }
+	        //for (Pair key : val) {
+	        	//Log.printLine(key);
+	        	//Log.printLine(stateActionCounter.get(key));
+	        //}
 	        
 	        HashMap<Integer,Integer> p = stateCounter;
 	        
 	        Set<Integer> v = p.keySet();
 	        
-	        for (Integer key : v) {
-	        	Log.printLine(key);
-	        	Log.printLine(stateCounter.get(key));
-	        }
+	        //for (Integer key : v) {
+	        	//Log.printLine(key);
+	        	//Log.printLine(stateCounter.get(key));
+	        //}
 		}
 		
 		if(migrateMoreThanOne==false) {
 			//WE NEED TO EMPTY BOTH LISTS
 			
-			Log.printLine("Are we emptying these lists?");
+			//Log.printLine("Are we emptying these lists?");
 			stateList.clear();
 			actionList.clear();
 			oldHostList.clear();
@@ -380,6 +274,9 @@ public class Algorithm {
 		for(PowerHost h: hostList) {
 			totalEnergy = totalEnergy + h.getPower();
 		}
+		
+		//Log.printLine("Next is the power in first");
+		//Log.printLine(totalEnergy);
 		
 		oldPowerList.add(totalEnergy);
 		oldHostList.add(host);
@@ -423,15 +320,15 @@ public class Algorithm {
 
 			actionStates.put(vm.getId(), actionValueInt);
 			actions.add(actionValueInt);
-			Log.printLine(actionValueInt);
+			//Log.printLine(actionValueInt);
 			
 		}
 		
 		//NOW WE NEED TO GET THE STATE AND THEN LOOKUP THE Q VALUE FOR EACH OF THESE NEW ACTIONS 
 		Hashtable<Pair,Double> currentQTable = this.getEnv().getqValues();
 		int currentState = this.getEnv().getStateLuke(host);
-		Log.printLine("Current State incoming");
-		Log.printLine(currentState);
+		//Log.printLine("Current State incoming");
+		//Log.printLine(currentState);
 		//int currentState = this.getEnv().getStateRachel(host);
 		//int currentState = this.getEnv().getStateKieran(host, MigratableVmList);
 		
@@ -461,7 +358,7 @@ public class Algorithm {
 			
 			//NOW LOOKUP THE Q VALUE FOR EACH AND APPEND IT TO A LIST 
 			double qValue = currentQTable.get(pair);
-			Log.printLine(qValue);
+			//Log.printLine(qValue);
 			qValus.add(qValue);
 			QValueList.put(pair, qValue);
 			index = index + 1;
@@ -542,7 +439,7 @@ public class Algorithm {
         
         if(VmIdThatMatch.size() > 1) {
 
-        	Log.printLine("We select a random Q value as many are the same");
+        	//Log.printLine("We select a random Q value as many are the same");
             Random rand = new Random();
             actionValueToMigrate = (int) VmIdThatMatch.get(rand.nextInt(VmIdThatMatch.size()));
             
@@ -603,20 +500,88 @@ public class Algorithm {
 		//what do we need to modify?
 		//ACTION VALUE TO RETURN 
 		//VMTOMIGRATE 
-		if(result <= eGreedyValue) {
-			
-			Log.printLine("Random Action Section::::::::::::::::::::::::::::::::::::::::::");
-			Log.printLine(eGreedyValue);
-			Log.printLine(result);
-			
-			int lowArray = 0;
-			int highArray = MigratableVmList.size() - 1;
-			int randomVmIndex = r.nextInt(highArray-lowArray) + lowArray;
-			VmToMigrate = MigratableVmList.get(randomVmIndex);
-			actionValueToReturn = actionStates.get(VmToMigrate.getId());
-			//Log.printLine(VmToMigrate.getId());
-			//Log.printLine(actionValueToReturn);
+		if(result <= randomActionValue) {
 		
+			//Log.printLine("About to take a random action");
+			//Log.printLine("Stats before we update with random");
+			//Log.printLine(actionValueToReturn);
+			//Log.printLine(VmToMigrate.getId());
+			
+			if(actionSelectionPolicy.contentEquals("egreedy")) {
+					
+					//Log.printLine("Random Action Section::::::::::::::::::::::::::::::::::::::::::");
+					//Log.printLine(randomActionValue);
+					//Log.printLine(result);
+					
+					int lowArray = 0;
+					int highArray = MigratableVmList.size() - 1;
+					int randomVmIndex = r.nextInt(highArray-lowArray) + lowArray;
+					VmToMigrate = MigratableVmList.get(randomVmIndex);
+					actionValueToReturn = actionStates.get(VmToMigrate.getId());
+					//Log.printLine(VmToMigrate.getId());
+					//Log.printLine(actionValueToReturn);
+				
+				}
+
+		
+			//SO IF ITS SOFTMAX WE NEED TO SOMEHOW SAY WHICH ONE IS MORE LIKELY 
+			//SO WE SCALE THE PROBABILITY BASED ON THE Q VALUE IT HAS 
+			else if(actionSelectionPolicy.contentEquals("softmax")) {
+				
+				//I THINK WE SHOULD LOOP OVER ALL THE ACTIONS AND ADD UP THEIR Q VALUES 
+				//THEN THEIR PROBABILITY OF SELECTION IS THEIR Q VALUE OVER THE TOTAL
+				
+				double qValueTotal = 0.0;
+				index = 0;
+				
+				for (Integer d: actions) {
+					
+					Pair<Integer, Integer> pair = new Pair<Integer, Integer>(currentState, d);
+					qValueTotal = qValueTotal + currentQTable.get(pair);
+					index = index + 1;
+				}
+				
+				
+				//NOW WE SHOULD GENERATE A RANDOM NUMBER BETWEEN 0 AND THE TOTAL 
+				
+				double newLow = 0.0;
+				double newHigh = qValueTotal;
+				double highPositive = Math.abs(newHigh);
+				double randomValue = newLow + (newHigh - newLow) * r.nextDouble();
+				
+				//Log.printLine("Random value being generated");
+				//Log.printLine(newHigh);
+				//Log.printLine(randomValue);
+				
+				double valueToCheck = 0.0;
+				boolean exit = false;
+				int newIndex = 0;
+				
+				for (Integer d: actions) {
+					
+					Pair<Integer, Integer> pair = new Pair<Integer, Integer>(currentState, d);
+					
+					double qValuePostive = Math.abs(currentQTable.get(pair));
+					valueToCheck = valueToCheck + qValuePostive;
+					//Log.printLine("Value we check for");
+					//Log.printLine(valueToCheck);
+					
+					if(valueToCheck > randomValue && exit==false) {
+						
+						//NOW WE NEED TO SET THIS ONE AS THE VM 
+						VmToMigrate = MigratableVmList.get(newIndex);
+						actionValueToReturn = actionStates.get(VmToMigrate.getId());
+						exit = true;
+					}
+					newIndex = newIndex + 1;
+				}
+				
+			}
+			
+			//Log.printLine("Stats after we update with random");
+			//Log.printLine(actionValueToReturn);
+			//Log.printLine(VmToMigrate.getId());
+			
 		}
 		
 		oldVmUtilizationList.add(VmToMigrate.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips());
@@ -628,15 +593,17 @@ public class Algorithm {
 		VmOldHostPair.put(VmToMigrate, host);
 		OldPower.put(VmToMigrate, totalEnergy);
 		
+		
+		
 		incrementStateActionCounter(currentState, actionValueToReturn);
 		incrementStateCounter(currentState);
 		
-		Log.printLine("Current State");
-		Log.printLine(currentState);
-		Log.printLine("Selected Action");
-		Log.printLine(actionValueToReturn);
-		Log.printLine("VM ID we are moving");
-		Log.printLine(VmToMigrate.getId());
+		//("Current State");
+		//Log.printLine(currentState);
+		//Log.printLine("Selected Action");
+		//Log.printLine(actionValueToReturn);
+		//Log.printLine("VM ID we are moving");
+		//Log.printLine(VmToMigrate.getId());
 		return VmToMigrate;
 
 	}
@@ -659,18 +626,295 @@ public class Algorithm {
 		
 	}
 
+	//ISSUE HERE IS THAT WE ARE PASSING THE NEW HOST INSTEAD OF THE NEW HOST 
 	public void SARSAUpdateQValues(PowerHost host, List<PowerVm> migratableVmList, PowerVm vm) {
-		//
+		
+		
+		//THIS IS GOING TO BE VERY SIMILAR TO THE Q LEARNING ALGORITHM EXCEPT HERE WE ARE GOING TO AGAIN SELECT A NEW ACTION FROM THE POLICY AS WE DID IN THE FIRST PART 
+		//WE WILL LOOK UP THAT Q VALUE FOR THE NEW STATE AND SELECTED ACTION FROM THAT STATE TO UPDATE THE OLD Q VALUE 
+		
+		//WHAT DO WE NEED HERE?
+		//1) OLD STATE 
+		//2) OLD ACTION
+		//3) REWARD FOR THE ACTION WE JUST TOOK 
+		//4) NEW VM WE WOULD MIGRATE BUT WE JUST TAKE ITS ACTION VALUE WE DO NOT MIGRATE IT 
+		
+		
+		//Host here is the old host so what about the new host
+		
+		//Log.printLine("Entering second Q learning");
+		//Log.printLine("VM ID we moved");
+		//Log.printLine(vm.getId());
+		
+		int previousAction = VmActionPair.get(vm);
+		int previousState = VmStatePair.get(vm);
+		double previousHostUtilization = VmHostUtilizationPair.get(vm);
+		double previousVmUtilization = VmVmUtilizationPair.get(vm);
+		PowerHost oldHost = VmOldHostPair.get(vm);
+		double oldPower = OldPower.get(vm);
+		
+		migratableVmList = PowerVmSelectionPolicy.getMigratableVmsNew(oldHost);
+
+		
+		//Log.printLine(previousAction);
+		//Log.printLine(previousState);
+		//Log.printLine(previousHostUtilization);
+		//Log.printLine(previousVmUtilization);
+
+		
+		VmActionPair.remove(vm);
+		VmStatePair.remove(vm);
+		VmHostUtilizationPair.remove(vm);
+		VmVmUtilizationPair.remove(vm);
+		VmOldHostPair.remove(vm);
+		OldPower.remove(vm);
+		
+		//NOW WE NEED TO LOOKUP ALL THE THINGS WE JUST ADDED AND THEN REMOVE THEM FROM THE LIST
+
+		
+		if(migratableVmList == null) {
+			//Log.printLine("Should be in here to return - update method");
+			return;
+		}
+		
+
+		double totalEnergy = 0.0;
+		List<PowerHost> hostList = host.getDatacenter().getHostList();
+		
+		for(PowerHost h: hostList) {
+			totalEnergy = totalEnergy + h.getPower();
+		}
+		
+		//Log.printLine("Next is the power in second");
+		//Log.printLine(totalEnergy);
+		
+		newPowerList.add(totalEnergy);
+		
+		//I THINK TO DO SO HERE WE HAVE TO BE IN THE NEXT STATE AND SELECT THE MAX Q VALUE FROM THE NEXT STATE 
+		//SO WE NEED TO GET THE NEXT STATE RIGHT AND THEN LOOK AT ALL THE Q VALUES FOR THE VM'S WE COULD MOVE FROM THAT STATE 
+		//WE MUST MAKE SURE THE VM'S WE LOOK AT THOUGH ARE STILL ON THE HOST 
+		
+		//LIST TO STORE THE Q VALUES FOR THE NEXT STATE
+		List<Double> newStateQVals = new ArrayList<Double>();
+		
+		//NOW WE NEED TO LOOP OVER THESE AND THEN WE SELECT THE HIGHEST 
+		
+		//GET THE LIST OF VM's THAT ARE ON THE HOST - THESE ARE THE ONLY ACTIONS WE CAN TAKE
+		List<PowerVm> hostVmList = oldHost.getVmList();
+		
+		int oldHostIndex = oldHostList.size() - 1;
+		
+		//double reward = this.getEnv().getReward(host, vm);
+		int indexOldPowerList = oldPowerList.size() - 1;
+		int indexNewPowerList = newPowerList.size() - 1;
+		int indexOldHostUtilizationList = oldHostUtilizationList.size() - 1;
+		int indexOldVmUtilizationList = oldVmUtilizationList.size() - 1;
+
+		//double reward = this.getEnv().getReward(host, vm);
+		//double reward = this.getEnv().getRewardPower(oldPower, totalEnergy);
+		//Log.printLine(oldHost.getId());
+		double reward = this.getEnv().getRewardLuke(previousAction);
+		//double reward = this.getEnv().getRewardState(oldHost);
+
+		
+		oldHostUtilizationList.remove(indexOldHostUtilizationList);
+		oldVmUtilizationList.remove(indexOldVmUtilizationList);
+		oldPowerList.remove(indexOldPowerList);
+		newPowerList.remove(indexNewPowerList);
+
+		
+		//Log.printLine("Host and VM after migration coming up");
+		//Log.printLine(host.getId());
+		//Log.printLine(vm.getId());
+		
+		//Log.printLine("Previous action we took");
+		//Log.printLine(previousAction);
+		
+		//int nextState = this.getEnv().getStateLuke(oldHost);
+		//int nextState = this.getEnv().getStateRachel(host);
+		//int nextState = this.getEnv().getStateKieran(host, migratableVmList);
+		int nextState = this.getEnv().getStateLukeNew(previousState, previousAction);
+		
+		//Log.printLine("Next state incoming");
+		//Log.printLine(nextState);
+		//Log.printLine("Previous state incoming");
+		//Log.printLine(previousState);
+
+		setNextState(nextState);
+		
+		//NOW THAT WE HAVE THE NEXT STATE WE NEED TO CHOOSE THE HIGHEST Q VALUE FROM THAT
+		//NEXT STEPS ARE 
+		//WE NEED TO LOOP THROUGH ALL THE MIGRATABLE VMS AND GET THEIR ACTION VALUES 
+		//THEN WE NEED TO GET THE CORRESPONDING Q VALUES FOR EACH (NEXT STATE, ACTION VALUE) PAIR
+		//THEN FROM THIS WE SELECT THE BEST 
+		
+		
+		
+		//SO THIS WILL LOOP THROUGH ALL OF THE POSSIBLE VMS WE CAN MOVE AND SELECT THE 
+
+		double migratableVmUtilization = 0.0;
+		double totalHostUtilization = 0.0;
+		
+		Hashtable<Integer,Integer> actionStates = new Hashtable<Integer,Integer>();
+		List<Integer> actions = new ArrayList<Integer>();
+		
+		//Log.printLine("These are the VM's on the host");
+		for(PowerVm v: hostVmList) {
+			totalHostUtilization += v.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips();
+			//Log.printLine(vm.getId());
+		}
+				
+		
+		//Log.printLine("Actions available to us");
+		for(PowerVm v: migratableVmList) {
+			migratableVmUtilization = v.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips();
+			double actionValue = (migratableVmUtilization/totalHostUtilization) * 100.00;
+	        int actionValueInt = (int) Math.round(actionValue);
+
+			actionStates.put(v.getId(), actionValueInt);
+			actions.add(actionValueInt);
+			//Log.printLine(actionValueInt);
+			
+		}	
+		
+		//NOW WE WANT TO SELECT THE MAXIMUM Q VALUE 
+		//TO DO THAT WE WILL LOOP THROUGH THE NEXTSTATE ACTIONS PAIRS 
+		
+		Hashtable<Pair, Double> QValueList = new Hashtable<Pair, Double>(); 
+		Hashtable<Pair,Double> currentQTable = this.getEnv().getqValues();
+		List<Integer> stateActionPairState = new ArrayList<Integer>();
+		List<Integer> stateActionPairAction = new ArrayList<Integer>();
+		List<Integer> vmIDs = new ArrayList<Integer>();
+		List<Double> qValus = new ArrayList<Double>();
+
+		int index = 0;
+
+		//Log.printLine("Actions");
+		
+		//LETS LOOP THROUGH THE STATE ACTIONS PAIRINGS AND LOOKUP THE Q VALUES FOR THESE
+		for (Integer d: actions) {
+
+			//Log.printLine(d);
+			Pair<Integer, Integer> pair = new Pair<Integer, Integer>(nextState, d);
+			stateActionPairState.add(nextState);
+			stateActionPairAction.add(d);
+			
+			vmIDs.add(migratableVmList.get(index).getId());
+			
+			//NOW LOOKUP THE Q VALUE FOR EACH AND APPEND IT TO A LIST 
+			double qValue = currentQTable.get(pair);
+			//Log.printLine(actions);
+			qValus.add(qValue);
+			QValueList.put(pair, qValue);
+			index = index + 1;	
+		}
+		
+        Double maxQVal = (Collections.max(QValueList.values())); 
+
+		
+		List<Integer> matchingKeyState = new ArrayList<Integer>();
+		List<Integer> matchingKeyAction = new ArrayList<Integer>();
+		List<Integer> VmIdThatMatch = new ArrayList<Integer>();
+		int actionValueToReturn = 0;
+
+		        
+        for(int i=0; i<stateActionPairState.size(); i++) {
+        	//Log.printLine(qValues.get(i));
+        	//Log.printLine(maxQVal);
+        	if(qValus.get(i).equals(maxQVal)) {
+        		//Log.printLine("Matches");
+        		VmIdThatMatch.add(vmIDs.get(i));
+        		matchingKeyState.add(stateActionPairState.get(i));
+        		matchingKeyAction.add(stateActionPairAction.get(i));
+
+        	}
+        }
+        
+        
+        //IF THERE ARE MORE THAN ONE VMS WITH THE SAME Q VALUE WE WILL RANDOMLY SELECT ONE
+        int actionValueToMigrate;
+        
+        if(VmIdThatMatch.size() > 1) {
+
+        	//Log.printLine("We select a random Q value as many are the same");
+            Random rand = new Random();
+            actionValueToMigrate = (int) VmIdThatMatch.get(rand.nextInt(VmIdThatMatch.size()));
+            
+            for(int i=0; i<matchingKeyAction.size(); i++) {
+            	if(VmIdThatMatch.get(i).equals(actionValueToMigrate)) {
+            		actionValueToReturn = matchingKeyAction.get(i);
+            	}
+            }
+            
+        
+        }
+        
+        //OTHERWISE WE SET THE VM WE ARE RETURNING TO MIGRATE AS THE ONLY ONE IN THE LIST 
+        else {
+        	
+        	//Log.printLine("Select the only q value in the list");
+        	actionValueToMigrate = (int) VmIdThatMatch.get(0);
+        	actionValueToReturn = matchingKeyAction.get(0);
 	
+        }
+        
+        PowerVm VmToMigrate = null;
+
+		
+        //NOW THAT WE HAVE THE ID OF THE VM WE ARE GOING TO MIGRATE WE NEED TO LOOP THROUGH THE VM LIST AND TAKE THE VM OBJECT THAT MACTHES THE ID 
+		List<PowerVm> vmList = new ArrayList<PowerVm>();
+		vmList = host.getDatacenter().getVmList();
+				
+		for(PowerVm Vm : vmList) {
+			if(Vm.getId()==actionValueToMigrate) {
+				//Log.printLine("Valid VM ID");
+				VmToMigrate = Vm;
+			}
+		}
+        
+		
+		//lastVmMoved = VmToMigrate;
+		setLastVmMoved(VmToMigrate);
+		this.getEnv().setMovedVm(host.getId(), VmToMigrate.getId());
+		this.getEnv().setCurrentStateValue(host.getId(), VmToMigrate.getId(), currentState);
+		this.getEnv().setOldHost(VmToMigrate.getId(), host.getId());
+		
+		//LETS SET THE ACTION AND THE STATE 
+		
+		actionList.add(actionValueToReturn);
+		stateList.add(currentState);
+		setLastAction(actionValueToMigrate);
+		
+		if(migrateMoreThanOne==true) {
+			
+			//ADD THE ACTION, CURRENT STATE AND 
+		}
+		
+        
+		double oldQValue = env.lookupQValue(previousState, previousAction);
+
+        //NOW WE HAVE OUR CHOSEN ACTION WE NEED THE FOLLOWING 
+		// Q VALUE FOR NEXT STATE, NEW ACTION
+		// OLD Q VALUE 
+		//
+		//
+		
+		//double alpha = 0.5;
+		//double gamma = 0.4;
+		
+        double newQVal = oldQValue + (alpha * (reward + (gamma * (maxQVal)) - oldQValue));
+
+        env.updateqValue(previousState, previousAction, newQVal);
+
 	}
 	
 	public void QLearningUpdateQValues(PowerHost host, List<PowerVm> migratableVmList, PowerVm vm) {
 		
 		//Host here is the old host so what about the new host
 		
-		Log.printLine("Entering second Q learning");
-		Log.printLine("VM ID we moved");
-		Log.printLine(vm.getId());
+		//Log.printLine("Entering second Q learning");
+		//Log.printLine("VM ID we moved");
+		//Log.printLine(vm.getId());
 		
 		int previousAction = VmActionPair.get(vm);
 		int previousState = VmStatePair.get(vm);
@@ -708,6 +952,9 @@ public class Algorithm {
 			totalEnergy = totalEnergy + h.getPower();
 		}
 		
+		//Log.printLine("Next is the power in second");
+		//Log.printLine(totalEnergy);
+		
 		newPowerList.add(totalEnergy);
 		
 		//I THINK TO DO SO HERE WE HAVE TO BE IN THE NEXT STATE AND SELECT THE MAX Q VALUE FROM THE NEXT STATE 
@@ -732,9 +979,11 @@ public class Algorithm {
 
 		//double reward = this.getEnv().getReward(host, vm);
 		//double reward = this.getEnv().getRewardPower(oldPower, totalEnergy);
-		Log.printLine(oldHost.getId());
+		//Log.printLine(oldHost.getId());
 		double reward = this.getEnv().getRewardLuke(previousAction);
+		//double reward = this.getEnv().getRewardState(oldHost);
 
+		
 		oldHostUtilizationList.remove(indexOldHostUtilizationList);
 		oldVmUtilizationList.remove(indexOldVmUtilizationList);
 		oldPowerList.remove(indexOldPowerList);
@@ -745,18 +994,18 @@ public class Algorithm {
 		//Log.printLine(host.getId());
 		//Log.printLine(vm.getId());
 		
-		Log.printLine("Previous action we took");
-		Log.printLine(previousAction);
+		//Log.printLine("Previous action we took");
+		//Log.printLine(previousAction);
 		
 		//int nextState = this.getEnv().getStateLuke(oldHost);
 		//int nextState = this.getEnv().getStateRachel(host);
 		//int nextState = this.getEnv().getStateKieran(host, migratableVmList);
 		int nextState = this.getEnv().getStateLukeNew(previousState, previousAction);
 
-		Log.printLine("Next state incoming");
-		Log.printLine(nextState);
-		Log.printLine("Previous state incoming");
-		Log.printLine(previousState);
+		//Log.printLine("Next state incoming");
+		//Log.printLine(nextState);
+		//Log.printLine("Previous state incoming");
+		//Log.printLine(previousState);
 
 		setNextState(nextState);
 		
@@ -800,8 +1049,8 @@ public class Algorithm {
 		//NOW WE HAVE ALL THE INFORMATION WE NEED EXCEPT ALPHA AND GAMMA AND THE OLD Q VALUE 
 		//OLD Q VALUE IS THE OLD STATE AND THE ACTION WE TOOK 
 		
-		double alpha = 0.5;
-		double gamma = 0.4;
+		//double alpha = 0.5;
+		//double gamma = 0.4;
 		
 		//LAST ACTION NEEDS TO BE CHANGED TOO 
 		//int lastAction = getLastVmMoved().getId();
@@ -825,18 +1074,17 @@ public class Algorithm {
 		//Log.printLine(previousState);
 	
 		double oldQValue = env.lookupQValue(previousState, previousAction);
-		Log.printLine("Old Q value");
-		Log.printLine(oldQValue);
-		Log.printLine(maxQValNextState);
+		//Log.printLine("Old Q value");
+		//Log.printLine(oldQValue);
+		//Log.printLine(maxQValNextState);
 
         double newQVal = oldQValue + (alpha * (reward + (gamma * (maxQValNextState)) - oldQValue));
         
-        Log.print("New Q value");
-        Log.printLine(newQVal);
+        //Log.print("New Q value");
+        //Log.printLine(newQVal);
         	
         env.updateqValue(previousState, previousAction, newQVal);
         
-        //System.exit(0);
 	
         //System.exit(0);
 

@@ -64,6 +64,26 @@ public abstract class PowerVmSelectionPolicy {
 		return migratableVms;
 	}
 	
+	public static List<PowerVm> getMigratableVmsNew(PowerHost host) {
+		List<PowerVm> migratableVms = new ArrayList<PowerVm>();
+		//Log.printLine("In method to get the migratable VMS");
+		//Log.printLine(host.getVmList());
+		for (PowerVm vm : host.<PowerVm> getVmList()) {
+			//Log.printLine("Looping over migratable VMs");
+			//Log.printLine(vm.isInMigration());
+			if (!vm.isInMigration()) {
+				migratableVms.add(vm);
+				//Log.printLine("We have added one");
+			}
+		}
+		if(migratableVms.isEmpty()) {
+			return null;
+		}
+		
+		return migratableVms;
+	}
+	
+	
 	public void updateQValues(PowerHost host, PowerVm vm) {
 		
 	}

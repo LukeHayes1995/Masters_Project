@@ -102,7 +102,7 @@ public class PowerDatacenter extends Datacenter {
 
 		// if some time passed since last processing
 		if (currentTime > getLastProcessTime()) {
-			System.out.print(currentTime + " ");
+			//System.out.print(currentTime + " ");
 			//Log.printLine("Migration Count Incoming: ");
 			//Log.printLine(this.getMigrationCount());
 			
@@ -112,7 +112,7 @@ public class PowerDatacenter extends Datacenter {
 				//Log.printLine("About to call Optimize Allocation");
 				
 				if(started==false) {
-					Log.printLine("We should never come back in here");
+					//Log.printLine("We should never come back in here");
 					List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
 					List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
 
@@ -124,13 +124,13 @@ public class PowerDatacenter extends Datacenter {
 				
 				List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
 				
-				Log.printLine("Here is the number of over-utilized hosts");
-				Log.print(overUtilizedHostList.size());
+				//Log.printLine("Here is the number of over-utilized hosts");
+				//Log.print(overUtilizedHostList.size());
 
 				
 				//THEN WE WILL WORK ON THE FIRST HOST
-				Log.printLine("type next");
-				Log.printLine(type);
+				//Log.printLine("type next");
+				//Log.printLine(type);
 				if(type==true) {
 	
 					List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
@@ -150,18 +150,18 @@ public class PowerDatacenter extends Datacenter {
 							PowerHost oldHost = (PowerHost) vm.getHost();
 	
 							if (oldHost == null) {
-								Log.formatLine(
-										"%.2f: Migration of VM #%d to Host #%d is started",
-										currentTime,
-										vm.getId(),
-										targetHost.getId());
+								//Log.formatLine(
+										//"%.2f: Migration of VM #%d to Host #%d is started",
+										//currentTime,
+										//vm.getId(),
+										//targetHost.getId());
 							} else {
-								Log.formatLine(
-										"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
-										currentTime,
-										vm.getId(),
-										oldHost.getId(),
-										targetHost.getId());
+								//Log.formatLine(
+										//"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+										//currentTime,
+										//vm.getId(),
+										//oldHost.getId(),
+										//targetHost.getId());
 							}
 	
 							targetHost.addMigratingInVm(vm);
@@ -183,7 +183,7 @@ public class PowerDatacenter extends Datacenter {
 			
 				//WE HAVE NO OVERUTILIZED HOSTS SO WE DO THE UNDER UTILIZED
 				else {
-						Log.printLine("Should only enter this every once in a while");
+						//Log.printLine("Should only enter this every once in a while");
 						List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
 	
 						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
@@ -197,18 +197,18 @@ public class PowerDatacenter extends Datacenter {
 								PowerHost oldHost = (PowerHost) vm.getHost();
 		
 								if (oldHost == null) {
-									Log.formatLine(
-											"%.2f: Migration of VM #%d to Host #%d is started",
-											currentTime,
-											vm.getId(),
-											targetHost.getId());
+									//Log.formatLine(
+											//"%.2f: Migration of VM #%d to Host #%d is started",
+											//currentTime,
+											//vm.getId(),
+											//targetHost.getId());
 								} else {
-									Log.formatLine(
-											"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
-											currentTime,
-											vm.getId(),
-											oldHost.getId(),
-											targetHost.getId());
+									//Log.formatLine(
+											//"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+											//currentTime,
+											//vm.getId(),
+											//oldHost.getId(),
+											//targetHost.getId());
 								}
 		
 								targetHost.addMigratingInVm(vm);
@@ -374,8 +374,8 @@ public class PowerDatacenter extends Datacenter {
 		
 			if (getCloudletSubmitted() == -1 || getCloudletSubmitted() == CloudSim.clock()) {
 				CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
-				Log.printLine("Is this where we start scheduling events?");
-				Log.printLine(getSchedulingInterval());
+				//Log.printLine("Is this where we start scheduling events?");
+				//Log.printLine(getSchedulingInterval());
 				schedule(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT);
 				return;
 			}
@@ -410,13 +410,13 @@ public class PowerDatacenter extends Datacenter {
 					
 					List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
 					
-					Log.printLine("Overutilized host zise");
-					Log.print(overUtilizedHostList.size());
+					//Log.printLine("Overutilized host zise");
+					//Log.print(overUtilizedHostList.size());
 			
 					//IF OVERUTILIZED HOSTS ARE EMPTY THEN WE STILL NEED TO CALL THE METHOD SO T WILL LOOK AFTER THE UNDERUTILIZED HOSTS 
 					
 					if(overUtilizedHostList.size() == 0) {
-						Log.printLine("In with no overutilized hosts");
+						//Log.printLine("In with no overutilized hosts");
 						
 						//List<PowerHostUtilizationHistory> underUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
 						List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
@@ -432,18 +432,18 @@ public class PowerDatacenter extends Datacenter {
 								PowerHost oldHost = (PowerHost) vm.getHost();
 		
 								if (oldHost == null) {
-									Log.formatLine(
-											"%.2f: Migration of VM #%d to Host #%d is started",
-											currentTime,
-											vm.getId(),
-											targetHost.getId());
+									//Log.formatLine(
+											//"%.2f: Migration of VM #%d to Host #%d is started",
+											//currentTime,
+											//vm.getId(),
+											//targetHost.getId());
 								} else {
-									Log.formatLine(
-											"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
-											currentTime,
-											vm.getId(),
-											oldHost.getId(),
-											targetHost.getId());
+									//Log.formatLine(
+											//"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+											//currentTime,
+											//vm.getId(),
+											//oldHost.getId(),
+											//targetHost.getId());
 								}
 		
 								targetHost.addMigratingInVm(vm);
@@ -493,7 +493,7 @@ public class PowerDatacenter extends Datacenter {
 	
 							}
 							else {
-								Log.printLine("Only now should we be going in to do the underutilized hosts");
+								//Log.printLine("Only now should we be going in to do the underutilized hosts");
 								lastHost = true;	
 								tag = CloudSimTags.VM_MIGRATE_UNDER;
 							}
@@ -517,18 +517,18 @@ public class PowerDatacenter extends Datacenter {
 									PowerHost oldHost = (PowerHost) vm.getHost();
 			
 									if (oldHost == null) {
-										Log.formatLine(
-												"%.2f: Migration of VM #%d to Host #%d is started",
-												currentTime,
-												vm.getId(),
-												targetHost.getId());
+										//Log.formatLine(
+												//"%.2f: Migration of VM #%d to Host #%d is started",
+												//currentTime,
+												//vm.getId(),
+												//targetHost.getId());
 									} else {
-										Log.formatLine(
-												"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
-												currentTime,
-												vm.getId(),
-												oldHost.getId(),
-												targetHost.getId());
+										//Log.formatLine(
+												//"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+												//currentTime,
+												//vm.getId(),
+												//oldHost.getId(),
+												//targetHost.getId());
 									}
 			
 									targetHost.addMigratingInVm(vm);
@@ -556,7 +556,7 @@ public class PowerDatacenter extends Datacenter {
 				
 				// schedules an event to the next time
 				if (minTime != Double.MAX_VALUE) {
-					Log.printLine("DO WE GET TO THIS SECOND SEND EVENT?");
+					//Log.printLine("DO WE GET TO THIS SECOND SEND EVENT?");
 					CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
 					send(getId(), getSchedulingInterval(), CloudSimTags.VM_DATACENTER_EVENT);
 				}

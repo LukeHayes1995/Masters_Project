@@ -213,68 +213,19 @@ public class Environment {
 			migratableVmUtilization += vm.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips();
 			
 		}
-		
-		/*
-		PowerHostUtilizationHistory _host = (PowerHostUtilizationHistory) host;
-
-		Double VmUtilizationTotal = new Double(0.0);
-		Double VmUtilizationTotal2 = new Double(0.0);
-		
-		System.out.println(MigratableVmList.size());
-		System.out.println(host.getId());
-		
-		//We need to make sure each vm is on the host 
-		Log.printLine(host.getId());
-		List<PowerVm> hostVmList = host.getVmList();
-		
-		Log.printLine("Host VM list incoming :");
-		Log.printLine(host.getId());
-		for(PowerVm pvm: hostVmList) {
-			Log.printLine(pvm.getId());
-		}
-		
-		//NEED TO GET A LIST OF MIGRATABLE VMS 
-		
-		Log.printLine("The following VMs should match the previous list");
-		for(PowerVm Vm : MigratableVmList) {
-			Log.printLine(Vm.getId());
-			Double VmUtilization = Vm.getUtilizationHistory().get(0);
-			
-			//Double VmUtilization2 = Vm.getUtilizationHistory().get(30);
-
-			VmUtilizationTotal+=VmUtilization;
-			//VmUtilizationTotal2+=VmUtilization2;
-
-		}
-		
-		Double HostUtilization = host.getUtilizationOfCpu();
-
-		Log.printLine("Utilization Statistics");
-		Log.printLine(VmUtilizationTotal);
-		Log.printLine(VmUtilizationTotal2);
-		Log.printLine(HostUtilization);
-		Log.printLine(host.getMaxUtilization());
-		double[] d = _host.getUtilizationHistory();
-		
-		int state = (int) ((VmUtilizationTotal/HostUtilization) * 100);
-		Log.printLine(state);
-		
-		Log.printLine("Host utilization loop incoming");
-		for(double ds: d) {
-			Log.printLine(ds);
-		}
-		*/
 
 		int state = (int) ((migratableVmUtilization/totalVmUtilization) * 100);
-		//Log.printLine("STATE INCOMING");
-		//Log.printLine(state);
 		
 		return state;
 	}
 	
+	public static void clearQValues() {
+		qValues.clear();
+	}
+	
 	public List<Integer> initQValues(Host host) {
 		
-		Log.printLine("Initiilizing Q values");
+		//Log.printLine("Initiilizing Q values");
 		//THE Q VALUES ACTUALLY SHOULD BE THE FOLLOWING:
 		//STATE 1 ACTION 1 
 		//WITH STATE 1 BEING 0% AND ACTION 1 BEING MOVE THE FIRST VM 
@@ -308,26 +259,8 @@ public class Environment {
 		//Log.printLine(numActions);
 		//Log.printLine(maxID);
 		//Log.printLine(actualSize);
-		
-		/*
-		for(int i=0; i<numStates; i++){
+	
 			
-			//for(int j=0; j<numActions; j++){
-				
-			for(Integer vmID: uniqueIDS) {
-			//WE SHOULD INSTEAD HERE LOOP THROUGH THE ARRAY OF ACTUAL IDS AND JUST ADD THOSE 
-				
-				
-				Pair<Integer, Integer> entry = new Pair<Integer, Integer>(i, vmID);
-
-				this.qValues.put(entry, 0.00);		
-				
-			}
-			
-		}
-		*/
-		
-		
 		for(int i=0; i<numStates; i++){
 			
 			for(int j=0; j<numActions; j++){
@@ -347,43 +280,6 @@ public class Environment {
 		
 		
 		return uniqueIDS;
-		
-		
-		/*
-		//WE NEED TO LOOP THROUGH ALL THE HOSTS IN A CONSISTENT MANNER SUCH THAT THEIR IDS DONT CHANGE 
-		//THEN WE NEED TO LOOP THROUGH ALL THE VMS IN THE WHOLE SYSTEM 
-		
-		// Q VLAUE 1 = HOST 1 ACTION 1 
-		// Q VALUE 2 = HOST 1 ACTION 2 
-		//ALL THE ACTIONS STAY THE SAME AS THEY REPRESENT THE ACTUAL VM ID AND NOT THE ID OF THE VM ON THE HOST 
-		//WE NEED A LIST OF ALL HOSTS 
-		//AND A LIST OF ALL VMS 
-		
-		List<PowerHost> hostList = new ArrayList<PowerHost>();
-		List<PowerVm> vmList = new ArrayList<PowerVm>();
-	
-		host.getDatacenter().getHostList();
-		host.getDatacenter().getVmList();
-		
-		
-		//EACH HOST HAS A UNIQUE ID
-		for (PowerHost h : hostList) {
-						
-			//EACH VM HAS A UNIQUE ID
-			for (PowerVm v : vmList) {
-				
-				//FOR EACH RECORD HERE WE MUST CREATE A VALUE IN THE Q TABLE 
-				//WE WILL USE A HASH TABLE IN THE FORM OF <String,Int>
-				//STRING WILL LOOK LIKE: HOST1VM1
-				
-				Pair<Integer, Integer> entry = new Pair<Integer, Integer>(h.getId(), v.getId());
-
-				qValues.put(entry, 0.00);
-				
-			}	
-		}
-		*/
-		
  		
 	}
 	
@@ -480,8 +376,8 @@ public class Environment {
 			reward = 0;
 		}
 		
-		Log.printLine("Reward incoming");
-		Log.printLine(reward);
+		//Log.printLine("Reward incoming");
+		//Log.printLine(reward);
 		return reward;
 	} 
 
@@ -521,44 +417,7 @@ public class Environment {
 			}
 			
 		}
-		
-		/*
-		//(p.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips();
 
-		
-		Log.printLine("Starting reward section");
-		Log.printLine(host.getId());
-		Log.printLine(powerVm.getId());
-		
-		Log.printLine("About to print Vms on host");
-		List<PowerVm> vms = host.getVmList();
-		for(PowerVm vm: vms) {
-			Log.printLine(vm.getId());
-			
-			Log.printLine("Printing Vm utilization");
-			List<Double> d = vm.getUtilizationHistory();
-			for(Double v: d) {
-				Log.printLine(d);
-			}
-			
-			
-			
-		
-		}
-		Log.printLine("In reward section");
-		double h = host.getUtilizationOfCpu();
-		List<Double> d = powerVm.getUtilizationHistory();
-		Log.printLine(host.getMaxUtilization());
-		
-		Log.printLine(h);
-		
-		for(double util: d) {
-			Log.printLine(util);
-		}
-		
-		int hostRam = host.getRam();
-		int VmRam = powerVm.getRam();
-		*/
 		//Log.printLine("Reward Incoming");
 		//Log.printLine(movedVmUtilization);
 		//Log.printLine(totalUtilization);

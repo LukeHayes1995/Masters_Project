@@ -68,8 +68,8 @@ public class PowerVmSelectionPolicyReinforcementLearning extends PowerVmSelectio
 		//Log.printLine(migratableVms);
 		PowerVm action = agent.getAction(host, migratableVms, migrateMoreThanOne);
 
-		Log.printLine("Do we get out of here");
-		Log.printLine(action);
+		//Log.printLine("Do we get out of here");
+		//Log.printLine(action);
 		//HERE WE SHOULD 
 
 		//Here we somehow have to get the choice from the agent 
@@ -90,6 +90,9 @@ public class PowerVmSelectionPolicyReinforcementLearning extends PowerVmSelectio
 		
 		//WHAT DO WE NEED TO PASS THIS 
 		List<PowerVm> migratableVms = getMigratableVms(host);
+		
+		//Log.printLine("Host Name");
+		//Log.printLine(host.getId());
 
 		agent.updateQValues(host, migratableVms, vm);
 		

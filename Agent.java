@@ -53,16 +53,16 @@ public class Agent {
 		//SO HERE WE HAVE A LIST OF ALL THE POSSIBLE VM'S WHICH ARE ESSENTIALLY THE POSSIBLE ACTIONS AVAILABLE 
 		//SO I THINK NOW WE NEED TO 
 		
-		if (algorithm.getAlgorithm().contentEquals("SARSA")) {
+		if (Algorithm.getSelectedAlgorithm().contentEquals("SARSA")) {
 			
 			//WE WILL SOMEHOW CALL THE SARSA ALGORITHM AND USE THE SARSA FUNCTIONALITY IN THE ALGORITHM CLASS
-			VmToMigrate = algorithm.SARSA(host, MigratableVmList);
+			VmToMigrate = algorithm.Migrate(host, MigratableVmList, migrateMoreThanOne);
 		}
-		else if(algorithm.getAlgorithm().contentEquals("Q-Learning")) {
+		else if(Algorithm.getSelectedAlgorithm().contentEquals("Q-Learning")) {
 			
 			//WE WILL SOMEHOW CALL THE Q-Learning ALGORITHM AND USE THE Q-Learning FUNCTIONALITY IN THE ALGORITHM CLASS
 			//Log.printLine(MigratableVmList);
-			VmToMigrate = algorithm.QLearningNew(host, MigratableVmList, migrateMoreThanOne);
+			VmToMigrate = algorithm.Migrate(host, MigratableVmList, migrateMoreThanOne);
 		}
 		
 		//Log.printLine("Are we leaving here with a vm to migrate?");
@@ -76,13 +76,17 @@ public class Agent {
 		
 		Host oldHost = getHost();
 		
+		//Log.printLine("VMS:");
+		//for(PowerVm p: MigratableVmList) {
+			//Log.printLine(p.getId());
+		//}
 		//Log.printLine("DO WE GET HERE");
 		
-		if (algorithm.getAlgorithm().contentEquals("SARSA")) {
+		if (Algorithm.getSelectedAlgorithm().contentEquals("SARSA")) {
 			algorithm.SARSAUpdateQValues(host, MigratableVmList, vm);
 		}
 		
-		else if(algorithm.getAlgorithm().contentEquals("Q-Learning")) {
+		else if(Algorithm.getSelectedAlgorithm().contentEquals("Q-Learning")) {
 			algorithm.QLearningUpdateQValues(host, MigratableVmList, vm);
 
 		}
