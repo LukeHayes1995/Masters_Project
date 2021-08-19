@@ -1,0 +1,555 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+% DOCUMENT CLASS
+\documentclass[oneside,12pt]{Classes/RoboticsLaTeX}
+
+% USEFUL PACKAGES
+% Commonly-used packages are included by default.
+% Refer to section "Book - Useful packages" in the class file "Classes/RoboticsLaTeX.cls" for the complete list.
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{color}
+\usepackage[table]{xcolor}
+\usepackage{epigraph}
+\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage[pdftex]{graphicx}
+\usepackage{pdfpages}
+%\usepackage{tabularx}
+\usepackage{pdflscape}
+\usepackage[acronym,toc]{glossaries}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}
+\setstretch{1.5}
+%\onehalfspacing
+% SPECIAL COMMANDS
+% correct bad hyphenation
+\hyphenation{op-tical net-works semi-conduc-tor}
+\hyphenation{par-ti-cu-lar mo-du-le ge-stu-re}
+% INTERLINEA 1.5
+%\renewcommand{\baselinestretch}{1.5}
+
+%% ignore slightly overfull and underfull boxes
+%\hbadness=10000
+%\hfuzz=50pt
+% declare commonly used operators
+%\DeclareMathOperator*{\argmax}{argmax}
+
+% HEADER
+\title{\Large{Machine Learning Approach to Data Centre Energy Optimization}}
+
+  \author{Luke Hayes - 14498098}
+  \collegeordept{School of Computer Science}
+  \university{National University of Ireland, Galway}
+  \crest{\includegraphics[width=75mm]{Figures/logo_NUI.png}}
+
+
+\supervisor{Dr. Enda Howley}
+%\supervisor{Name of the Supervisor}
+%\supervisor{Name of the Co-Supervisor}	
+% \supervisor{Dr. Jane Smith}
+% \supervisorSecond{Dr. Mihael Arcan}
+                                                                                                                 
+% text before "In partial fulfillment of the requirements for the degree of" in .cls file/line 153\
+% replace PROGRAMME with Data Analytics, Artificial Intelligence, or Artificial Intelligence - Online
+\degree{MSc in Computer Science (Artificial Intelligence)}
+\degreedate{June 29, 2021}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% uncomment if glossary needed, see examples in file
+%\makeglossaries
+%\loadglsentries{glossary}
+
+\begin{document}
+\begin{spacing}{1}
+\maketitle
+\end{spacing}
+
+% add an empty page after title page
+\newpage\null\thispagestyle{empty}\newpage
+
+% set the number of sectioning levels that get number and appear in the contents
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\frontmatter
+% replace PROGRAMME with Data Analytics, Artificial Intelligence, or Artificial Intelligence - Online
+\textbf{DECLARATION} 
+I, NAME, do hereby declare that this thesis entitled Machine Learning Approach to Data Centre Energy Optimization is a bonafide record of research work done by me for the award of MSc in Computer Science (Artificial Intelligence) from National University of Ireland, Galway. It has not been previously submitted, in part or whole, to any university or institution for any degree, diploma, or other qualification. 
+\newline
+
+\begin{tabular}{@{}p{.5in}p{4in}@{}}
+Signature: & ~~\hrulefill \\
+\end{tabular}
+\newpage
+\mainmatter
+\chapter{Introduction}
+\label{chap:introduction}
+Cloud computing has quickly become one of the most influential technologies available to modern businesses. Cloud computing provides flexible and secure on-demand availability of computer system resources. Businesses no longer require local servers that are both fixed in bandwidth and storage space. Companies often spend a large amount of time and resources dealing with such issues arising from local servers. Some of the many advantages of adopting a cloud computing framework include flexibility, scalability and security. These improvements to business operation have led to the adoption of the cloud computing model across many industries and sectors. This increase has thus led to a huge increase in the demand for data centres. These data centres are buildings with a huge number of interconnected computer servers. Many people do not realize that simply watching a movie on Netflix will require resources to be utilized in a Netflix data centre somewhere in the world. 
+
+This technological advancement has however come at a major cost of a sharp rise in energy consumption thus resulting in increased carbon emissions. It was in fact estimated that the worldwide carbon footprint of the data centre industry would eclipse that of the airline industry in 2020 [1]. This is a greater problem in the country of Ireland where data centres consumed 11\% of the Irish energy bill for 2020 [2]. In 2006 data centres were estimated to have accounted for 1.5\% of the total U.S. electricity bill [3]. While both these statistics are taken from quite different time frames, we can conclude that Irish data centres are more prominent. A study conducted by EirGrid concluded that by 2028 data centres could account for 29\% of Ireland's energy bill [4]. This study also concluded that the energy costs of Irish data centres will double every 5 years. This increase in energy consumption coupled with the mass problem of global warming presents perhaps one of the biggest challenges that the Information Technology industry currently faces. 
+
+One approach that has been developed that facilitates a reduction in data centre energy costs is the concept of virtualization. This concept enables cloud computing the achieve its dynamic and scalable nature. It does so by splitting the resources of the server into much smaller independent Virtual Machines (VM's) which will run on their own host. Each VM on the server appears as if it is running in complete isolation and runs with its own Operating System (OS), which allows for multiple tasks to be run in parallel to one another. This therefore allows increased server utilization which means that less servers will therefore be required, thus allowing for savings in data centre energy costs. The separate Operating Systems will also lead to better resource utilization further reducing energy costs. While Virtualization does lead to an increase in energy efficiency data centres are still hugely inefficient due to huge under utilization of resources the majority of the time. In fact statistics gathered by the NRDC state that the average data centre operates between 12-18\% of its maximum possible capacity [5]. This statistic highlights the requirement of improved policies to increase server and resource utilization to reduce data centre energy consumption.
+
+When looking at the problem of increased data centre energy efficiency one must also consider the Service Level Agreements (SLA) that each data centre will be required to adhere to. This concept adds greater difficulty as now the service being supplied by the data centre must reach a certain level of quality. One means of balancing the conflicting energy optimization and SLA requirement is VM placement. This involves trying to place as many VM's on a single server such that the server is running at as big a capacity as possible while also obeying the SLA requirements. Such an approach will limit the number of servers that will need to be active thus, reducing the energy consumed. Server placement is seen as an NP-hard problem. This means that the computation cost of the problem grows exponentially with the addition of new VM's. This makes it a very difficult problem to solve. This coupled with the fact that each VM's required resources will dynamically change means that VM placement is extremely difficult as there is need for constant change and thus the NP-hard problem must be carried out continuously. 
+
+The aim of this thesis is to provide an alternative approach to solving the problem of VM placement. The approach taken is a machine learning approach called Reinforcement Learning. This approach is much more dynamic and will be carried out continuously such that it can deal with the constantly changing environment. This approach utilizes an autonomous learning agent that will be motivated through the idea of a reward. This reward will motivate the agent to keep energy costs to a minimum while also obeying the imposed SLA's. Through these goals the agent will be capable of observing the environment that is the data centre and then taking actions to maximise those goals. These actions that the agent will take will be VM placement actions such as when to move a VM from one server to another. Through clever VM placement, the energy efficiency of the data centre can be improved. Such improvements will not only reduce the costs of data centre operation but they will also help to tackle the biggest problem that modern society is facing at this moment that is global warming. 
+
+
+\section{Problem Formulation}
+The goal of this research is to explore the possibility of utilizing Reinforcement Learning to optimize the energy utilization of a data centre. As explained in the Introduction, data centres are inefficient due to underutilized servers meaning more are running than required. This research aims to implement an effective VM placement policy that will optimize the placement of VM's across the data centre such that energy utilization is reduced. The objective of this research is to go beyond that of the current state-of-the-art.  
+
+Figure 1.1 below has been included to illustrate the motivation behind carrying out this research. In this illustration there are four servers with three VM's in each. As we can see there is a standard data centre (without VM placement) and then for the same data centre VM placement has been carried out. There is significantly less wasted resources on the optimized side and there is also now two servers that are no longer being utilized. Both of these improvements lead to less energy being consumer by the data centre. Studies have shown that servers that are operating at low capacity can still utilize up to 60\% of the servers potential maximum power [6]. This gives further insight into how servers with unused resources can significantly waste power. This graphic illustrates the motivation behind VM placement as it can be utilized to considerably increase the efficiency of the data centre. There is also the added benefit that less running servers will means that there will be a reduction in cooling and other equipment required to keep the server running.  
+
+One other factor that must be considered with this concept is the requirement to obey the Service Level Agreements that have been put in place. These SLA's determine the level of service that must be provided by the data centres in order to ensure that the customer receives the expected Quality of Service (QOS). Therefore, there is a balance required between these two conflicting goals. Reducing the energy utilization of the data centre will mean that servers are more likely to violate the SLA's that are required. This means there is an ideal point at which the energy usage is low and the QOS required can be delivered. When considering this optimal point it is also important to note that there should be some resources left available in the case that there is a surge in demand. One such example of this could be how Netflix would expect a big surge in demand in the late evening as people begin to wind down from the day.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{Figures/Optimized_Vs_Standard_DC1.PNG}
+\caption{Data Centre - Standard Approach}
+\end{figure}
+
+\chapter{Background}
+\label{chap:backg}
+
+\section{Overview}
+The aim of this chapter is to give an understanding of the technologies that are utilized in this project. Firstly, the concept of cloud computing will be explained in detail. This will involve an explanation as to how the technology of cloud computing has developed over time. Next the different types of cloud computing frameworks will be explained to the reader. Finally, in an attempt to explain the popularity of cloud computing in recent times, the characteristics and benefits will be explained. This explanation will set the scene for the reasons why more and more businesses are adopting a cloud computing framework to allow for their business to thrive. 
+
+The next section will explain the breakdown of how data centres use their energy. This will include a detailed summary of how data centres consume their energy, providing further project motivation.
+
+This chapter will then detail the different aspects to the concept of Virtualization. This technology is fundamental to reducing the energy demands of the data centre and thus a vast range of different technologies and techniques will be outlined in this chapter. 
+
+Next, the topic of Artificial Intelligence will be used. This will include an overview of machine learning and the different approached to machine learning, with a particular focus on Reinforcement Learning. This will include concepts such as Agents, Multi-Agent Systems, Environments and the different Reinforcement Learning Algorithms utilized. This section will essentially give an understanding as to how Reinforcement Learning works, motivating its use in this project.
+
+Finally, this chapter will introduce CloudSim, the simulation technology that will be used for this project. In order to demonstrate and test the improvement in energy consumption gained from this project, there must be a reliable means of simulating data. This will facilitate the comparison of the resulting algorithm of this project to the current state-of-the-art technologies available. 
+
+
+
+\section{Cloud Computing Evolution}
+With cloud computing only becoming prevalent in the past decade many would not believe that it does in fact have roots that trace back to the 1950's to where mainframe computers came into existence. These computers were both extremely large and expensive and large organizations therefore simply owned one or two. This meant that employees would have to share access. This was done through time-sharing schedules where each employee would have an allocated time where they could access the mainframe computer from connected stations called dumb terminals. The employees would supply no processing power and thus, this is the first basic form of cloud computing. There then was a major advancement in the area of cloud computing in the 1960's where the concept of an interconnected web of computers was presented by an American Scientist. The main idea here was that resources could be shared across  
+computers that were in different locations. This is essentially the description that could be used to describe cloud computing. There were further technological advances in achieved in the early 1970's through the invention of Virtualization by the company IBM. This consisted of an Virtual Machine (VM) Operating System that facilitated virtual computers to act exactly like real computers. These virtual computers had fully operation Operating Systems. This idea then coupled with the development of the internet led to companies offering virtual networks that could be rented to businesses in the 1990's. Resulting in the inception of cloud computing as we know it today. 
+
+\section{Cluster Computing}
+This concept involves several computers that are connected via a network that operate together as a single entity. This idea was generated int eh 1980's where supercomputers were at the forefront of High-Performance Computing (HPC). These supercomputers led to realisation that computers were required that could carry out these tasks that required huge computational power without the excessive costs of supercomputers. This cluster of distributed computers are connected via a high speed connection such as Local Area Network (LAN). These connected computers are therefore capable of splitting the main task into sub tasks which can be carries out in parallel to one another. This means that the task can be carried out at a fraction of the computation time.
+
+The cluster computing approach gives high availability and is also fault tolerant. This is due to the fact that multiple nodes will often run the same job. This means that should one node be lost, the other node will carry out the task and therefore the system is not affected. The framework also promotes load balancing as a load balancer can be implemented to the network to ensure that no node gets a disproportionate amount of work. Health checks can also be carried out to ensure all nodes are still up and running. These characteristics are some of the main reasons that the cluster computing framework is utilized in storage and backup facilities for major companies such as Google [7].
+
+\section{Grid Computing}
+Grid computing like cluster computing is an environment for large-scale applications. However, unlike cluster computing which leverages a cluster of computers with the same capabilities, grid computing leverages the computational resources of a large number of dissimilar devices [8]. Each node in the grid is set such that it will complete a different task/application. As with cluster computing all nodes are connected via a network and they are working together to achieve a common goal. Grid computing was designed to carry out tasks that requires more computational power than the existing cluster and supercomputer frameworks [9]. The idea here is that the resources available can come from multiple different domains. Each grid is made up of several Virtual Organizations (VO's). Each VO contributes resources to a virtual community and thus in return receives access to a much wider pool of resources that it would not have had on its own. This means that there is essentially a community of users that can utilize the resources to achieve their own defined goals [8]. Such an approach is still widely used to this day in many science and engineering research initiatives across the world. Grids are fault tolerant as many different nodes can carry out the same task should there be a failure. As stated earlier this framework allows for collaboration across different organizations/departments. Finally, this framework also makes much better use of idle resources. However, it is worth noting that security is a large flaw of this computing framework.  
+
+\section{Cloud Computing}
+Cloud computing has become the most promising and prominent paradigm, capitalizing technological advancements of previous computing models. It has now become the most prevalent computing architecture and has been adopted as the gold standard approach in many industries. This framework means that companies no longer need to spend money to purchase and maintain their own server hardware. Previously this would have required hiring skilled employee's to look after such tasks. This approach is also highly dynamic as the resources required can both scale with demand and the growth of the establishment. Many providers model their cloud computing products as a "pay-as-you-go" model. This is highly appealing for companies. The framework is also both reliable and secure, of which the latter was a concern in the grid computing framework.
+
+In 2006 today's biggest enterprise in the space of cloud computing, Amazon Web Services (AWS), launched Amazon Elastic Compute Cloud. This was a web service that provided scalable computing capacity. It was specifically aimed at web developers and essentially enabled computing in the cloud as it allowed for the renting of virtual computers. It wasn't until the year 2008 until other companies such as Google and IBM began to come into the frame. This gap in time could be seen as one of the reasons that AWS is the current market leader in the area of cloud computing. 
+
+Many renowned experts would hold the opinion that cloud computing does not simply leverage and combine the technologies that have come before it. Instead it is seen that cloud computing creates its own characteristics that have thus led to the need to create/improve technologies such as data centres and virtualization. Cloud computing has propelled the interest in these areas and thus has led to technological advances that have paved the way for cloud computing to be the dominant computing model of today. 
+
+The definition of cloud computing is something that has not yet been agreed upon. Therefore, there are many definitions that are deemed acceptable. Vaquero et al. wrote a paper in an attempt to select a suitable definition of Cloud Computing [10]. This paper included research into 20 potential definitions and this fact alone highlights the difficulty in selecting a definition that the industry will agree upon. While there are many definitions there are some that are more widely accepted such as the following. 
+
+Buyya et al. gave the following definition [11]: "A Cloud is a type of parallel and distributed system consisting of a collection of interconnected and virtualized computers that are dynamically provisioned and presented as one or more unified computing resources based on service-level agreements established through negotiation between the service provider and consumers"
+
+In September 2011 the National Institute of Standards and Technology, a government agency that aims to promote competition and innovation amongst U.S. based tech companies in both technology and science published a paper with their own definition [10]. This following is the definition they concluded their research with: "Cloud computing is a model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction".
+
+While there are many definitions, Vaquero et al. looked at the terms that were important in the definition by looking at the reoccurring terms in each of the 20 definitions. They concluded that the most important characteristics of cloud computing motioned in the definition were that cloud computing was scalable, the payment model was "pay-per-use" and that it relied heavily on technologies such as the internet and virtualization.
+
+\section{Cloud Computing Characteristics}
+This section will look at some of the key characteristics of cloud computing and will highlight the characteristics that have led to this technology becoming so widely used. The characteristics outlined in this chapter will be those that differentiate cloud computing from the other computing architectures available. 
+
+\subsection{Cost Savings}
+A reduction of costs is one of the main reasons why businesses choose to implement cloud computing within their business [12]. There are many ways in which cloud computing saves money for a business. One of the main ways the business saves money is the reduction of upfront investments. This investment is typically spent on the infrastructure and software required to host many of their resources. This cost is replaced by the "pay-per-use" payment model implemented by the cloud computing industry. This means essentially that processors are charged by hourly use and storage is charged by daily storage. This model of only paying for what is used saves a great amount of money for the company. Were the company to to have their own computing resources located on-site, they would have to firstly train the IT support staff to be able to deal with issues. They may also have to hire additional staff to deal with the increased burden on their IT support staff [14]. Finally, the companies that provide cloud computing services are operating at a huge scale and therefore benefit greatly from economies of scale and thus this reduces the costs even further [15]. 
+
+\subsection{Resources are Supplied On-Demand}
+One of the main issues with computational resources is that the demand can vary dramatically through the day. One example of this would be Netflix, here demand would be very low during off peak hours, where people are working, and very high in the peak hours. If a company were to have their own resources they may not be able to predict the resources that will be required on peak and therefore may not reach their Quality of Service agreements with the customer. Moreover, there will be a big waste in resources on the off peak hours [15]. Cloud computing solves this problem as there is no limit on the computing resources that are available. When the required computing resources, storage or services increase, so too does the resources provided from the cloud. To the consumer it seems as if there is unlimited service and storage capacity [11]. This capability is available because of advances in Virtualization technologies and allows for guaranteed delivery of the Quality of Service the user expects. This coupled with the fact that there are huge cost savings to utilizing cloud computing makes it a very appealing model. 
+
+\subsection{Access}
+Another big advantage is the flexibility of access provided as now resources can be accessed very easily by employee. This access can be gained by utilizing network protocols such as Transmission Control Protocol/Internet Protocol (TCP/IP) or Hyper Text Transfer Protocol (HTTP). This facilitates access via multiple different devices [16]. One huge advantage of this is that it enables remote working which is something that has been forced on businesses worldwide in consequence of the global Covid-19 pandemic. This characteristic has meant that cloud computing has become almost essential for business operation in the current climate. 
+
+\subsection{Agility}
+A final advantage is that it allows businesses to be agile and flexible in a world where business is both highly competitive constantly changing. Today it is often the company that is best placed to adapt that will succeed. Companies that utilize a cloud computing paradigm are best placed to implement these changes as fast as possible [17]. Changes that would typically take days if a company were to have their own server can take minutes in a cloud computing environment. The internet plays a big role in the fact that cloud computing can enable changes in a very short time making it an effective tool for rapid development [18].    
+
+\section{Cloud Computing Architecture}
+Cloud computing provides enterprises with a unique approach to managing their IT resources. Cloud computing providers essentially have created a market where IT services. There are however many different services that can be provided via cloud computing, called the cloud service stack. This stack is made up of three different types of services. Software as a Service (SaaS), Platform as a Service (Paas) and Infrastructure as a Service (IaaS). These three services are known as the service models and a company may require one or more of these from the cloud computing provider. 
+
+The cloud computing architecture is made up of four layers, each of which is dependent on the other. The service models provided are essentially made up of these four layers. As shown in figure 2.7.1 below, these layers are the Application layer, Platform layer, Infrastructure layer and the Hardware layer. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{Figures/Cloud_Architecture.PNG}
+\caption{Cloud Computing Architecture [14]}
+\end{figure}
+
+\subsection{Application Layer}
+This is at the top layer of the architecture and consists of the applications which support the SaaS approach. This is a service that can be accessed by the general public via the internet. Customers are generally charged on subscription basis and typically users will pay monthly with the option to cancel at any moment [15]. Users can begin availing of this type of service immediately once they sign up. Many companies will utilise this SaaS approach to giving their services such as YouTube. Cloud applications can utilize all of the features associated with cloud computing such as the ability to automatically scale the required resources.
+
+\subsection{Platform Layer}
+This layer is built on top of the infrastructure layer and is the PaaS service model. This layer is built up of Operating Systems and application frameworks. The services in this layer give developers the tools to create and deploy cloud applications. The main advantages of this approach is that it facilitates scalability and load balancing of new applications [20]. Another advantage to the user is that the supplier will manage all of the tools required to build the applications such as libraries, frameworks and the infrastructure (e.g. storage). Today many teams utilize an agile approach to development and the PaaS model works very well with this approach as it promotes very fast development [21].
+
+\subsection{Infrastructure Layer}
+This layer can also be known as the virtualization layer [13]. As through virtualization this layer creates numerous computing resources from the physical resources (e.g. servers) by utilizing the concept of virtualization to create VM's. This is a critical layer in cloud computing as it facilitates dynamic resource assignment which is a key characteristic of the cloud computing paradigm. This layer leverages the IaaS service model as businesses can hire dynamic cloud infrastructure. One of the main features of this layer is that customers have super-user access to their VM's and thus have full control over the software stack utilized in their VM's. 
+
+\subsection{Hardware Layer}
+This is the layer that contains the physical resources that are required within the cloud. This would include the routers, servers, power equipment and the cooling equipment to keep equipment from overheating [19]. All of this equipment is located in the data centre in cloud computing. A data centre is typically made up of thousands of servers that are connected via routers. This layer can also be offered as a service called Hardware as a Service. This is where an entire data centre is rented out by an enterprise. This is highly expensive and thus is far less common than the three services mentioned earlier. There are many issues that must be managed at this layer such as fault tolerance, management of traffic, hardware configuration and management of power and cooling resources [19].
+
+
+\section{Types of Clouds}
+There are a number of items to consider when a company is choosing to migrate an application to a cloud computing environment. There are four types of cloud environments to choose from, each of which having unique strengths and weaknesses. The team of the company will need to access the best cloud environment for their application they are migrating. The four cloud types are private, public, hybrid and community. 
+
+\subsection{Public Cloud}
+This is an environment where the computing resources are offered to the general public. This type of cloud environment will typically operate on a pay-per-use payment model. This type of model offers many of the key benefits to cloud computing such as cost reduction through not having to invest in cloud computing infrastructure while also allowing the company to remain adaptable to changes in the market. It also shifts many of the risks of  traditional computing to the provider such as downtime (a time where cloud services are unavailable). One disadvantage however of this approach is the lack of control over the data, network and security settings [19]. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth, height=.35\textheight]{Figures/Public_Cloud.PNG}
+\caption{Public Cloud Model [22]}
+\end{figure}
+
+
+\subsection{Private Cloud}
+Public clouds which are also referred to as internal clouds are utilised by one organization, they are not open to the public as in public clouds. There are two options here, either the cloud is build and maintained by the organization or by an external party. Either way the cloud is only made available to that company. The main advantage of such an approach is that it gives the greatest level of control over things such as security, performance and reliability [13]. The main drawback however is cost as the company must now pay a large up-front costs to setup the data centre. Therefore such an approach typically can only be afforded by very large businesses. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth, height=.35\textheight]{Figures/Private_Cloud.PNG}
+\caption{Private Cloud Model [22]}
+\end{figure}
+
+\subsection{Hybrid Cloud}
+This is a combination of both the public and private cloud models. The reason for its inception was to address the limitations of both models and thus create a better approach. In this model both models remain unique entities but they are connected together via approaches and technologies that allow for easy moving of data and applications between both entities. The main advantage given by this architecture is that it gives better control and security of application data, which was a flaw with the public cloud model. However, one negative is that it requires careful splitting of the resources between both the public and private entities. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth, height=.35\textheight]{Figures/Hybrid_Cloud.PNG}
+\caption{Hybrid Cloud Model [24]}
+\end{figure}
+
+\subsection{Community Cloud}
+The final approach to cloud computing is the community cloud. Here the cloud is setup by a set of organizations that have a common goal or interest. One example of a group of organizations that may create a community cloud is a series of banks. Here each individual company has similar requirements in areas such as security and privacy. This cloud can be managed by a provider or in-house by one of the organizations [25]. The group will also likely create a mechanism by which they review the new companies looking to gain access. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.7\textwidth, height=.35\textheight]{Figures/Community_Cloud.PNG}
+\caption{Community Cloud Model [26]}
+\end{figure}
+
+\section{Energy Consumption of Data Centres}
+Data centres are becoming more and more prevalent due to the meteoric rise in cloud computing. This rise has become even more rel event since the beginning of the pandemic as businesses aim to transition to the cloud computing to enable employees to work from home. The pandemic has led to an increase in demand for cloud computing from the education, entertainment and business industries [27]. This rise in demand saw huge disruptions to services such as Microsoft Teams as a huge number of new users were created as remote working was forced upon businesses. Netflix were forced to reduce the resolution of their streams in order to cope with this huge increase in demand [28]. This has resulted in increased demand which has resulted in an increase in energy expenditure from the data centre industry. It is estimated that by 2027, 37\% of Ireland's energy will be consumed by data centres [29]. 
+
+It is however worth noting that despite the increase in data centres workloads, the energy consumption of data centres worldwide has remained at around 1\% [30]. The reason for this is rapid increases in data centre energy efficiency. This is exceptionally impressive considering data centre computation has increased 550\% between 2010 and 2018 [31]. While these figures are incredibly impressive upon looking deeper it appears as though there are a small number of companies that are making strides in this space. These efficient data centres belong to giant multinational companies such as Google, Facebook and Amazon. These efficient companies however only make up between 5 and 7 percent of the data centres in the world [32]. With the majority of companies simply leasing their cloud computing resources rather than creating their own data centres, there is little incentive to increase efficiency. The companies that are highly efficient are industry tycoons and thus are placed under worldwide scrutiny and hence they must aim to reduce energy consumption in an attempt to reduce public and governmental scrutiny. 
+
+Data centre energy efficiency is often measure in the literature by a metric called Power Usage Effectiveness or PUE. This metric essentially is a ratio of total data centre power to the power utilized by the IT equipment [35]. Highly efficient data centres would achieve a value of around 1.2 or less while inefficient data centres would receive a PUE score of 2.0. This score of 2.0 means that for every unit of energy utilized by the IT infrastructure there is another unit used elsewhere. In 2017, a company named Supermicro achieved a PUE of 1.06.  
+
+
+\subsection{Breakdown of Data Centre Energy Consumption}
+As outlined in the previous section the vast majority of data centres are highly inefficient and therefore utilize a large amount of energy. In order for improvements to be made, it is critical to understand what are the elements of the data centre that are contributing the most to this inefficiency. It is critical to identify the areas that are consuming the larges amount of energy so that technologies can be developed/implemented such that there is a reduction in energy usage that area leading to a reduction in data centre energy utilization. 
+
+Figure 2.6, from a 2016 study carried out by Rong et al., breaks down the different areas of data centre energy utilization by percentage [33]. From this figure it is evident that the majority of energy is consumed by the cooling system and the power consumed by the servers. Together both of these areas take up an estimated 80\% of the energy utilized by the data centre. With 40\% of the energy being used on the power used for the servers, this provides great motivation for this project as the aim is the reduce the server energy consumption by optimizing VM placement. While huge energy savings have been made in the areas of hardware and equipment, there have been far less improvements in the are of server utilization [32]. Servers are often left underutilized which is a major problem considering that idle servers still can draw 70\% of the servers maximum power. This is compounded by the fact that studies have show that between 20-30\% of data centre servers are idle [34]. With all these statistics it is clear that server power consumption provides huge scope for improvement. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth, height=.35\textheight]{Figures/Data_Centre_Energy_Breakdown4.PNG}
+\caption{Breakdown of Data Centre Energy Consumption [33]}
+\end{figure}
+
+
+\section{Virtualization}
+Virtualization is a technology that is fundamental to firstly the development and then the adoption of the cloud computing paradigm. It enables the users of applications and services to ignore the computing resources that would otherwise be finite in their nature [36]. The main core idea here is that it creates a virtual version of something such as a server, OS, computer hardware resources or storage devices such that these resources can be utilized on several different machines simultaneously. Virtualization has transformed tradition computing by allowing it to become more scalable and economical as it reduces both cost and power. It essentially enables servers to be split into multiple VM's, each of which has their own OS and can run independently. It is a fundamental concept that allows cloud computing to boast its characteristics of having both highly scalable and elastic computational resources. It is critical for the ability to dynamically add resources. Virtualization software makes it possible to run multiple OS's and applications on a single server [37]. This software is known as a hypervisor or Virtual Machine Monitor (VMM). The aim of the VMM is to give access to each of the VM's to the hardware resources of the server such that the VM's can operate in isolation.  
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth, height=.3\textheight]{Figures/Virtual_Machine_Architecture.PNG}
+\caption{Virtualization architecture [38]}
+\end{figure}
+
+
+
+\section{Machine Learning}
+Machine Learning is a very promising area that has generate a lot of hype in the last decade. the concept however is one that has been around for a long time with Arthur Samuel giving it the following definition in 1959: "Machine Learning is the field of study that gives computers the ability to learn without being explicitly programmed" [39]. This essentially means that the computer can learn without being instructed by looking at data. There are a huge number of applications in modern society where Machine Learning is being utilized with excellent results. Some applications include email spam filtering where the algorithm will learn from a series of emails that have been labelled as containing spam or not. The algorithm would then be able to look at a new unlabelled email and utilize the information it has learned from the previous examples to classify this new email as spam or not. This task is known as classification, where there are only two outcomes which are essentially equal to true or false. Some other applications include detecting tumours in brain scans, detecting product damage on the assembly line, flagging offensive comments on social media and creating products that interpret human speech and respond e.g. Alexa. 
+
+This project can be seen as an optimization problem. The goal is to essentially come up with a VM placement model that will maximise server utilization while also making sure that the SLA's are adhered to. Therefore, we can view this is an optimization problem as we are trying to come up with the optimal placement of the VM's such that the requirements are met. Machine Learning approaches therefore could utilize the data available from the data centre in order to optimize VM placement. 
+
+\subsection{Supervised Learning}
+In this approach to Machine Learning, the training set that is provided for the algorithm to learn from, has labels associated with each sample. For example if the objective was to differentiate if an email was spam or not, the training set would consist of the email and a label to say whether that email was in fact spam or not. The training data would typically be in vector format as Machine Learning algorithms work with numbers. The label is also known as the target output as in some instances we can remove this label, feed it to the algorithm after training and then test to see whether the algorithm correctly classifies the sample or not. The algorithm can output a number such as a house price and this is called regression. A label can also be outputted such as spam and this is known as classification. 
+
+\subsection{Unsupervised Learning}
+Unsupervised Learning on the other hand means that the training data that is used to train the algorithm does not have any labels attached to it. The training set is simply made up of a series of input vectors with no outputs attached to each sample. The aim here is typically to put the input data into subsets. In doing so the algorithm will learn a set of rules for putting each sample into a subset and therefore it can apply these rules to new samples. One example of such an approach would be for a company to use clustering to put their customers into different categories. This may enable the company to learn more about the different groups that make up their customer base. One example of a piece of information that could be used is the gender of their customers. 
+
+\subsection{Reinforcement Learning}
+This is very much a different machine learning approach which involves a learning system that is called an agent [39]. This agent can observe its environment, take actions depending on the state of the environment and can accumulate rewards for those actions. These rewards could be positive for good actions or negative for poor actions. By assigning positive and negative rewards the agent will learn a strategy, also called the a policy, which will achieve the highest reward over time. This policy will be what choosing the next action for an agent when it is in any given situation such as an environment state. 
+
+\subsection{Agents}
+There are many different definitions used when talking about agents. The reason for this is that the definition can vary slightly based on the domain the agent is being used in. The following definition has been outlined by Russell & Norvig: “An agent is anything that can be viewed as perceiving its environment through sensors and acting upon that environment through actuators” [40]. 
+
+This definition can be added to further when looking at the concept of an autonomous agent. Autonomous agents are software programs which respond to states and events in their environment independent from direct instruction by the user or owner of the agent but acting on behalf and in the interest of the owner. The main ideas here is that an agent can sense its environment and then in turn respond to that environment to achieve a goal or utility that the agent has. One of the most basic agent examples is that of a thermostat. The thermostat is constantly checking the temperature in its environment via its temperature sensors and using this temperature value and its own internal state it will decide what action to take. If the temperature is below a certain threshold and the heating is off, then the sensor will turn the heating on. If the heating is already on, then the thermostat will take no action. If the heating is above a threshold and the heating is already on, then the thermostat will turn off the heating and if it is already off then it will carry out no action. The basic idea here is that the agent is sensing its environment and then using its predefined goal of keeping the temperature in a certain range, it will take the relevant action to achieve this goal. 
+
+There are three characteristics that agents possess. Agents must be reactive, meaning that they should be constantly monitoring their environment and then be ready to execute actions in a timely manner once their environment changes. An agent must also be proactive which means that the while the agent must be reactive, it also should be trying to achieve its goals through its actions. This involves being pro-active and taking the initiative rather than just reacting to changes in the environment. Finally, an agent should be social. Agents are nearly always deployed into environments with other agents and therefore these are multi-agent environments. This means that to best achieve their goals the agents must cooperate, even if they have different goals. To do so agents will need to communicate via some form of language. The basic process of how agents operate is illustrated in figure 2.8 below.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth, height=.3\textheight]{Figures/Agent_Environment.png}
+\caption{Agent Environment Interaction [41]}
+\end{figure}
+  
+  
+\subsection{Reward Based Learning}
+Figure 2.8 introduces the concept of reward based learning. This is an extension on the idea of a goal, as a goal just provides a distinction between good and bad states. The idea of a utility or reward introduces a performance measure. The agent can then aim to maximise this performance measure and therefore can learn the appropriate good actions in certain scenarios. This performance metric can also be used by the user to evaluate the performance of the agent. To do so there are several ways to evaluate the performance of an agent over a run. These include taking the average reward gained or taking the sum of utilities. 
+
+\subsection{Multi-Agent Systems}
+In many applications where agents are deployed there is oftentimes numerous other agents in the environment. This could be see as a society of agents with each agent having its own goals that can be in agreement or conflict with those of other agents [42]. Agents in such a system typically only has partial information available of its environment as it only typically will communicate to the agents that are close by [43]. The action of each agents has consequences on the environment, especially for its neighbouring agents [44]. This means that agents can be in conflict as the action of one agent can negatively affects the goal of another agent. Agents can also be dependent on one another as dependency relationships can form. These can take many different forms. There can be a one way dependency where one agent depends on the other while the other agent does not depend on that agent to achieve its goal. There can also be a mutual dependency where both agents depend on one another to achieve their goals [42]. This is in fact an ideal scenario as it encourages both agents to cooperate. Cooperation is a key concept in multi-agent systems and involves the agents sharing common goals and working together to achieve those goals. To do so agents must not only take action to achieve their goals but to also recognize the goals of other agents and help achieve them [45]. Cooperation enables a large task to be broken down into several tasks, each of which can be done by an agent. The agents can then cooperate together in parallel to carry out the larger tasks. Completely cooperative agents can change their goals to help other agents while Antagonistic agents will not cooperate and thus both agents goals can be blocked [46]. 
+
+\subsection{Agent Cooperation}
+To give an understanding of cooperation amongst agents a concept called the prisoners dilemma will be introduced [47]. Consider the following situation: Two people have robbed a bank together and since their arrest have been separated and kept in separate cells to stop them making any type of agreement. Both bank robbers are faced with a choice. If they confess to the crime and the other does not well then, that person who confessed walks free while the other receives a sentence of 4 years. If they both were to confess, they would both receive a sentence of two years. If neither confesses and the plead innocence, they will both receive only one year. This means that to get the best sentence which would be to go free the prisoner would have to turn on their counterpart and hope that they do not turn on them. In this scenario choosing to plead innocence is seen as cooperating. Sadly, in this case the most rational option is to defect as the prisoner can achieve a sentence of no better than two years when cooperating and can also achieve 4 years should the other person defect while they cooperate. In contract should they defect, they will receive a maximum sentence of two years and a minimum of one year. This scenario means that the most beneficial scenario is to defect. 
+
+This concept can be applied to agents using utility rather than a prison sentence. This would mean that a lower prison sentence would translate to higher utility. So, this conclusion of defecting being the most rewarding would lead us to believe that cooperation amongst agents is a highly difficult outcome to achieve. This is true when looking at the prisoner’s dilemma as a one-off game but what about an iterative game? In an iterative game let us say that in game one prisoner A defected while prisoner B cooperated, now in game two prisoner B will remember that prisoner A defected and he too will defect. The idea here is that when this game is played iteratively the optimal solution now turns to both parties cooperating as they will receive a sentence of two years. Should they choose to take the short-term reward and defect, they know the other prisoner will just get them back on the next game. Therefore, the optimal solution is to cooperate.  
+ 
+\subsection{Markov Decision Process}
+A control problem is one where the policy is not fixed and thus the goal is to find the optimal policy. The optimal policy is the one that will lead to the highest reward in all states. There may be many optimal policies but each policy leads to the same optimal value function. The Markov Decision Process or MDP provides a structure by which decision making can be understood. It provides a framework for controlling systems that develop in a stochastic manner [48]. The Markov states that the next state is only dependent on the current state and therefore can be seen as memoryless, as the past states do not affect the next state. The MDP is represented as a 4 tuple, consisting of states, actions, transition probabilities and rewards [49]. 
+
+\subsection{Reinforcement Learning Algorithms (To be added)}
+SARSA
+Q-Learning
+
+\subsection{Reinforcement Learning Selection Policies (To be added)}
+E-Greedy
+Softmax
+  
+\begin{itemize}
+
+    \item \mathcal{S}, represents the set of all possible states;
+    \item \mathcal{A}, symbolizes the set of all actions;
+    \item $\mathscr{p(s_{t+1}|s_t,a_t)}$, represents the probabilities of the state transitions i.e. the probability of transitioning from one state to the next;
+    \item $\mathscr{q(s_{t+1}|s_t,a_t)}$, represents the reward received from taking a specific action in a state;
+\end{itemize}
+
+\mathcal{S}, is the set of all of the possible states the agents could be in. After a time period $\mathscr{t}$, the agent will be in one of those states. The agent must then choose one of the available actions from the set of all possible actions \mathcal{A} [50]. The execution of this action will then lead the the agent transitioning to the next state and they will get a reward for that action. There is also a transition probability and this probability will determine if the agent moves on to the next state or not. In the case where the environment is fully observable, then we have all information available to the agent and no approximation is required. This means that a process known as value iteration can be utilized to find the optimal policy to the MDP.  
+
+\chapter{Literature Review}
+Due to the inefficiencies present in cloud computing, a large amount of research has been carried out to enable data centres to become more efficient while also adhering to the SLA's present. Approaches aim to maximize the utilization of resources such that the providers maximise their revenue. Such an approach will lower energy costs and therefore provide numerous advantages to both the provider and society. However, the dynamic nature of cloud computing and its demand means that the problem of VM placement is highly difficult. Much research has therefore been carried out in the areas of energy efficiency and dynamic resource allocation. The research carried out can be placed under one of the following three headings:
+
+\begin{itemize}
+    \item Threshold Based Approaches;
+    \item Artificial Intelligence Based Approaches;
+    \item Reinforcement Learning Based Approaches;
+\end{itemize}
+
+\section{Threshold Based Approaches}
+Lee at al. recognized that a significant portion of the energy consumed by servers in cloud computing environments, was spent on under-utilized resources [51]. They concluded that while it is positive to have free resources, they still utilize power while idle. With this in mind they concluded that a resource allocation policy that takes under-utilized resources into account would lead to reduced energy consumption. Thus they proposed two heuristics, ECTC and MaxUtil, that would reduce the energy consumption of underutilized resources. The goal of these heuristics is to maximise utilization thus reducing the energy consumed. Both heuristics take into account the active and idle energy consumption. The heuristics assign each new task to the resources that will require the least energy utilization. This is where the energy savings are made. The two heuristics differ on how they make their decision with MaxUtil taking the average and ECTC actually calculates the energy consumed. The results are impressive especially with the ECTC algorithm which achieves a saving of 18\%. One shortcoming that must be noted with this approach is that one a task is started it cannot be reallocated to another resource which could lead to energy savings. 
+
+The idea of costs of under-utilized resources is further studied by Srikantaiah et al. as they firstly studied the relationship between energy consumption and under-utilized resources [52]. The study conducted also took into account the performance levels, and involved looking at how these three factors impacted one another. It involved looking at this relationship when workloads were consolidated on one host. They then proposed an algorithm that aimed to find the allocation of workloads to servers that would result in the minimum energy utilization. They found that this minimum usage of energy was found at a specific level of utilization and performance. This performance would likely not be high enough to work with the SLA's present on servers and hence the authors modified the algorithm such that the algorithm now minimized the energy consumed with a performance constraint. This now meant that the SLA's were obeyed. If a server no longer can take any new requests, as it has reached the SLA, a new server is started up. One flaw with this approach is that it assumes that each application can be hosted by all servers, which is not the case. 
+
+Beloglazov et al. then while carrying out similar work breaks the problem into two sub problems. These problems are VM placement and VM selection. VM placement is the process of identifying the best possible server placement for the VM's. To do this they they propose an algorithm called Modified Best Fit Decreasing (MBFD), based on the Best Fit Decreasing (BFD) algorithm. This involves a two step process where firstly all of the VM's are sorted in decreasing order of their current CPU utilization. Next each VM is allocated to the host that will result in the least increase in power consumption. This would then go on to be named the Power Aware Best-Fit Decreasing algorithm (PABFD). The next step is VM Selection, the process of determining which VM's to offload in the case where a server is about to or is overloaded. Three VM selection policies were proposed in this research. The first, the Minimization of Migration (MM) policy, involves choosing the minimum number of VM's that need to be migrated for the server utilization to go below the threshold. The next policy is called the highest potential growth (HPG) policy. This policy will migrate the VM's that are utilizing the lowest amount of CPU usage relative to the CPU capacity, as this will reduce the risk of a large increase in CPU utilization for the host the VM is migrating to. The final policy, the Random policy, randomly selects a number of VM's to migrate. It is important to not that VM selection is only carried out when the server's CPU usage is above a threshold which if left would lead to violation of the SLA's in place. Each of these proposed policies was evaluated using a cloud computing simulation framework, CloudSim. Service Level Violation's (SLAVS's), number of migrations and power consumption were the criteria for evaluation. It was found the the MM policy was the best performer across each of the three criteria. 
+
+Further research again carried out by Beloglazov et al. again provided advancements in the literature. In this research they carry out a study which determine that VM placement should be carried out continuously in an online manner [53]. The goal of this experiment was to provide more dynamic thresholds that could deal with the unpredictable nature of the workloads. This research provides new heuristics that enable better detection of host over-utilization. Local Regression (LR), a technique that had been present in the research community for some time, was utilized. This method involves using a subset of data such that a curve can be drawn that approximates the original data. Then using this curve the trend line can be drawn and a prediction can be made as to whether the host is likely to soon become over-utilized. A novel VM selection policy called Minimum Migration Time (MMT) is also introduced. This policy selects the VM that will lead to the least amount of migration time and migrates that VM. This research combined the LR algorithm (detect host over-utilization),the MMT (VM selection policy) and the PABFD algorithm (VM allocation policy). Their research concluded that these three algorithms together outperformed all other VM consolidation techniques and achieved large savings in energy consumption. 
+
+Work carried out by Cardosa et al. took inspiration from virtualization technologies such as VMware and Xen. These technologies provide a maximum and minimum number of resources that can be allocated the the VM's [54]. Then the hypervisor will distribute the left over resources amongst all of the VM's. This enables an adaptable number of resources to be given to a VM based on the resources available, the cost of power and application utilities. This idea is created on the idea that not all applications are equal as some are more important than other. During times of high CPU load the CPU resources are best to be given to important applications. A CPU share ratio is then defined. If this ratio was to be 4:1, the scheduler will give high priority VM's 4 CPU cycles and 1 CPU cycle to low priority VM's. The authors then created a PowerExpandMinMax (PEMM) algorithm which is an improved extension on the ExpandMinMax (EMM) algorithm. Each of these algorithms aims to solve the problem that is the min-max and shares aware placement problem. Their implementation was then tested on synthetic data centre setups along with a real data testbed. One experiment on the real data testbed demonstrated an impressive 47\% increase in data centre utility. One major limitation of this experiment however, is that the min, max and shared parameters are set in the beginning and do not dynamically change during runtime. 
+
+Kusic et al. aimed to provide a better solution to the difficulty of this sequential optimization problem under uncertainty by utilizing a lookahead control scheme [55]. The algorithm, Limited Lookahead Control (LLC), aims to make cost savings by limiting CPU power usage, minimize SLAV's and maximize company profits. The approach utilizes a Kalman filter to estimate the incoming workload and thus can distribute the resources accordingly. This prediction of workload greatly increases the computational complexity, which is flagged as a big concern by the researchers. An experiment was conducted to test the approach on a small testbed that consisted of 6 servers. These experiments concluded that their approach resulted in a 26\% reduction in energy consumption. While this is impressive the concerns over worst-case computational complexity as the number of control options rise, is much too big of a concern. 
+
+\section{Artificial Intelligence Based Approaches}
+The previous section looked at defined thresholds that once surpassed, would lead to some form of action to optimize the allocation of data centre resources. In this section we will look at the previous research approaches that utilize AI approaches to optimize the problem of resource allocation in the cloud computing environment. 
+
+Portaluri et. al proposed the use of a Genetic Algorithm (GA) in order to optimize the allocation of data centre resources and thus reduce the overall data centre power usage [56]. GA's are iterative optimization methods which are founded on the concepts of selection and evolution. This means that the potential solutions evolve towards better solutions via these concepts. The paper takes a multi-objective approach to optimization as it aims to improve task completion time and reduce energy consumption. To do so an algorithm called the Non-dominated Sorting Genetic Algorithm II (NSGA-II) is utilized. This algorithm is widely applied to multi-objective optimization problems. This algorithm will discard any solution that is dominated by another solution. There will then be a number of equally valid solutions with a trade-off between lower energy cost and higher execution time. A solution can then be chosen based on this trade-off.
+
+In 2015 Dashti et. al proposed the use of a modified version of the widely utilized optimization algorithm, Particle Swarm Optimization (PSO) [57]. The aim of the paper is to use this modified algorithm to dynamically optimize Virtual Machine placement such that the energy efficiency of the data centre is increased. The algorithm focuses on VM placement which can also be viewed as a bin packing problem. The bins are the available servers, items are the VMs that have to be moved, bin sizes is the CPU utilization of the servers and the prices are the power consumption's of the nodes. The approach used Minimum Migration Time as a metric to decide which VM is best to move from the over-utilized host. The host that this VM is to be placed is then chosen via the PSO algorithm The algorithm calculates a value for each potential placement based on the increase in power consumption from the new placement. The placement with the least increase in power consumption is chosen. 
+
+Wei et. al utilizes game theory as an approach to solving the problem of resource allocation [58]. Their approach consists of two independent steps. The first being that the participant solves its own problem independently. It does so by utilizing Integer Programming which will calculate a local solution which is independent of all other participants. The second phase utilizes an evolutionary optimization algorithm, which takes the results from stage one, and estimates an approximate optimal solution and divide the resources available. 
+
+Berral et al. aimed to provide energy-aware scheduling in data centres by utilizing machine learning [59]. The research provides an intelligent consolidation methodology with techniques such as turning on and off servers, machine learning and power-aware consolidation algorithms. The aim of such techniques is to enable the algorithm to deal with information that has a degree of uncertainty while also optimizing performance. Their approach includes the use of a Supervised Machine Learning model which will predict the impact that workloads will have on the current available resources. This impact is examined via the energy consumed and the resulting performance level. This enables workloads to be re-allocated and servers that are under-utilized can be powered down. In the experiments carried out in this paper, their approach offered large improvements in both energy and performance efficiency. 
+
+
+
+
+\section{Reinforcement Learning Based Approaches (Yet to be added)}
+
+
+\begin{thebibliography}{9}
+
+\bibitem{ref1} 
+Shi, Y., Jiang, X. & Ye, K. An energy-efficient scheme for cloud resource provisioning based on cloudsim in Cluster Computing (CLUSTER), 2011 IEEE International Conference, (2011), 595–599
+
+\bibitem{ref2} 
+Report on Ireland's Data Hosting Industry 2017. https://www.bitpower.ie/index.php/news/20-bitpower-launches-report-on-ireland-s-data-hosting-industry
+
+\bibitem{ref2} 
+Brown, R., Masanet, E., Nordman, B., Tschudi, B., Shehabi, A., Stanley, J., Koomey, J., Sartor, D. & Chan, P. Report to congress on server and data center energy efficiency: Public law 109-431. Lawrence Berkeley National Laboratory (2008).
+
+\bibitem{ref2} 
+Eirgridgroup.com. 2021. Consultation on Data Centre Connection Offer Process & Policy. [online] Available at: <https://www.eirgridgroup.com/site-files/library/EirGrid/Data-Centre-Connection-Offer-Process-and-Policy-Consultation-Paper.pdf> [Accessed 15 July 2021].
+
+\bibitem{ref3} 
+P. Delforge, "America's Data Centers Are Wasting Huge Amounts of Energy," National Resources Defense Council, Issue Brief 14-08-A, August 2014.
+
+\bibitem{ref2} 
+Domain 3: Security Engineering (Engineering and Management of Security) Eric Conrad, ... Joshua Feldman, in CISSP Study Guide (Third Edition), 2016
+
+\bibitem{ref2} 
+Foster, I. T., Zhao, Y., Raicu, I. & Lu, S. Cloud Computing and Grid Computing 360-Degree Compared. CoRR (2009).
+
+\bibitem{ref2} 
+Buyya, R., Yeo, C. S., Venugopal, S., Broberg, J. & Brandic, I. Cloud Computing and Emerging IT Platforms: Vision, Hype, and Reality for Delivering
+
+\bibitem{ref2} 
+Computing As the 5th Utility. Future Gener. Comput. Syst. 599–616 (2009).
+
+\bibitem{ref2} 
+Vaquero, Luis & Rodero-Merino, Luis & Caceres, Juan & Lindner, Maik. (2009). A Break in the Clouds: Towards a Cloud Definition. Computer Communication Review. 39. 50-55. 10.1145/1496091.1496100. 
+
+\bibitem{ref2} 
+Rajkumar Buyya, Chee Shin Yeo, and Srikumar Venugopal. Market-oriented cloud computing: Vision, hype, and reality for delivering it services as computing utilities. CoRR, (abs/0808.3558), 2008.
+
+\bibitem{ref2} 
+Mell, P. M. & Grance, T. SP 800-145. The NIST Definition of Cloud Computing tech. rep. (Gaithersburg, MD, United States, 2011)
+
+\bibitem{ref2} 
+Reza, S., Adel, A. & Justice, O. M., 2013. Cloud Computing From SMEs Perspective: A Survey Based Investigation. Journal of Information Technology Management, 24(1), pp. 1-12
+
+\bibitem{ref2} 
+Zhang, Q., Cheng, L. & Boutaba, R. Cloud computing: state-of-the-art and research challenges. Journal of Internet Services and Applications (2010).
+
+\bibitem{ref2} 
+Apostu, A. et al., 2013. Study on Advantages and Disadvantges of Cloud Computing - The Advantages of Telemtry Applications in the Cloud. Morioka City, Iwate, Japan, World Scientific and Engineering Academy and Society.
+
+\bibitem{ref2} 
+Armbrust, M., Fox, A., Griffith, R., Joseph, A. D., Katz, R., Konwinski, A., Lee, G., Patterson, D., Rabkin, A., Stoica, I. & Zaharia, M. A View of Cloud Computing. Commun. ACM (2010).
+
+\bibitem{ref2} 
+Gong, C., Liu, J., Zhang, Q., Chen, H. & Gong, Z. The Characteristics of Cloud Computing in Proceedings of the 2010 39th International Conference on Parallel Processing Workshops (IEEE Computer Society, 2010).
+
+\bibitem{ref2} 
+Ta-Tao, C., Kazuo, N. & Thoma, T. C., 2015. An Exploratory Study of Expected Business Value of Cloud Computing. Issues in Information Systems, 16(4), pp. 37-47. 
+
+\bibitem{ref2} 
+Sean, M. et al., 2011. Cloud Computing - The Business Perspective. Decision Support Systems, 51(1), pp. 176-189. 
+
+\bibitem{ref2} 
+Zhang, Q., Cheng, L. & Boutaba, R. Cloud computing: state-of-the-art and research challenges. Journal of Internet Services and Applications (2010).
+
+\bibitem{ref2} 
+Youseff, L., Butrico, M. & Silva, D. D. Towards a unified ontology of cloud computing in Proc. of the Grid Computing Environments Workshop (GCE08) (2008).
+
+\bibitem{ref2} 
+Kepes, B. Understanding the Cloud Computing Stack: SaaS, PaaS, IaaS. <www.rackspace.com> (2013).
+
+\bibitem{ref2} 
+Brohi, Sarfraz & Bamiah, Mervat. (2013). Challenges and Benefits for Adopting the Paradigm of Cloud Computing. 
+
+\bibitem{ref2} 
+K. Bakshi, "Secure hybrid cloud computing: Approaches and use cases," 2014 IEEE Aerospace Conference, 2014, pp. 1-8, doi: 10.1109/AERO.2014.6836198.
+
+\bibitem{ref2} 
+Foerster, Theodor & Baranski, Bastian & Schäffer, Bastian & Lange, Kristof. (2021). Geoprocessing in Hybrid Clouds. 
+
+\bibitem{ref2} 
+Nicanfar, Hasen & Liu, Qiang & Talebifard, Peyman & Cai, Wei. (2013). Community Cloud: Concept, Model, Attacks and Solution. Proceedings of the International Conference on Cloud Computing Technology and Science, CloudCom. 2. 126-131. 10.1109/CloudCom.2013.163. 
+
+\bibitem{ref2} 
+Abdul, S. What is Cloud? <www.psau.edu.sa> (2012).
+
+\bibitem{ref2} 
+Alashhab, Z., Anbar, M., Singh, M., Leau, Y., Al-Sai, Z. and Abu Alhayja’a, S., 2021. Impact of coronavirus pandemic crisis on technologies and cloud computing applications. Journal of Electronic Science and Technology, 19(1), p.100059.
+
+\bibitem{ref2} 
+Independent, Coronavirus: vodafone, O2 and other networks struggle amid huge surge in traffic, [Online]. Available https://www.independent.co.uk/life-style/gadgetsand-tech/news/coronavirus-vodafone-o2-talktalk-down-outage-dataa9411286.html (April 2020)
+
+\bibitem{ref2} 
+Irish Examiner, 2021. Data centres: Are they unwanted but necessary guests in our landscape?. [online] Available at: <https://www.irishexaminer.com/news/spotlight/arid-40252148.html> [Accessed 11 July 2021].
+
+\bibitem{ref2} 
+IEA (2020), Data Centres and Data Transmission Networks, IEA, Paris https://www.iea.org/reports/data-centres-and-data-transmission-networks.
+
+\bibitem{ref2} 
+Masanet, E., Shehabi, A., Lei, N., Smith, S. and Koomey, J., 2020. Recalibrating global data center energy-use estimates. Science, 367(6481), pp.984-986.
+
+\bibitem{ref2} 
+Whitney, J. & Delforge, P. Data Center Efficiency Assessment tech. rep. (Natural Resources Defense Council, 2014).
+
+\bibitem{ref2} 
+Rong, Huigui & Zhang, Haomin & Xiao, Sheng & Li, Canbing & Hu, Chunhua. (2016). Optimizing energy consumption for data centers. Renewable and Sustainable Energy Reviews. 58. 674-691. 10.1016/j.rser.2015.12.283. 
+
+\bibitem{ref2} 
+Uptime Institute, 2013 Uptime Institute Data Center Industry Survey.
+
+\bibitem{ref2} 
+Sharma, Madhu & Arunachalam, Kartik & Sharma, Dharani. (2015). Analyzing the Data Center Efficiency by Using PUE to Make Data Centers More Energy Efficient by Reducing the Electrical Consumption and Exploring New Strategies. Procedia Computer Science. 48. 142-148. 10.1016/j.procs.2015.04.163. 
+
+\bibitem{ref2} 
+Xing, Y. and Zhan, Y., 2012. Virtualization and Cloud Computing. Lecture Notes in Electrical Engineering, pp.305-312.
+
+\bibitem{ref2} 
+Journal of Information Technology & Software Engineering, 2014. Virtualization in Cloud Computing. 04(02).
+
+\bibitem{ref2} 
+Minhas, Umar Farooq. (2007). A Performance Evaluation of Database Systems on Virtual Machines. 
+
+\bibitem{ref2} 
+Géron, A., 2020. Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow. Beijing: O'Reilly.
+
+\bibitem{ref2} 
+Russell, S. and Norvig, P., n.d. Artificial Intelligence A Modern Approach. 
+
+\bibitem{ref2} 
+Duggan, Martin & Flesk, Kieran & Duggan, Jim & Howley, Enda & Barrett, Enda. (2016). A Reinforcement Learning Approach for Dynamic Selection of Virtual Machines in Cloud Data Centres.
+
+\bibitem{ref2} 
+<https://plato.stanford.edu/archives/win2019/entries/prisoner-dilemma/> 
+
+\bibitem{ref2} 
+Wooldridge, M. An Introduction to MultiAgent Systems 2nd (Wiley Publishing, 2009).
+
+\bibitem{ref2} 
+Dorri, Ali & Kanhere, Salil & Jurdak, Raja. (2018). Multi-Agent Systems: A survey. IEEE Access. 6. 1-1. 10.1109/ACCESS.2018.2831228. 
+
+\bibitem{ref2} 
+Parasumanna Gokulan, Balaji & Srinivasan, D.. (2010). An Introduction to Multi-Agent Systems. 10.1007/978-3-642-14435-6_1. 
+
+\bibitem{ref2} 
+Doran, James & Franklin, Stan & Jennings, N. & Norman, Timothy. (2000). On Cooperation in Multi-Agent Systems. The Knowledge Engineering Review. 12. 10.1017/S0269888997003111. 
+
+\bibitem{ref2} 
+Alshabi, W. & Ramaswamy, Srini & Itmi, Mhamed & Abdulrab, H.. (2007). Coordination, Cooperation and Conflict Resolution in Multi-Agent Systems. 10.1007/978-1-4020-6268-1_87. 
+
+\bibitem{ref2} 
+Kuhn, Steven, "Prisoner’s Dilemma", The Stanford Encyclopedia of Philosophy (Winter 2019 Edition), Edward N. Zalta (ed.)
+
+\bibitem{ref2} 
+Enda Barrett, Enda Howley, and Jim Duggan. Applying reinforcement learning towards automating resource allocation and application scalability in the cloud. Concurrency and Computation: Practice and Experience, 25(12):1656–1674, 2013.
+
+\bibitem{ref2} 
+Lee, Y. and Zomaya, A., 2010. Energy efficient utilization of resources in cloud computing systems. The Journal of Supercomputing, 60(2), pp.268-280.
+
+\bibitem{ref2} 
+Srikantaiah, Shekhar et al. “Energy aware consolidation for cloud computing.” CLUSTER 2008 (2008).
+
+\bibitem{ref2} 
+Beloglazov, A. and Buyya, R., 2011. Optimal online deterministic algorithms and adaptive heuristics for energy and performance efficient dynamic consolidation of virtual machines in Cloud data centers. Concurrency and Computation: Practice and Experience, 24(13), pp.1397-1420.
+
+\bibitem{ref2} 
+Cardosa, M., Korupolu, M. and Singh, A., 2009. Shares and utilities based power consolidation in virtualized server environments. 2009 IFIP/IEEE International Symposium on Integrated Network Management,.
+
+\bibitem{ref2} 
+Kusic, D., Kephart, J., Hanson, J., Kandasamy, N. and Jiang, G., 2008. Power and Performance Management of Virtualized Computing Environments Via Lookahead Control. 2008 International Conference on Autonomic Computing,.
+
+\bibitem{ref2} 
+Portaluri, Giuseppe & Giordano, S. & Kliazovich, Dzmitry & Dorronsoro, Bernabe. (2014). A Power Efficient Genetic Algorithm for Resource Allocation in Cloud Computing Data Centers. 2014 IEEE 3rd International Conference on Cloud Networking, CloudNet 2014. 10.1109/CloudNet.2014.6968969. 
+
+\bibitem{ref2} 
+Dashti, Seyed & Rahmani, Amir. (2015). Dynamic VMs placement for energy efficiency by PSO in cloud computing. Journal of Experimental & Theoretical Artificial Intelligence. 28. 1-16. 10.1080/0952813X.2015.1020519. 
+
+\bibitem{ref2} 
+Wei, Guiyi & Vasilakos, Athanasios & Zheng, Yao & Xiong, Naixue. (2010). A Game-Theoretic Method of Fair Resource Allocation for Cloud Computing Services. The Journal of Supercomputing. 54. 252-269. 10.1007/s11227-009-0318-1. 
+
+\bibitem{ref2} 
+Berral, Josep & Goiri, Iñigo & Nou, Ramon & Julià, Ferran & Guitart, Jordi & Gavaldà, Ricard & Torres, Jordi. (2010). Towards energy-aware scheduling in data centers using machine learning. Proceedings of the e-Energy 2010 - 1st Int'l Conf. on Energy-Efficient Computing and Networking. 215-224. 10.1145/1791314.1791349. 
+
+\end{document}
