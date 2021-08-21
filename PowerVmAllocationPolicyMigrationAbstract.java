@@ -89,34 +89,35 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 	 * @return the array list< hash map< string, object>>
 	 */
 	@Override
-	public List<Map<String, Object>> optimizeAllocation(List<? extends Vm> vmList) {
+	public List<Map<String, Object>> optimizeAllocation(List<PowerHostUtilizationHistory> overutilizedHosts, boolean state) {
 		
 		//Log.printLine("DO WE GET HERE ");
 		
 		ExecutionTimeMeasurer.start("optimizeAllocationTotal");
 
 		ExecutionTimeMeasurer.start("optimizeAllocationHostSelection");
-		List<PowerHostUtilizationHistory> overUtilizedHosts = getOverUtilizedHosts();
+		//List<PowerHostUtilizationHistory> overUtilizedHosts = getOverUtilizedHosts();
 		getExecutionTimeHistoryHostSelection().add(
 				ExecutionTimeMeasurer.end("optimizeAllocationHostSelection"));
 
-		printOverUtilizedHosts(overUtilizedHosts);
+		//printOverUtilizedHosts(overutilizedHosts);
 
 		saveAllocation();
 
 		ExecutionTimeMeasurer.start("optimizeAllocationVmSelection");
-		List<? extends Vm> vmsToMigrate = getVmsToMigrateFromHosts(overUtilizedHosts);
+		List<? extends Vm> vmsToMigrate = getVmsToMigrateFromHosts(overutilizedHosts);
 		getExecutionTimeHistoryVmSelection().add(ExecutionTimeMeasurer.end("optimizeAllocationVmSelection"));
 
 		//Log.printLine("Reallocation of VMs from the over-utilized hosts:");
 		ExecutionTimeMeasurer.start("optimizeAllocationVmReallocation");
 		List<Map<String, Object>> migrationMap = getNewVmPlacement(vmsToMigrate, new HashSet<Host>(
-				overUtilizedHosts));
+				overutilizedHosts));
 		getExecutionTimeHistoryVmReallocation().add(
 				ExecutionTimeMeasurer.end("optimizeAllocationVmReallocation"));
 		//Log.printLine();
 
-		migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overUtilizedHosts));
+		migrationMap.addAll(getMigrationMapFromUnderUtilizedHosts(overutilizedHosts));			
+		
 
 		restoreAllocation();
 
@@ -128,7 +129,7 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 	}
 	
 	//WE PASS IT A LIST WITH ONLY ONE VM IN IT 
-	public List<Map<String, Object>> optimizeAllocationReinforcementLearning(List<PowerHostUtilizationHistory> host, List<PowerHostUtilizationHistory> overutilizedHosts, boolean lastHost) {
+	public List<Map<String, Object>> optimizeAllocationRL(List<PowerHostUtilizationHistory> host, List<PowerHostUtilizationHistory> overutilizedHosts, boolean lastHost) {
 		
 		//Log.printLine("Overutilized hosts call incoming");
 		List<PowerHostUtilizationHistory> overUtilizedHosts = getOverUtilizedHosts();
@@ -246,11 +247,11 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 	 */
 	protected void printOverUtilizedHosts(List<PowerHostUtilizationHistory> overUtilizedHosts) {
 		if (!Log.isDisabled()) {
-			//Log.printLine("Over-utilized hosts:");
+			Log.printLine("Over-utilized hosts:");
 			for (PowerHostUtilizationHistory host : overUtilizedHosts) {
-				//Log.printLine("Host #" + host.getId());
+				Log.printLine("Host #" + host.getId());
 			}
-			//Log.printLine(); currentTime
+			Log.printLine(); 
 		}
 	}
 

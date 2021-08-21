@@ -89,7 +89,7 @@ public class PowerDatacenter extends Datacenter {
 	//IN THIS METHOD WE SIMPLY TAKE ONE OF THE OVER UTILIZED HOSTS AND WORK WITH THAT 
 	//
 	@Override
-	protected void updateCloudletProcessingReinforcementLearningNew(boolean type) {
+	protected void updateCloudletProcessingRL(boolean type) {
 		//Log.printLine("This must be called - POWER");
 		if (getCloudletSubmitted() == -1 || getCloudletSubmitted() == CloudSim.clock()) {
 			CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
@@ -118,7 +118,7 @@ public class PowerDatacenter extends Datacenter {
 
 					
 					//Log.printLine("In the first important loop");
-					List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
+					List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationRL(overUtilizedHost, overUtilizedHostList, true);
 					started = true;
 				}
 				
@@ -139,7 +139,7 @@ public class PowerDatacenter extends Datacenter {
 						overUtilizedHost.add(overUtilizedHostList.get(0));
 					}
 
-					List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, false);
+					List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationRL(overUtilizedHost, overUtilizedHostList, false);
 					
 					//Log.printLine(migrationMap);
 	
@@ -186,7 +186,7 @@ public class PowerDatacenter extends Datacenter {
 						//Log.printLine("Should only enter this every once in a while");
 						List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
 	
-						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
+						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationRL(overUtilizedHost, overUtilizedHostList, true);
 						
 						//Log.printLine(migrationMap);
 		
@@ -260,18 +260,19 @@ public class PowerDatacenter extends Datacenter {
 	 */
 	//Over-utilized hosts:
 	@Override
-	protected void updateCloudletProcessing() {
+	protected void updateCloudletProcessing(boolean type) {
 		//Log.printLine("This must be called - POWER");
 		if (getCloudletSubmitted() == -1 || getCloudletSubmitted() == CloudSim.clock()) {
 			CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
-			schedule(getId(), getSchedulingInterval(), CloudSimTags.VM_DATACENTER_EVENT);
+			schedule(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT);
+			//schedule(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT_UNDER);			
 			return;
 		}
 		double currentTime = CloudSim.clock();
 
 		// if some time passed since last processing
 		if (currentTime > getLastProcessTime()) {
-			System.out.print(currentTime + " ");
+			//System.out.print(currentTime + " ");
 			//Log.printLine("Migration Count Incoming: ");
 			//Log.printLine(this.getMigrationCount());
 			
@@ -280,13 +281,38 @@ public class PowerDatacenter extends Datacenter {
 			if (!isDisableMigrations()) {
 				//Log.printLine("About to call Optimize Allocation");
 				
-				List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
-				Log.print(overUtilizedHostList);
-				
-				
+				if(started==false) {
+					//Log.printLine("We should never come back in here");
+					List<PowerHostUtilizationHistory> overUtilizedHost = new ArrayList<PowerHostUtilizationHistory>();
+					List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
 
-				List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(
-						getVmList());
+					
+					//Log.printLine("In the first important loop");
+					List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(overUtilizedHostList, false);
+					started = true;
+				}
+				
+				List<PowerHostUtilizationHistory> overUtilizedHostList = getVmAllocationPolicy().getOverUtilizedHosts();
+				//Log.print(overUtilizedHostList);
+				
+				//List<Map<String, Object>> migrationMap = null;
+				
+				int tag = 0;
+				
+				//if(type==true) {
+					//tag = CloudSimTags.VM_MIGRATE;
+					//migrationMap = getVmAllocationPolicy().optimizeAllocation(overUtilizedHostList, true);
+				//}
+				//else {
+				//tag = CloudSimTags.VM_MIGRATE;
+				//Log.printLine("This is the tag");
+				//Log.printLine(tag);
+				//Log.printLine(CloudSimTags.VM_MIGRATE_UNDER);
+				
+				//List<PowerHostUtilizationHistory> overUtilizedHostListEmpty = new ArrayList<PowerHostUtilizationHistory>();
+				List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(overUtilizedHostList, false);
+
+				//}
 				
 				//Log.printLine(migrationMap);
 
@@ -297,18 +323,18 @@ public class PowerDatacenter extends Datacenter {
 						PowerHost oldHost = (PowerHost) vm.getHost();
 
 						if (oldHost == null) {
-							Log.formatLine(
-									"%.2f: Migration of VM #%d to Host #%d is started",
-									currentTime,
-									vm.getId(),
-									targetHost.getId());
+							//Log.formatLine(
+									//"%.2f: Migration of VM #%d to Host #%d is started",
+									//currentTime,
+									//vm.getId(),
+									//targetHost.getId());
 						} else {
-							Log.formatLine(
-									"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
-									currentTime,
-									vm.getId(),
-									oldHost.getId(),
-									targetHost.getId());
+							//Log.formatLine(
+									//"%.2f: Migration of VM #%d from Host #%d to Host #%d is started",
+									//currentTime,
+									//vm.getId(),
+									//oldHost.getId(),
+									//targetHost.getId());
 						}
 
 						targetHost.addMigratingInVm(vm);
@@ -330,7 +356,12 @@ public class PowerDatacenter extends Datacenter {
 			// schedules an event to the next time
 			if (minTime != Double.MAX_VALUE) {
 				CloudSim.cancelAll(getId(), new PredicateType(CloudSimTags.VM_DATACENTER_EVENT));
-				send(getId(), getSchedulingInterval(), CloudSimTags.VM_DATACENTER_EVENT);
+				send(getId(), 300, CloudSimTags.VM_DATACENTER_EVENT);
+				
+				//if(type==false) {
+					//send(getId(), 320, CloudSimTags.VM_DATACENTER_EVENT_UNDER);
+
+				//}
 			}
 
 			setLastProcessTime(currentTime);
@@ -368,7 +399,7 @@ public class PowerDatacenter extends Datacenter {
 		//Log.printLine(pVmPolicy);
 		
 		if(!selectionPolicy.equalsIgnoreCase(st)) {
-			updateCloudletProcessing();
+			updateCloudletProcessing(false);
 		}
 		else {
 		
@@ -398,7 +429,7 @@ public class PowerDatacenter extends Datacenter {
 
 						
 						//Log.printLine("In the first important loop");
-						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
+						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationRL(overUtilizedHost, overUtilizedHostList, true);
 						started = true;
 					}
 			
@@ -423,7 +454,7 @@ public class PowerDatacenter extends Datacenter {
 
 					
 						//YEAH WE WILL DO THE UNDERUTILIZED PART WHEN THERE ARE NO OVERUTILIZED HOSTS 
-						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, true);
+						List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationRL(overUtilizedHost, overUtilizedHostList, true);
 					
 						if (migrationMap != null) {
 							for (Map<String, Object> migrate : migrationMap) {
@@ -465,7 +496,7 @@ public class PowerDatacenter extends Datacenter {
 					}
 					
 					//Log.printLine("About to print the host that are overutilized that we should be looping over then");
-					//Log.printLine(overUtilizedHostList);
+					//Log.printLine(overUtilizedHostList);optimizeAllocationReinforcementLearning
 					
 					
 					else {
@@ -507,7 +538,7 @@ public class PowerDatacenter extends Datacenter {
 							//Log.printLine(loopCounter);
 							//Log.printLine(loopSize);
 							
-							List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationReinforcementLearning(overUtilizedHost, overUtilizedHostList, lastHost);
+							List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocationRL(overUtilizedHost, overUtilizedHostList, lastHost);
 							loopCounter+=1;
 							
 							if (migrationMap != null) {

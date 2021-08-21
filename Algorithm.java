@@ -278,7 +278,7 @@ public class Algorithm {
 		//Log.printLine("Next is the power in first");
 		//Log.printLine(totalEnergy);
 		
-		oldPowerList.add(totalEnergy);
+		//oldPowerList.add(totalEnergy);
 		oldHostList.add(host);
 		
 		setMultipleVmToMigrate(migrateMoreThanOne);
@@ -334,7 +334,7 @@ public class Algorithm {
 		
 
 
-		setCurrentState(currentState);
+		//setCurrentState(currentState);
 		List<Double> qValus = new ArrayList<Double>();
 		List<Integer> stateActionPairState = new ArrayList<Integer>();
 		List<Integer> stateActionPairAction = new ArrayList<Integer>();
@@ -482,9 +482,9 @@ public class Algorithm {
 		
 		//LETS SET THE ACTION AND THE STATE 
 		
-		actionList.add(actionValueToReturn);
-		stateList.add(currentState);
-		setLastAction(actionValueToMigrate);
+		//actionList.add(actionValueToReturn);
+		//stateList.add(currentState);
+		//setLastAction(actionValueToMigrate);
 		
 		if(migrateMoreThanOne==true) {
 			
@@ -547,7 +547,7 @@ public class Algorithm {
 				double newLow = 0.0;
 				double newHigh = qValueTotal;
 				double highPositive = Math.abs(newHigh);
-				double randomValue = newLow + (newHigh - newLow) * r.nextDouble();
+				double randomValue = newLow + (highPositive - newLow) * r.nextDouble();
 				
 				//Log.printLine("Random value being generated");
 				//Log.printLine(newHigh);
@@ -584,8 +584,9 @@ public class Algorithm {
 			
 		}
 		
-		oldVmUtilizationList.add(VmToMigrate.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips());
-		oldHostUtilizationList.add(totalHostUtilization);
+		
+		//oldVmUtilizationList.add(VmToMigrate.getTotalUtilizationOfCpuMips(CloudSim.clock()) / host.getTotalMips());
+		//oldHostUtilizationList.add(totalHostUtilization);
 		VmActionPair.put(VmToMigrate, actionValueToReturn);
 		VmStatePair.put(VmToMigrate, currentState);
 		VmHostUtilizationPair.put(VmToMigrate, totalHostUtilization); 
@@ -648,10 +649,10 @@ public class Algorithm {
 		
 		int previousAction = VmActionPair.get(vm);
 		int previousState = VmStatePair.get(vm);
-		double previousHostUtilization = VmHostUtilizationPair.get(vm);
-		double previousVmUtilization = VmVmUtilizationPair.get(vm);
+		//double previousHostUtilization = VmHostUtilizationPair.get(vm);
+		//double previousVmUtilization = VmVmUtilizationPair.get(vm);
 		PowerHost oldHost = VmOldHostPair.get(vm);
-		double oldPower = OldPower.get(vm);
+		//double oldPower = OldPower.get(vm);
 		
 		migratableVmList = PowerVmSelectionPolicy.getMigratableVmsNew(oldHost);
 
@@ -695,44 +696,18 @@ public class Algorithm {
 		//WE MUST MAKE SURE THE VM'S WE LOOK AT THOUGH ARE STILL ON THE HOST 
 		
 		//LIST TO STORE THE Q VALUES FOR THE NEXT STATE
-		List<Double> newStateQVals = new ArrayList<Double>();
+		//List<Double> newStateQVals = new ArrayList<Double>();
 		
 		//NOW WE NEED TO LOOP OVER THESE AND THEN WE SELECT THE HIGHEST 
 		
 		//GET THE LIST OF VM's THAT ARE ON THE HOST - THESE ARE THE ONLY ACTIONS WE CAN TAKE
 		List<PowerVm> hostVmList = oldHost.getVmList();
 		
-		int oldHostIndex = oldHostList.size() - 1;
 		
-		//double reward = this.getEnv().getReward(host, vm);
-		int indexOldPowerList = oldPowerList.size() - 1;
-		int indexNewPowerList = newPowerList.size() - 1;
-		int indexOldHostUtilizationList = oldHostUtilizationList.size() - 1;
-		int indexOldVmUtilizationList = oldVmUtilizationList.size() - 1;
-
-		//double reward = this.getEnv().getReward(host, vm);
-		//double reward = this.getEnv().getRewardPower(oldPower, totalEnergy);
-		//Log.printLine(oldHost.getId());
+		
 		double reward = this.getEnv().getRewardLuke(previousAction);
-		//double reward = this.getEnv().getRewardState(oldHost);
 
-		
-		oldHostUtilizationList.remove(indexOldHostUtilizationList);
-		oldVmUtilizationList.remove(indexOldVmUtilizationList);
-		oldPowerList.remove(indexOldPowerList);
-		newPowerList.remove(indexNewPowerList);
 
-		
-		//Log.printLine("Host and VM after migration coming up");
-		//Log.printLine(host.getId());
-		//Log.printLine(vm.getId());
-		
-		//Log.printLine("Previous action we took");
-		//Log.printLine(previousAction);
-		
-		//int nextState = this.getEnv().getStateLuke(oldHost);
-		//int nextState = this.getEnv().getStateRachel(host);
-		//int nextState = this.getEnv().getStateKieran(host, migratableVmList);
 		int nextState = this.getEnv().getStateLukeNew(previousState, previousAction);
 		
 		//Log.printLine("Next state incoming");
@@ -795,6 +770,7 @@ public class Algorithm {
 		for (Integer d: actions) {
 
 			//Log.printLine(d);
+			//Log.printLine(nextState);
 			Pair<Integer, Integer> pair = new Pair<Integer, Integer>(nextState, d);
 			stateActionPairState.add(nextState);
 			stateActionPairAction.add(d);
@@ -881,9 +857,9 @@ public class Algorithm {
 		
 		//LETS SET THE ACTION AND THE STATE 
 		
-		actionList.add(actionValueToReturn);
-		stateList.add(currentState);
-		setLastAction(actionValueToMigrate);
+		//.add(actionValueToReturn);
+		//stateList.add(currentState);
+		//setLastAction(actionValueToMigrate);
 		
 		if(migrateMoreThanOne==true) {
 			
@@ -910,6 +886,12 @@ public class Algorithm {
 	
 	public void QLearningUpdateQValues(PowerHost host, List<PowerVm> migratableVmList, PowerVm vm) {
 		
+		
+		//WE SHOULD RETURN ALL THE TIMES WHERE ITS NOT A OVER MIGRATION 
+		if(!VmActionPair.containsKey(vm)) {
+			return;
+		}
+		
 		//Host here is the old host so what about the new host
 		
 		//Log.printLine("Entering second Q learning");
@@ -918,10 +900,10 @@ public class Algorithm {
 		
 		int previousAction = VmActionPair.get(vm);
 		int previousState = VmStatePair.get(vm);
-		double previousHostUtilization = VmHostUtilizationPair.get(vm);
-		double previousVmUtilization = VmVmUtilizationPair.get(vm);
-		PowerHost oldHost = VmOldHostPair.get(vm);
-		double oldPower = OldPower.get(vm);
+		//double previousHostUtilization = VmHostUtilizationPair.get(vm);
+		//double previousVmUtilization = VmVmUtilizationPair.get(vm);
+		//PowerHost oldHost = VmOldHostPair.get(vm);
+		//double oldPower = OldPower.get(vm);
 		
 		//Log.printLine(previousAction);
 		//Log.printLine(previousState);
@@ -955,7 +937,7 @@ public class Algorithm {
 		//Log.printLine("Next is the power in second");
 		//Log.printLine(totalEnergy);
 		
-		newPowerList.add(totalEnergy);
+		//newPowerList.add(totalEnergy);
 		
 		//I THINK TO DO SO HERE WE HAVE TO BE IN THE NEXT STATE AND SELECT THE MAX Q VALUE FROM THE NEXT STATE 
 		//SO WE NEED TO GET THE NEXT STATE RIGHT AND THEN LOOK AT ALL THE Q VALUES FOR THE VM'S WE COULD MOVE FROM THAT STATE 
@@ -968,6 +950,11 @@ public class Algorithm {
 		
 		//GET THE LIST OF VM's THAT ARE ON THE HOST - THESE ARE THE ONLY ACTIONS WE CAN TAKE
 		List<Vm> hostVmList = host.getVmList();
+		
+		
+		
+		/*
+		
 		
 		int oldHostIndex = oldHostList.size() - 1;
 		
@@ -988,6 +975,12 @@ public class Algorithm {
 		oldVmUtilizationList.remove(indexOldVmUtilizationList);
 		oldPowerList.remove(indexOldPowerList);
 		newPowerList.remove(indexNewPowerList);
+		
+		
+		*/
+		
+		
+		double reward = this.getEnv().getRewardLuke(previousAction);
 
 		
 		//Log.printLine("Host and VM after migration coming up");
@@ -1009,12 +1002,12 @@ public class Algorithm {
 
 		setNextState(nextState);
 		
-		int index = stateList.size() - 1;
-		int currentState = stateList.get(index);
-		int action = actionList.get(index);
+		//int index = stateList.size() - 1;
+		//int currentState = stateList.get(index);
+		//int action = actionList.get(index);
 		
-		actionList.remove(index);
-		stateList.remove(index);
+		//actionList.remove(index);
+		//stateList.remove(index);
 		
 		
 		//SO NOW WE HAVE THE CURRENT STATE, NEXT STATE AND THE REWARD OBSERVED
@@ -1075,8 +1068,7 @@ public class Algorithm {
 	
 		double oldQValue = env.lookupQValue(previousState, previousAction);
 		//Log.printLine("Old Q value");
-		//Log.printLine(oldQValue);
-		//Log.printLine(maxQValNextState);
+
 
         double newQVal = oldQValue + (alpha * (reward + (gamma * (maxQValNextState)) - oldQValue));
         

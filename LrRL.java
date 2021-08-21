@@ -1,8 +1,12 @@
 package org.cloudbus.cloudsim.examples.power.planetlab;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.cloudbus.cloudsim.Log;
+import org.cloudbus.cloudsim.power.Algorithm;
+import org.cloudbus.cloudsim.power.Environment;
 
 /**
  * A simulation of a heterogeneous power aware data center that applies the Local Regression (LR) VM
@@ -32,7 +36,7 @@ public class LrRL {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static void main(String[] args) throws IOException {
-		Log.printLine("WE ARE STARTING");
+		//Log.printLine("WE ARE STARTING");
 		boolean enableOutput = true;
 		boolean outputToFile = false;
 		String inputFolder = LrMmt.class.getClassLoader().getResource("workload/planetlab").getPath();
@@ -42,22 +46,64 @@ public class LrRL {
 		//Here we add our new VM selection policy 
 		String vmSelectionPolicy = "RL"; // New VM selection policy
 		String parameter = "1.2"; // the safety parameter of the LR policy
+		
+		int loops = 30;
+		Double[] alphas = {0.2, 0.4, 0.6, 0.8, 1.0};
+		Double[] gammas = {0.2, 0.4, 0.6, 0.8, 1.0};
+		String[] algorithms = {"Q-Learning", "SARSA"};
+		String[] policies = {"egreedy", "softmax"};
+		
+			
+		for(int a=0; a<alphas.length; a++) {
+			for(int g=0; g<gammas.length; g++) {
+					
+				double x = 0;
+				
+				for(int i=0; i<loops; i++) {
+					//WE COULD ESSENTIALLY CREATE 10 OF THESE BUT WE NEED TO HAVE THE SAME Q VALUES SO HOW DO WE HOLD ONTO THESE?
+						
+						
+						if(i >= 23) {
+							x = 10;
+						}
+						else {
+							x = i*0.4;
 
-		new PlanetLabRunner(
-				enableOutput,
-				outputToFile,
-				inputFolder,
-				outputFolder,
-				workload,
-				vmAllocationPolicy,
-				vmSelectionPolicy,
-				parameter);
+						}
+						
+						Log.printLine("Run Information");
+						Log.printLine(i);
+						Log.printLine(alphas[a]);
+						Log.printLine(gammas[g]);
+						Log.printLine(algorithms[0]);
+						Log.printLine(policies[0]);
+						
+						Algorithm.setRandomActionValue(10.0-x);
+						Algorithm.setSelectedAlgorithm(algorithms[0]);
+						Algorithm.setActionSelectionPolicy(policies[0]);
+						Algorithm.setAlpha(alphas[a]);
+						Algorithm.setGamma(gammas[g]);
+						Algorithm.setMigrationCount(0);
+		
+						new PlanetLabRunner(
+								enableOutput,
+								outputToFile,
+								inputFolder,
+								outputFolder,
+								workload,
+								vmAllocationPolicy,
+								vmSelectionPolicy,
+								parameter);
+				}
+				//SO AFTER THIS THEN WE NEED TO DO A CLEAR OF ALL THE Q VALUES 
+				Environment.clearQValues();
+				//System.exit(0);
+				
+			}
+		}
+		
+		
+		
 	}
 
 }
-//[Host]
-
-//Sending cloudlet
-//to the host #
-//Trying to Create VM
-//New resource usage 

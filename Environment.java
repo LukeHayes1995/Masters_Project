@@ -83,6 +83,10 @@ public class Environment {
 	
 	public int getStateLukeNew(Integer oldState, Integer oldAction) {
 		int state = oldState - oldAction;
+		
+		if(state <= 0) {
+			state = 0;
+		}
 		return state;
 	}
 	
