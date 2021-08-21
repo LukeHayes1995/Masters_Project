@@ -33,6 +33,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[table]{xcolor}
 \setstretch{1.5}
+\usepackage{mathtools}
 %\onehalfspacing
 % SPECIAL COMMANDS
 % correct bad hyphenation
@@ -323,6 +324,8 @@ Q-Learning
 \subsection{Reinforcement Learning Selection Policies (To be added)}
 E-Greedy
 Softmax
+Exploration Vs. Exploitation
+Curse of dimensionality
   
 \begin{itemize}
 
@@ -477,8 +480,8 @@ Figure 5.2 below details the process of how the algorithm selects a VM to migrat
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.9\textwidth, height=.9\textheight]{Figures/Migration_Process.PNG}
-\caption{VM Selection Process Flowchart}
+\includegraphics[width=.7\textwidth, height=.9\textheight]{Figures/Migration_Process.PNG}
+\caption{VM Selection Process Flowchart.}
 \end{figure}
 
 \section{Q-Value Update Process}
@@ -486,15 +489,25 @@ This process is triggered by an event that is generated after each migration of 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=.7\textwidth, height=.9\textheight]{Figures/Update_Process.PNG}
-\caption{Q-Value Update Process}
+\includegraphics[width=.6\textwidth, height=.9\textheight]{Figures/Update_Process.PNG}
+\caption{Q-Value Update Process.}
 \end{figure}
 
+\subsection{State-Action Space}
+When defining the state-action space in RL algorithms it is important to recall from previous chapters, that this space suffers from the curse of dimensionality. This means that for every new state or action added the number of Q-Values added is exponential. When taking actions of updating values this space will have to be searched. Therefore, it is critical to keep the search space as small as possible to avoid the agent taking too long to make decisions. The selected state space used in this implementation is the current host utilization. This is equal to the sum of CPU usage in Mips of the VMs on the host divided by the total host Mips. This value is then multiplied by 100 giving it a range of between 0-100. Sometimes the value is greater than 100 and thus 120 states were created, one for each percentage. Since we are utilizing states that are whole numbers the returned state is rounded to the nearest whole number. In the state equation below,s represents the state, n represents the number of VMs on the host, Vmu represents the utilization on the VM and Hu representes the total host utilization. 
 
-\section{State-Action Space}
+\begin{gather*}
+s = \frac{{\sum_{n=1}^{n} Vmu(n)}}{Hu} \cdot{100}
+\end{gather*}
 
-\section{Reward}
+An action is then defined as the as the VMs utilization divided by the sum of utilization of all of the VMs on the host. This is again multiplied by 10 to give a range of 0-100. In the equation below a represents the action, Vm represents the utilization of the VM we are getting the action value of, n represents all the VMs on the host and Vmu represents the utilization of that VM. 
 
+\begin{gather*}
+a = \frac{{Vm}}{\sum_{n=1}^{n} Vmu(n)} \cdot{100}
+\end{gather*}
+
+\subsection{Reward}
+The aim of the reward is to encourage the agent to take the actions that will result in lower energy consumption in the data centre and discourage it from taking actions that will increase it. The strategy taken in the research was that fewer migrations would lead to less VMs being migrated and therefore, reduced power consumption. Thus, the reward aimed to reward actions that were high in value, meaning that large VMs were being moved. This meant that instead of 3 small VMs being moved, one large one would be moved. This resulted in less migrations and thus energy savings. 
 
 
 \section{Q-Learning Algorithm}
