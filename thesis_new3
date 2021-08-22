@@ -34,6 +34,10 @@
 \usepackage[table]{xcolor}
 \setstretch{1.5}
 \usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+
 %\onehalfspacing
 % SPECIAL COMMANDS
 % correct bad hyphenation
@@ -49,12 +53,12 @@
 %\DeclareMathOperator*{\argmax}{argmax}
 
 % HEADER
-\title{\Large{Machine Learning Approach to Data Centre Energy Optimization}}
+\title{\Large{Reinforcement Learning Approach to Data Centre Energy Optimization}}
 
   \author{Luke Hayes - 14498098}
   \collegeordept{School of Computer Science}
   \university{National University of Ireland, Galway}
-  \crest{\includegraphics[width=75mm]{Figures/logo_NUI.png}}
+  \crest{\includegraphics[width=120mm]{Figures/nuig_logo.jpg}}
 
 
 \supervisor{Dr. Enda Howley}
@@ -84,6 +88,11 @@
 % set the number of sectioning levels that get number and appear in the contents
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\printglossary[title=List of Acronyms,type=\acronymtype]
 
 \frontmatter
 % replace PROGRAMME with Data Analytics, Artificial Intelligence, or Artificial Intelligence - Online
@@ -119,8 +128,18 @@ One other factor that must be considered with this concept is the requirement to
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{Figures/Optimized_Vs_Standard_DC1.PNG}
-\caption{Data Centre - Standard Approach}
+\caption{Data Centre - Standard Approach Vs. Optimized Approach}
 \end{figure}
+
+\section{Thesis Research Questions}
+This research aims to answer each of the following questions:
+
+\begin{enumerate}
+\item When look at utilizing the Q-Learning algorithm in VM Selection, what parameters of Alpha and Gamma facilitate the best performance?
+\item When look at utilizing the SARSA algorithm in VM Selection, what parameters of Alpha and Gamma facilitate the best performance?
+\item How does the performance of Reinforcement Learning approach presented compare to a state-of-the-art VM Selection policy?
+\end{enumerate}
+
 
 \chapter{Background}
 \label{chap:backg}
@@ -273,8 +292,6 @@ Virtualization is a technology that is fundamental to firstly the development an
 \caption{Virtualization architecture [38]}
 \end{figure}
 
-
-
 \section{Machine Learning}
 Machine Learning is a very promising area that has generate a lot of hype in the last decade. the concept however is one that has been around for a long time with Arthur Samuel giving it the following definition in 1959: "Machine Learning is the field of study that gives computers the ability to learn without being explicitly programmed" [39]. This essentially means that the computer can learn without being instructed by looking at data. There are a huge number of applications in modern society where Machine Learning is being utilized with excellent results. Some applications include email spam filtering where the algorithm will learn from a series of emails that have been labelled as containing spam or not. The algorithm would then be able to look at a new unlabelled email and utilize the information it has learned from the previous examples to classify this new email as spam or not. This task is known as classification, where there are only two outcomes which are essentially equal to true or false. Some other applications include detecting tumours in brain scans, detecting product damage on the assembly line, flagging offensive comments on social media and creating products that interpret human speech and respond e.g. Alexa. 
 
@@ -316,16 +333,6 @@ This concept can be applied to agents using utility rather than a prison sentenc
  
 \subsection{Markov Decision Process}
 A control problem is one where the policy is not fixed and thus the goal is to find the optimal policy. The optimal policy is the one that will lead to the highest reward in all states. There may be many optimal policies but each policy leads to the same optimal value function. The Markov Decision Process or MDP provides a structure by which decision making can be understood. It provides a framework for controlling systems that develop in a stochastic manner [48]. The Markov states that the next state is only dependent on the current state and therefore can be seen as memoryless, as the past states do not affect the next state. The MDP is represented as a 4 tuple, consisting of states, actions, transition probabilities and rewards [49]. 
-
-\subsection{Reinforcement Learning Algorithms (To be added)}
-SARSA
-Q-Learning
-
-\subsection{Reinforcement Learning Selection Policies (To be added)}
-E-Greedy
-Softmax
-Exploration Vs. Exploitation
-Curse of dimensionality
   
 \begin{itemize}
 
@@ -336,6 +343,43 @@ Curse of dimensionality
 \end{itemize}
 
 \mathcal{S}, is the set of all of the possible states the agents could be in. After a time period $\mathscr{t}$, the agent will be in one of those states. The agent must then choose one of the available actions from the set of all possible actions \mathcal{A} [50]. The execution of this action will then lead the the agent transitioning to the next state and they will get a reward for that action. There is also a transition probability and this probability will determine if the agent moves on to the next state or not. In the case where the environment is fully observable, then we have all information available to the agent and no approximation is required. This means that a process known as value iteration can be utilized to find the optimal policy to the MDP.  
+
+\subsection{Curse of Dimensionality}
+Reinforcement Learning algorithms suffer from a concept known as the Curse of Dimensionality. This is caused due to the presence of Q-Values, which must be stored and iterated through in search of particular values in order to return or update them. For each state there are n actions and each action value must be stored for each state. This means that if we have 100 states and we add 1 new action value, we increase the size of the Q-Value table by 100 values. Therefore, it is critical to keep the number of states and actions to a minimum. Large state-action spaces can cause the algorithm to become very slow in decision making and thus, must be avoided. 
+
+\section{Reinforcement Learning Algorithms}
+\subsection{Temporal Difference Learning}
+One of the main properties of Temporal Difference (TD) Learning is that it is a model-free based form of learning. This means that it does not required the full set of information outlined in the MDP process. TD Learning algorithms work without the transient probabilities. TD Learning enables an agent to 
+learn directly from its environment, without any prior knowledge. The aim of RL is to converge on an optimal solution. TD Learning aims to arrive at this optimum by incrementally modifying the utility of a state-action pair by utilizing the feedback given from the environment. There are two main TD Learning algorithms, Q-Learning and SARSA.
+
+\subsection{Q-Learning}
+Q-Learning is a TD Learning algorithm which stores its knowledge of the environment in a state-action table also known as a Q-Value table. This table is essentially a matrix of values which is updated after each time step. In each time step the agent will be in a state, take an action and observe some feedback for that action from the environment, through a reward. This enables the algorithm to update the matrix table to include this environmental feedback, which then increases the knowledge of the agent. The agent then has a better understanding of what action to take the next time it enters that state again. 
+
+\begin{algorithm}
+\caption{Q-Learning Algorithm}
+\begin{algorithmic}
+\STATE \textbf{Initialize} Q-Values, for all state-action pairs
+\FOR{episode in Episodes}
+    \STATE \textbf{Initialize} state
+    \FOR{each step in episode}
+    \STATE \textbf{Choose} $A$ from $S$ using chosen policy (e.g. e-greedy)
+    \STATE \textbf{Take} action $A$
+    \STATE \textbf{Observe} Reward $R$ and new State ${S_{t+1}}$
+    \STATE $Q(s', a) \gets (1 - \alpha) \cdot Q(s, a) + \alpha \cdot (r + \gamma \cdot \max_{a'} Q(s', a'))$
+    \ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{SARSA}
+
+
+\section{Reinforcement Learning Selection Policies}
+\subsection{Exploration Vs Exploitation}
+\subsection{E-Greedy}
+\subsection{Softmax}
+
 
 \chapter{Literature Review}
 Due to the inefficiencies present in cloud computing, a large amount of research has been carried out to enable data centres to become more efficient while also adhering to the SLA's present. Approaches aim to maximize the utilization of resources such that the providers maximise their revenue. Such an approach will lower energy costs and therefore provide numerous advantages to both the provider and society. However, the dynamic nature of cloud computing and its demand means that the problem of VM placement is highly difficult. Much research has therefore been carried out in the areas of energy efficiency and dynamic resource allocation. The research carried out can be placed under one of the following three headings:
@@ -512,9 +556,61 @@ The aim of the reward is to encourage the agent to take the actions that will re
 
 \section{Q-Learning Algorithm}
 
+\begin{algorithm}
+\caption{Q-Learning Algorithm}
+\begin{algorithmic}
+\FORALL{Hosts in Over-Utilized Host List}
+    \WHILE{Host is Over-Utilized}
+        \STATE \textbf{Observe} Current State
+        \FORALL{VMs on the Host}
+            \STATE \textbf{Get} Action Value for VM
+        \ENDFOR
+        \FORALL{VM Action Values}
+            \STATE \textbf{Lookup} Q-Value for (Current State, Action) Pair
+        \ENDFOR
+        \STATE \textbf{Choose} VM with highest Q-Value
+        \STATE \textbf{Migrate} VM
+        \STATE \textbf{Observe} Next State, Reward
+        \STATE \textbf{Get} maxQ - The maximum Q-Value in the Next State
+        \STATE \textbf{Calculate} newQ = oldQ + alpha * [reward + gamma * maxQ - oldQ]
+        \STATE \textbf{Update} Old Q-Value with New Q-Value
+    \ENDWHILE
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+As outlined previously, this algorithm is only called when one or more data center hosts are over0utilized. The Q-Learning algorithm starts by looping over each of the hosts present in this list. The algorithm will then loop over the next sequence of steps until the host is deemed to be no longer over-utilized. The current state of the environment is observed. Next, all of the VMs on the host are looped over and their action values are calculated and added to a list. This list is then looped over and the Q-Value is looked up for each current state, action value pair, with each value being added to a list. The action value is then chosen with the highest Q-value. if there are numerous VMs with the same Q-Value, one is selected at random. This VM is then chosen as the VM to migrate. Once the migration is complete, the next state and reward for the action are observed. The maximum Q-Value for the next state is then observed. The new Q-Value is then calculated using the old Q-Value, the reward, alpha, gamma and the maximum Q-Value observed in the next state. Finally, the old Q-Value is updated with the new Q-Value. 
+
 \section{SARSA Algorithm}
 
+The SARSA algorithm behaves identically to the Q-Learning algorithm up until migrating the VM and observing the next state and reward. The however a new parameter must be calculated meaning we must again utilize the policy to select another action. This means a new VM must be selected to be migrated however, this time the VM is not actually migrated. To do so again the hosts VMs are looped over and the action values for each are calculated and placed in a list. This list is looped over and the Q-Values of the next state and the next action are looped over. The action with the highest Q-Value is selected and the VM corresponding to that action is selected. If there are multiple VMs for that action one is selected at random. The Q-Value of that VM is then observed and saved for the calculation of the next Q-Value. The same calculation is carried out as with Q-Learning except the Q-Value of the VM we have selected replaces the place of the maximum Q-Value observed in the next state. Finally, this new Q-Value is inserted in the place of the old Q-Value.   
 
+\begin{algorithm}
+\caption{SARSA Algorithm}
+\begin{algorithmic}
+\FORALL{Hosts in Over-Utilized Host List}
+    \WHILE{Host is Over-Utilized}
+        \STATE \textbf{Observe} Current State
+        \FORALL{VMs on the Host}
+            \STATE {Get} Action Value for VM
+        \ENDFOR
+        \FORALL{VM Action Values}
+            \STATE \textbf{Lookup} Q-Value for (Current State, Action) Pair
+        \ENDFOR
+        \STATE \textbf{Choose} VM with highest Q-Value
+        \STATE \textbf{Migrate} VM
+        \STATE \textbf{Observe} Next State, Reward
+        \FORALL{VMs on the Host}
+            \STATE \textbf{Get} Action Value for VM   
+        \ENDFOR
+        \STATE \textbf{Choose} VM with highest Q-Value
+        \STATE \textbf{Get} QVal - The Q-Value of the (Next State, Next Action) Pair
+        \STATE \textbf{Calculate} newQ = oldQ + alpha * [reward + gamma * QVal - oldQ]
+        \STATE \textbf{Update} Old Q-Value with New Q-Value
+    \ENDWHILE
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
 
 \begin{thebibliography}{9}
 
