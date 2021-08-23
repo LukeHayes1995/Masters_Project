@@ -1,0 +1,1440 @@
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110303_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110303_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1052
+Total simulation time: 86400.00 sec
+Energy consumption: 163.15 kWh
+Number of VM migrations: 27632
+Number of VM migrations - Overutilized Hosts: 7436
+SLA: 0.00463%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.84%
+SLAV: 0.00004634%
+Overall SLA violation: 0.14%
+Average SLA violation: 9.60%
+Number of host shutdowns: 5023
+Mean time before a host shutdown: 1030.07 sec
+StDev time before a host shutdown: 2273.21 sec
+Mean time before a VM migration: 15.47 sec
+StDev time before a VM migration: 7.57 sec
+Execution time - VM selection mean: 0.00039 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01642 sec
+Execution time - VM reallocation stDev: 0.00714 sec
+Execution time - total mean: 0.05008 sec
+Execution time - total stDev: 0.07311 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110322_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110322_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1516
+Total simulation time: 86400.00 sec
+Energy consumption: 176.57 kWh
+Number of VM migrations: 31349
+Number of VM migrations - Overutilized Hosts: 8310
+SLA: 0.00457%
+SLA perf degradation due to migration: 0.07%
+SLA time per active host: 6.23%
+SLAV: 0.00004574%
+Overall SLA violation: 0.17%
+Average SLA violation: 9.58%
+Number of host shutdowns: 5399
+Mean time before a host shutdown: 1051.56 sec
+StDev time before a host shutdown: 2556.36 sec
+Mean time before a VM migration: 15.14 sec
+StDev time before a VM migration: 7.34 sec
+Execution time - VM selection mean: 0.00063 sec
+Execution time - VM selection stDev: 0.00061 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02651 sec
+Execution time - VM reallocation stDev: 0.01612 sec
+Execution time - total mean: 0.07784 sec
+Execution time - total stDev: 0.06447 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110309_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110309_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1061
+Total simulation time: 86400.00 sec
+Energy consumption: 141.81 kWh
+Number of VM migrations: 24219
+Number of VM migrations - Overutilized Hosts: 6566
+SLA: 0.00578%
+SLA perf degradation due to migration: 0.09%
+SLA time per active host: 6.52%
+SLAV: 0.00005776%
+Overall SLA violation: 0.21%
+Average SLA violation: 10.11%
+Number of host shutdowns: 4556
+Mean time before a host shutdown: 1013.90 sec
+StDev time before a host shutdown: 2283.53 sec
+Mean time before a VM migration: 15.66 sec
+StDev time before a VM migration: 7.62 sec
+Execution time - VM selection mean: 0.00030 sec
+Execution time - VM selection stDev: 0.00046 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01248 sec
+Execution time - VM reallocation stDev: 0.00719 sec
+Execution time - total mean: 0.03588 sec
+Execution time - total stDev: 0.03945 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110409_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110409_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1358
+Total simulation time: 86400.00 sec
+Energy consumption: 180.18 kWh
+Number of VM migrations: 31430
+Number of VM migrations - Overutilized Hosts: 8571
+SLA: 0.00452%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.92%
+SLAV: 0.00004524%
+Overall SLA violation: 0.15%
+Average SLA violation: 9.65%
+Number of host shutdowns: 5575
+Mean time before a host shutdown: 1026.64 sec
+StDev time before a host shutdown: 2323.45 sec
+Mean time before a VM migration: 15.03 sec
+StDev time before a VM migration: 7.37 sec
+Execution time - VM selection mean: 0.00040 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01890 sec
+Execution time - VM reallocation stDev: 0.00803 sec
+Execution time - total mean: 0.05527 sec
+Execution time - total stDev: 0.04909 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110303_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110303_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1052
+Total simulation time: 86400.00 sec
+Energy consumption: 163.15 kWh
+Number of VM migrations: 27632
+Number of VM migrations - Overutilized Hosts: 7436
+SLA: 0.00463%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.84%
+SLAV: 0.00004634%
+Overall SLA violation: 0.14%
+Average SLA violation: 9.60%
+Number of host shutdowns: 5023
+Mean time before a host shutdown: 1030.07 sec
+StDev time before a host shutdown: 2273.21 sec
+Mean time before a VM migration: 15.47 sec
+StDev time before a VM migration: 7.57 sec
+Execution time - VM selection mean: 0.00026 sec
+Execution time - VM selection stDev: 0.00044 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01605 sec
+Execution time - VM reallocation stDev: 0.01832 sec
+Execution time - total mean: 0.04444 sec
+Execution time - total stDev: 0.04166 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110411_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110411_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1233
+Total simulation time: 86400.00 sec
+Energy consumption: 178.19 kWh
+Number of VM migrations: 31151
+Number of VM migrations - Overutilized Hosts: 8367
+SLA: 0.00471%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.10%
+SLAV: 0.00004705%
+Overall SLA violation: 0.17%
+Average SLA violation: 9.69%
+Number of host shutdowns: 5516
+Mean time before a host shutdown: 1033.74 sec
+StDev time before a host shutdown: 2343.92 sec
+Mean time before a VM migration: 15.24 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00036 sec
+Execution time - VM selection stDev: 0.00048 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01870 sec
+Execution time - VM reallocation stDev: 0.00776 sec
+Execution time - total mean: 0.05516 sec
+Execution time - total stDev: 0.04856 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110412_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110412_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1054
+Total simulation time: 86400.00 sec
+Energy consumption: 152.00 kWh
+Number of VM migrations: 25819
+Number of VM migrations - Overutilized Hosts: 6995
+SLA: 0.00461%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.15%
+SLAV: 0.00004614%
+Overall SLA violation: 0.16%
+Average SLA violation: 9.44%
+Number of host shutdowns: 4696
+Mean time before a host shutdown: 1031.52 sec
+StDev time before a host shutdown: 2439.35 sec
+Mean time before a VM migration: 15.10 sec
+StDev time before a VM migration: 7.37 sec
+Execution time - VM selection mean: 0.00033 sec
+Execution time - VM selection stDev: 0.00048 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00006 sec
+Execution time - VM reallocation mean: 0.01432 sec
+Execution time - VM reallocation stDev: 0.00691 sec
+Execution time - total mean: 0.04141 sec
+Execution time - total stDev: 0.03631 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110309_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110309_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1061
+Total simulation time: 86400.00 sec
+Energy consumption: 141.81 kWh
+Number of VM migrations: 24219
+Number of VM migrations - Overutilized Hosts: 6566
+SLA: 0.00578%
+SLA perf degradation due to migration: 0.09%
+SLA time per active host: 6.52%
+SLAV: 0.00005776%
+Overall SLA violation: 0.21%
+Average SLA violation: 10.11%
+Number of host shutdowns: 4556
+Mean time before a host shutdown: 1013.90 sec
+StDev time before a host shutdown: 2283.53 sec
+Mean time before a VM migration: 15.66 sec
+StDev time before a VM migration: 7.62 sec
+Execution time - VM selection mean: 0.00031 sec
+Execution time - VM selection stDev: 0.00046 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01257 sec
+Execution time - VM reallocation stDev: 0.00699 sec
+Execution time - total mean: 0.03727 sec
+Execution time - total stDev: 0.04259 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110420_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110420_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1033
+Total simulation time: 86400.00 sec
+Energy consumption: 130.89 kWh
+Number of VM migrations: 24542
+Number of VM migrations - Overutilized Hosts: 6476
+SLA: 0.00694%
+SLA perf degradation due to migration: 0.09%
+SLA time per active host: 7.44%
+SLAV: 0.00006936%
+Overall SLA violation: 0.34%
+Average SLA violation: 10.40%
+Number of host shutdowns: 4378
+Mean time before a host shutdown: 980.58 sec
+StDev time before a host shutdown: 2165.15 sec
+Mean time before a VM migration: 15.37 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00036 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01209 sec
+Execution time - VM reallocation stDev: 0.00602 sec
+Execution time - total mean: 0.03535 sec
+Execution time - total stDev: 0.03594 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110412_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110412_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1054
+Total simulation time: 86400.00 sec
+Energy consumption: 152.00 kWh
+Number of VM migrations: 25819
+Number of VM migrations - Overutilized Hosts: 6995
+SLA: 0.00461%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.15%
+SLAV: 0.00004614%
+Overall SLA violation: 0.16%
+Average SLA violation: 9.44%
+Number of host shutdowns: 4696
+Mean time before a host shutdown: 1031.52 sec
+StDev time before a host shutdown: 2439.35 sec
+Mean time before a VM migration: 15.10 sec
+StDev time before a VM migration: 7.37 sec
+Execution time - VM selection mean: 0.00032 sec
+Execution time - VM selection stDev: 0.00048 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01416 sec
+Execution time - VM reallocation stDev: 0.00682 sec
+Execution time - total mean: 0.04101 sec
+Execution time - total stDev: 0.03569 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110403_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110403_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1463
+Total simulation time: 86400.00 sec
+Energy consumption: 219.64 kWh
+Number of VM migrations: 38104
+Number of VM migrations - Overutilized Hosts: 10582
+SLA: 0.00451%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.88%
+SLAV: 0.00004508%
+Overall SLA violation: 0.14%
+Average SLA violation: 9.51%
+Number of host shutdowns: 6529
+Mean time before a host shutdown: 1048.35 sec
+StDev time before a host shutdown: 2361.37 sec
+Mean time before a VM migration: 15.27 sec
+StDev time before a VM migration: 7.46 sec
+Execution time - VM selection mean: 0.00058 sec
+Execution time - VM selection stDev: 0.00084 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02818 sec
+Execution time - VM reallocation stDev: 0.00957 sec
+Execution time - total mean: 0.08100 sec
+Execution time - total stDev: 0.05471 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110420_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110420_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1033
+Total simulation time: 86400.00 sec
+Energy consumption: 130.89 kWh
+Number of VM migrations: 24542
+Number of VM migrations - Overutilized Hosts: 6476
+SLA: 0.00694%
+SLA perf degradation due to migration: 0.09%
+SLA time per active host: 7.44%
+SLAV: 0.00006936%
+Overall SLA violation: 0.34%
+Average SLA violation: 10.40%
+Number of host shutdowns: 4378
+Mean time before a host shutdown: 980.58 sec
+StDev time before a host shutdown: 2165.15 sec
+Mean time before a VM migration: 15.37 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00042 sec
+Execution time - VM selection stDev: 0.00052 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01327 sec
+Execution time - VM reallocation stDev: 0.00673 sec
+Execution time - total mean: 0.03815 sec
+Execution time - total stDev: 0.03851 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110409_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110409_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1358
+Total simulation time: 86400.00 sec
+Energy consumption: 180.18 kWh
+Number of VM migrations: 31430
+Number of VM migrations - Overutilized Hosts: 8571
+SLA: 0.00452%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.92%
+SLAV: 0.00004524%
+Overall SLA violation: 0.15%
+Average SLA violation: 9.65%
+Number of host shutdowns: 5575
+Mean time before a host shutdown: 1026.64 sec
+StDev time before a host shutdown: 2323.45 sec
+Mean time before a VM migration: 15.03 sec
+StDev time before a VM migration: 7.37 sec
+Execution time - VM selection mean: 0.00048 sec
+Execution time - VM selection stDev: 0.00051 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02176 sec
+Execution time - VM reallocation stDev: 0.00938 sec
+Execution time - total mean: 0.06560 sec
+Execution time - total stDev: 0.07623 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110412_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110412_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1054
+Total simulation time: 86400.00 sec
+Energy consumption: 152.00 kWh
+Number of VM migrations: 25819
+Number of VM migrations - Overutilized Hosts: 6995
+SLA: 0.00461%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.15%
+SLAV: 0.00004614%
+Overall SLA violation: 0.16%
+Average SLA violation: 9.44%
+Number of host shutdowns: 4696
+Mean time before a host shutdown: 1031.52 sec
+StDev time before a host shutdown: 2439.35 sec
+Mean time before a VM migration: 15.10 sec
+StDev time before a VM migration: 7.37 sec
+Execution time - VM selection mean: 0.00032 sec
+Execution time - VM selection stDev: 0.00047 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01429 sec
+Execution time - VM reallocation stDev: 0.00666 sec
+Execution time - total mean: 0.04194 sec
+Execution time - total stDev: 0.03683 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110403_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110403_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1463
+Total simulation time: 86400.00 sec
+Energy consumption: 219.64 kWh
+Number of VM migrations: 38104
+Number of VM migrations - Overutilized Hosts: 10582
+SLA: 0.00451%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.88%
+SLAV: 0.00004508%
+Overall SLA violation: 0.14%
+Average SLA violation: 9.51%
+Number of host shutdowns: 6529
+Mean time before a host shutdown: 1048.35 sec
+StDev time before a host shutdown: 2361.37 sec
+Mean time before a VM migration: 15.27 sec
+StDev time before a VM migration: 7.46 sec
+Execution time - VM selection mean: 0.00050 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.03067 sec
+Execution time - VM reallocation stDev: 0.01040 sec
+Execution time - total mean: 0.08653 sec
+Execution time - total stDev: 0.05572 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110322_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110322_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1516
+Total simulation time: 86400.00 sec
+Energy consumption: 176.57 kWh
+Number of VM migrations: 31349
+Number of VM migrations - Overutilized Hosts: 8310
+SLA: 0.00457%
+SLA perf degradation due to migration: 0.07%
+SLA time per active host: 6.23%
+SLAV: 0.00004574%
+Overall SLA violation: 0.17%
+Average SLA violation: 9.58%
+Number of host shutdowns: 5399
+Mean time before a host shutdown: 1051.56 sec
+StDev time before a host shutdown: 2556.36 sec
+Mean time before a VM migration: 15.14 sec
+StDev time before a VM migration: 7.34 sec
+Execution time - VM selection mean: 0.00056 sec
+Execution time - VM selection stDev: 0.00054 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02643 sec
+Execution time - VM reallocation stDev: 0.01408 sec
+Execution time - total mean: 0.07590 sec
+Execution time - total stDev: 0.06018 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110411_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110411_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1233
+Total simulation time: 86400.00 sec
+Energy consumption: 178.19 kWh
+Number of VM migrations: 31151
+Number of VM migrations - Overutilized Hosts: 8367
+SLA: 0.00471%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.10%
+SLAV: 0.00004705%
+Overall SLA violation: 0.17%
+Average SLA violation: 9.69%
+Number of host shutdowns: 5516
+Mean time before a host shutdown: 1033.74 sec
+StDev time before a host shutdown: 2343.92 sec
+Mean time before a VM migration: 15.24 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00050 sec
+Execution time - VM selection stDev: 0.00053 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02402 sec
+Execution time - VM reallocation stDev: 0.01078 sec
+Execution time - total mean: 0.06982 sec
+Execution time - total stDev: 0.06130 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110411_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110411_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1233
+Total simulation time: 86400.00 sec
+Energy consumption: 178.19 kWh
+Number of VM migrations: 31151
+Number of VM migrations - Overutilized Hosts: 8367
+SLA: 0.00471%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.10%
+SLAV: 0.00004705%
+Overall SLA violation: 0.17%
+Average SLA violation: 9.69%
+Number of host shutdowns: 5516
+Mean time before a host shutdown: 1033.74 sec
+StDev time before a host shutdown: 2343.92 sec
+Mean time before a VM migration: 15.24 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00054 sec
+Execution time - VM selection stDev: 0.00054 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02504 sec
+Execution time - VM reallocation stDev: 0.01109 sec
+Execution time - total mean: 0.07136 sec
+Execution time - total stDev: 0.05160 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110420_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110420_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1033
+Total simulation time: 86400.00 sec
+Energy consumption: 130.89 kWh
+Number of VM migrations: 24542
+Number of VM migrations - Overutilized Hosts: 6476
+SLA: 0.00694%
+SLA perf degradation due to migration: 0.09%
+SLA time per active host: 7.44%
+SLAV: 0.00006936%
+Overall SLA violation: 0.34%
+Average SLA violation: 10.40%
+Number of host shutdowns: 4378
+Mean time before a host shutdown: 980.58 sec
+StDev time before a host shutdown: 2165.15 sec
+Mean time before a VM migration: 15.37 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00040 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01535 sec
+Execution time - VM reallocation stDev: 0.00788 sec
+Execution time - total mean: 0.04402 sec
+Execution time - total stDev: 0.04972 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110325_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110325_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1078
+Total simulation time: 86400.00 sec
+Energy consumption: 153.39 kWh
+Number of VM migrations: 27204
+Number of VM migrations - Overutilized Hosts: 7165
+SLA: 0.00508%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.19%
+SLAV: 0.00005076%
+Overall SLA violation: 0.16%
+Average SLA violation: 9.64%
+Number of host shutdowns: 4948
+Mean time before a host shutdown: 996.95 sec
+StDev time before a host shutdown: 2260.83 sec
+Mean time before a VM migration: 15.49 sec
+StDev time before a VM migration: 7.51 sec
+Execution time - VM selection mean: 0.00048 sec
+Execution time - VM selection stDev: 0.00081 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01917 sec
+Execution time - VM reallocation stDev: 0.01065 sec
+Execution time - total mean: 0.05645 sec
+Execution time - total stDev: 0.05225 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110409_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110409_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1358
+Total simulation time: 86400.00 sec
+Energy consumption: 180.18 kWh
+Number of VM migrations: 31430
+Number of VM migrations - Overutilized Hosts: 8571
+SLA: 0.00452%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.92%
+SLAV: 0.00004524%
+Overall SLA violation: 0.15%
+Average SLA violation: 9.65%
+Number of host shutdowns: 5575
+Mean time before a host shutdown: 1026.64 sec
+StDev time before a host shutdown: 2323.45 sec
+Mean time before a VM migration: 15.03 sec
+StDev time before a VM migration: 7.37 sec
+Execution time - VM selection mean: 0.00051 sec
+Execution time - VM selection stDev: 0.00053 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02564 sec
+Execution time - VM reallocation stDev: 0.01131 sec
+Execution time - total mean: 0.07382 sec
+Execution time - total stDev: 0.06372 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110412_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110412_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1054
+Total simulation time: 86400.00 sec
+Energy consumption: 152.00 kWh
+Number of VM migrations: 25819
+Number of VM migrations - Overutilized Hosts: 6995
+SLA: 0.00461%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.15%
+SLAV: 0.00004614%
+Overall SLA violation: 0.16%
+Average SLA violation: 9.44%
+Number of host shutdowns: 4696
+Mean time before a host shutdown: 1031.52 sec
+StDev time before a host shutdown: 2439.35 sec
+Mean time before a VM migration: 15.10 sec
+StDev time before a VM migration: 7.37 sec
+Execution time - VM selection mean: 0.00042 sec
+Execution time - VM selection stDev: 0.00053 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01848 sec
+Execution time - VM reallocation stDev: 0.00916 sec
+Execution time - total mean: 0.05247 sec
+Execution time - total stDev: 0.05231 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110325_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110325_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1078
+Total simulation time: 86400.00 sec
+Energy consumption: 153.39 kWh
+Number of VM migrations: 27204
+Number of VM migrations - Overutilized Hosts: 7165
+SLA: 0.00508%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.19%
+SLAV: 0.00005076%
+Overall SLA violation: 0.16%
+Average SLA violation: 9.64%
+Number of host shutdowns: 4948
+Mean time before a host shutdown: 996.95 sec
+StDev time before a host shutdown: 2260.83 sec
+Mean time before a VM migration: 15.49 sec
+StDev time before a VM migration: 7.51 sec
+Execution time - VM selection mean: 0.00040 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01855 sec
+Execution time - VM reallocation stDev: 0.00938 sec
+Execution time - total mean: 0.05390 sec
+Execution time - total stDev: 0.04664 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110420_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110420_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1033
+Total simulation time: 86400.00 sec
+Energy consumption: 130.89 kWh
+Number of VM migrations: 24542
+Number of VM migrations - Overutilized Hosts: 6476
+SLA: 0.00694%
+SLA perf degradation due to migration: 0.09%
+SLA time per active host: 7.44%
+SLAV: 0.00006936%
+Overall SLA violation: 0.34%
+Average SLA violation: 10.40%
+Number of host shutdowns: 4378
+Mean time before a host shutdown: 980.58 sec
+StDev time before a host shutdown: 2165.15 sec
+Mean time before a VM migration: 15.37 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00042 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01503 sec
+Execution time - VM reallocation stDev: 0.00789 sec
+Execution time - total mean: 0.04426 sec
+Execution time - total stDev: 0.05336 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110411_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110411_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1233
+Total simulation time: 86400.00 sec
+Energy consumption: 178.19 kWh
+Number of VM migrations: 31151
+Number of VM migrations - Overutilized Hosts: 8367
+SLA: 0.00471%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.10%
+SLAV: 0.00004705%
+Overall SLA violation: 0.17%
+Average SLA violation: 9.69%
+Number of host shutdowns: 5516
+Mean time before a host shutdown: 1033.74 sec
+StDev time before a host shutdown: 2343.92 sec
+Mean time before a VM migration: 15.24 sec
+StDev time before a VM migration: 7.48 sec
+Execution time - VM selection mean: 0.00053 sec
+Execution time - VM selection stDev: 0.00055 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02632 sec
+Execution time - VM reallocation stDev: 0.01281 sec
+Execution time - total mean: 0.07432 sec
+Execution time - total stDev: 0.05413 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110325_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110325_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1078
+Total simulation time: 86400.00 sec
+Energy consumption: 153.39 kWh
+Number of VM migrations: 27204
+Number of VM migrations - Overutilized Hosts: 7165
+SLA: 0.00508%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 6.19%
+SLAV: 0.00005076%
+Overall SLA violation: 0.16%
+Average SLA violation: 9.64%
+Number of host shutdowns: 4948
+Mean time before a host shutdown: 996.95 sec
+StDev time before a host shutdown: 2260.83 sec
+Mean time before a VM migration: 15.49 sec
+StDev time before a VM migration: 7.51 sec
+Execution time - VM selection mean: 0.00046 sec
+Execution time - VM selection stDev: 0.00051 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01815 sec
+Execution time - VM reallocation stDev: 0.00913 sec
+Execution time - total mean: 0.05298 sec
+Execution time - total stDev: 0.04720 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110403_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110403_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1463
+Total simulation time: 86400.00 sec
+Energy consumption: 219.64 kWh
+Number of VM migrations: 38104
+Number of VM migrations - Overutilized Hosts: 10582
+SLA: 0.00451%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.88%
+SLAV: 0.00004508%
+Overall SLA violation: 0.14%
+Average SLA violation: 9.51%
+Number of host shutdowns: 6529
+Mean time before a host shutdown: 1048.35 sec
+StDev time before a host shutdown: 2361.37 sec
+Mean time before a VM migration: 15.27 sec
+StDev time before a VM migration: 7.46 sec
+Execution time - VM selection mean: 0.00063 sec
+Execution time - VM selection stDev: 0.00051 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.03910 sec
+Execution time - VM reallocation stDev: 0.01448 sec
+Execution time - total mean: 0.10831 sec
+Execution time - total stDev: 0.06196 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110309_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110309_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1061
+Total simulation time: 86400.00 sec
+Energy consumption: 141.81 kWh
+Number of VM migrations: 24219
+Number of VM migrations - Overutilized Hosts: 6566
+SLA: 0.00578%
+SLA perf degradation due to migration: 0.09%
+SLA time per active host: 6.52%
+SLAV: 0.00005776%
+Overall SLA violation: 0.21%
+Average SLA violation: 10.11%
+Number of host shutdowns: 4556
+Mean time before a host shutdown: 1013.90 sec
+StDev time before a host shutdown: 2283.53 sec
+Mean time before a VM migration: 15.66 sec
+StDev time before a VM migration: 7.62 sec
+Execution time - VM selection mean: 0.00040 sec
+Execution time - VM selection stDev: 0.00050 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.01560 sec
+Execution time - VM reallocation stDev: 0.00879 sec
+Execution time - total mean: 0.04472 sec
+Execution time - total stDev: 0.04663 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110322_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110322_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1516
+Total simulation time: 86400.00 sec
+Energy consumption: 176.57 kWh
+Number of VM migrations: 31349
+Number of VM migrations - Overutilized Hosts: 8310
+SLA: 0.00457%
+SLA perf degradation due to migration: 0.07%
+SLA time per active host: 6.23%
+SLAV: 0.00004574%
+Overall SLA violation: 0.17%
+Average SLA violation: 9.58%
+Number of host shutdowns: 5399
+Mean time before a host shutdown: 1051.56 sec
+StDev time before a host shutdown: 2556.36 sec
+Mean time before a VM migration: 15.14 sec
+StDev time before a VM migration: 7.34 sec
+Execution time - VM selection mean: 0.00060 sec
+Execution time - VM selection stDev: 0.00054 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02842 sec
+Execution time - VM reallocation stDev: 0.01532 sec
+Execution time - total mean: 0.08391 sec
+Execution time - total stDev: 0.07403 sec
+
+Inside Information
+0.0
+0.0
+
+
+0.0
+Initialising...
+Starting 20110303_lr_mmt_1.2
+Starting CloudSim version 3.0
+Broker is starting...
+Datacenter is starting...
+Entities started.
+0.0: Broker: Cloud Resource List received with 1 resource(s)
+Simulation: Reached termination time.
+CloudInformationService: Notify all CloudSim entities for shutting down.
+Broker is shutting down...
+Datacenter is shutting down...
+Simulation completed.
+Received 0 cloudlets
+Simulation completed.
+
+Experiment name: 20110303_lr_mmt_1.2
+Number of hosts: 800
+Number of VMs: 1052
+Total simulation time: 86400.00 sec
+Energy consumption: 163.15 kWh
+Number of VM migrations: 27632
+Number of VM migrations - Overutilized Hosts: 7436
+SLA: 0.00463%
+SLA perf degradation due to migration: 0.08%
+SLA time per active host: 5.84%
+SLAV: 0.00004634%
+Overall SLA violation: 0.14%
+Average SLA violation: 9.60%
+Number of host shutdowns: 5023
+Mean time before a host shutdown: 1030.07 sec
+StDev time before a host shutdown: 2273.21 sec
+Mean time before a VM migration: 15.47 sec
+StDev time before a VM migration: 7.57 sec
+Execution time - VM selection mean: 0.00047 sec
+Execution time - VM selection stDev: 0.00052 sec
+Execution time - host selection mean: 0.00000 sec
+Execution time - host selection stDev: 0.00000 sec
+Execution time - VM reallocation mean: 0.02052 sec
+Execution time - VM reallocation stDev: 0.00898 sec
+Execution time - total mean: 0.05796 sec
+Execution time - total stDev: 0.04848 sec
+
