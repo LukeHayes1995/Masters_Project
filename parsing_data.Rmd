@@ -1,0 +1,309 @@
+---
+title: "Untitled"
+author: "Luke Hayes"
+date: "8/25/2021"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+
+library(dplyr)
+library(kableExtra)
+
+
+QlearningEgreedy <- read.csv("C:/Users/lhaye/Downloads/QLearning_Egreedy.csv", encoding = "UTF-8")
+head(QlearningEgreedy)
+
+
+
+#WE WANT TO DO A TOTAL COLUMN FOR EACH COMBINATION - IF THE ROW HAS THE SAME ALPHA AND GAMMA VALUES SUM AND DIVIDE BY 30
+
+numberRuns <- 30.0
+
+QlearningEgreedyNew <- QlearningEgreedy %>% group_by(Alpha,Gamma) %>% summarise(Energy.Consumption = sum(Energy.Consumption)/numberRuns, Total.Migrations = sum(Total.Migrations)/numberRuns,
+                      Over.Utilized.Migrations = sum(Over.Utilized.Migrations)/numberRuns, PDM = sum(PDM)/numberRuns, SLATAH = sum(SLATAH)/numberRuns, SLAV = sum(SLAV), ESV = sum(ESV)/numberRuns)
+
+colnames(QlearningEgreedyNew) <- c("Alpha", "Gamma", "Energy Consumption", "Total Migrations", "Over-utilized Migrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+
+#NOW WE NEED TO PRINT THE TABLE 
+#LETS REMOVE SOME COLUMNS FIRST THAT WE DONT NEED 
+
+QlearningEgreedyPrint<-QlearningEgreedyNew%>%select(c(1,2,3,4,8,9))
+
+QlearningEgreedyPrint[,'Energy Consumption']=round(QlearningEgreedyPrint[,'Energy Consumption'],3)
+QlearningEgreedyPrint[,'Total Migrations']=round(QlearningEgreedyPrint[,'Total Migrations'],0)
+QlearningEgreedyPrint[,'SLAV']=round(QlearningEgreedyPrint[,'SLAV'],5)
+QlearningEgreedyPrint[,'ESV']=round(QlearningEgreedyPrint[,'ESV'],5)
+
+
+QlearningEgreedyPrint %>%
+  kbl() %>%
+  kable_styling() %>%
+  row_spec(1, bold = TRUE, italic = FALSE) %>%
+  row_spec(6, bold = TRUE, italic = FALSE) %>%
+  row_spec(16, bold = TRUE, italic = FALSE)
+
+
+
+
+
+QlearningSoftmax <- read.csv("C:/Users/lhaye/Downloads/QLearning_Softmax.csv", encoding = "UTF-8")
+
+QlearningSoftmaxNew <- QlearningSoftmax %>% group_by(Alpha,Gamma) %>% summarise(Energy.Consumption = sum(Energy.Consumption)/numberRuns, Total.Migrations = sum(Total.Migrations)/numberRuns,
+                      Over.Utilized.Migrations = sum(Over.Utilized.Migrations)/numberRuns, PDM = sum(PDM)/numberRuns, SLATAH = sum(SLATAH)/numberRuns, SLAV = sum(SLAV), ESV = sum(ESV)/numberRuns)
+
+colnames(QlearningSoftmaxNew) <- c("Alpha", "Gamma", "Energy Consumption", "Total Migrations", "Over-utilized Migrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+QlearningSoftmaxPrint<-QlearningSoftmaxNew%>%select(c(1,2,3,4,8,9))
+
+QlearningSoftmaxPrint[,'Energy Consumption']=round(QlearningSoftmaxPrint[,'Energy Consumption'],3)
+QlearningSoftmaxPrint[,'Total Migrations']=round(QlearningSoftmaxPrint[,'Total Migrations'],0)
+QlearningSoftmaxPrint[,'SLAV']=round(QlearningSoftmaxPrint[,'SLAV'],5)
+QlearningSoftmaxPrint[,'ESV']=round(QlearningSoftmaxPrint[,'ESV'],5)
+
+
+QlearningSoftmaxPrint %>%
+  kbl() %>%
+  kable_styling() %>%
+  row_spec(1, bold = TRUE, italic = FALSE) %>%
+  row_spec(6, bold = TRUE, italic = FALSE) %>%
+  row_spec(16, bold = TRUE, italic = FALSE)
+
+
+
+
+SARSAEgreedy <- read.csv("C:/Users/lhaye/Downloads/SARSA_Egreedy.csv", encoding = "UTF-8")
+
+SARSAEgreedyNew <- SARSAEgreedy %>% group_by(Alpha,Gamma) %>% summarise(Energy.Consumption = sum(Energy.Consumption)/numberRuns, Total.Migrations = sum(Total.Migrations)/numberRuns,
+                      Over.Utilized.Migrations = sum(Over.Utilized.Migrations)/numberRuns, PDM = sum(PDM)/numberRuns, SLATAH = sum(SLATAH)/numberRuns, SLAV = sum(SLAV), ESV = sum(ESV)/numberRuns)
+
+colnames(SARSAEgreedyNew) <- c("Alpha", "Gamma", "Energy Consumption", "Total Migrations", "Over-utilized Migrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+SARSAEgreedyPrint<-SARSAEgreedyNew%>%select(c(1,2,3,4,8,9))
+
+SARSAEgreedyPrint[,'Energy Consumption']=round(SARSAEgreedyPrint[,'Energy Consumption'],3)
+SARSAEgreedyPrint[,'Total Migrations']=round(SARSAEgreedyPrint[,'Total Migrations'],0)
+SARSAEgreedyPrint[,'SLAV']=round(SARSAEgreedyPrint[,'SLAV'],9)
+SARSAEgreedyPrint[,'ESV']=round(SARSAEgreedyPrint[,'ESV'],6)
+
+
+SARSAEgreedyPrint %>%
+  kbl() %>%
+  kable_styling() %>%
+  row_spec(1, bold = TRUE, italic = FALSE) %>%
+  row_spec(6, bold = TRUE, italic = FALSE) %>%
+  row_spec(16, bold = TRUE, italic = FALSE)
+
+
+SARSASoftmax <- read.csv("C:/Users/lhaye/Downloads/SARSA_Softmax.csv", encoding = "UTF-8")
+
+SARSASoftmaxNew <- SARSASoftmax %>% group_by(Alpha,Gamma) %>% summarise(Energy.Consumption = sum(Energy.Consumption)/numberRuns, Total.Migrations = sum(Total.Migrations)/numberRuns,
+                      Over.Utilized.Migrations = sum(Over.Utilized.Migrations)/numberRuns, PDM = sum(PDM)/numberRuns, SLATAH = sum(SLATAH)/numberRuns, SLAV = sum(SLAV), ESV = sum(ESV)/numberRuns)
+
+colnames(SARSASoftmaxNew) <- c("Alpha", "Gamma", "Energy Consumption", "Total Migrations", "Over-utilized Migrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+SARSASoftmaxPrint<-SARSASoftmaxNew%>%select(c(1,2,3,4,8,9))
+
+SARSASoftmaxPrint[,'Energy Consumption']=round(SARSASoftmaxPrint[,'Energy Consumption'],3)
+SARSASoftmaxPrint[,'Total Migrations']=round(SARSASoftmaxPrint[,'Total Migrations'],0)
+SARSASoftmaxPrint[,'SLAV']=round(SARSASoftmaxPrint[,'SLAV'],5)
+SARSASoftmaxPrint[,'ESV']=round(SARSASoftmaxPrint[,'ESV'],6)
+
+
+SARSASoftmaxPrint %>%
+  kbl() %>%
+  kable_styling() %>%
+  row_spec(1, bold = TRUE, italic = FALSE) %>%
+  row_spec(6, bold = TRUE, italic = FALSE) %>%
+  row_spec(16, bold = TRUE, italic = FALSE)
+
+
+
+#WE WANT AN ENERGY CONSUMPTION GRAPH 
+#FIRST OF ALL WE NEED TO TAKE IN ALL THE DATA AND REMOVE ALL THE BITS WE DONT NEED 
+#THEN WE WILL HAVE TO DO SOME SORT OF A MERGE 
+#BEST OFF TAKE IN THE DATA AND START AGAIN 
+
+QlearningEgreedy <- read.csv("C:/Users/lhaye/Downloads/QLearning_Egreedy.csv", encoding = "UTF-8")
+
+#LETS KEEP ALL THE INFORMATION FOR THE MINUTE 
+
+colnames(QlearningEgreedy) <- c("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+#NOW WE WANT TO DISCARD ALL THE ROWS WHERE ALPHA AND GAMMA ARE NOT EQUAL TO 0.2 
+
+QlearningEgreedy <- QlearningEgreedy %>% 
+  select("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV") %>% 
+  filter(Alpha == 0.2 , Gamma == 0.2)
+
+
+#CREATE A CONFIG COLUMN 
+
+QlearningEgreedy$Algorithm <- "Q-Learning E-greedy"
+
+
+QlearningSoftmax <- read.csv("C:/Users/lhaye/Downloads/QLearning_Softmax.csv", encoding = "UTF-8")
+
+#LETS KEEP ALL THE INFORMATION FOR THE MINUTE 
+
+colnames(QlearningSoftmax) <- c("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+#NOW WE WANT TO DISCARD ALL THE ROWS WHERE ALPHA AND GAMMA ARE NOT EQUAL TO 0.2 
+
+QlearningSoftmax <- QlearningSoftmax %>% 
+  select("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV") %>% 
+  filter(Alpha == 0.2 , Gamma == 0.2)
+
+
+#CREATE A CONFIG COLUMN 
+
+QlearningSoftmax$Algorithm <- "Q-Learning Softmax"
+
+#NOW I THINK WE DO THE EXACT SAME FOR THE REST 
+
+
+SARSAEgreedy <- read.csv("C:/Users/lhaye/Downloads/SARSA_Egreedy.csv", encoding = "UTF-8")
+
+#LETS KEEP ALL THE INFORMATION FOR THE MINUTE 
+
+colnames(SARSAEgreedy) <- c("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+#NOW WE WANT TO DISCARD ALL THE ROWS WHERE ALPHA AND GAMMA ARE NOT EQUAL TO 0.2 
+
+SARSAEgreedy <- SARSAEgreedy %>% 
+  select("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV") %>% 
+  filter(Alpha == 1.0 , Gamma == 0.4)
+
+
+#CREATE A CONFIG COLUMN 
+
+SARSAEgreedy$Algorithm <- "SARSA E-greedy"
+
+
+SARSASoftmax <- read.csv("C:/Users/lhaye/Downloads/SARSA_Softmax.csv", encoding = "UTF-8")
+
+#LETS KEEP ALL THE INFORMATION FOR THE MINUTE 
+
+colnames(SARSASoftmax) <- c("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+#NOW WE WANT TO DISCARD ALL THE ROWS WHERE ALPHA AND GAMMA ARE NOT EQUAL TO 0.2 
+
+SARSASoftmax <- SARSASoftmax %>% 
+  select("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV") %>% 
+  filter(Alpha == 1.0 , Gamma == 0.4)
+
+
+#CREATE A CONFIG COLUMN 
+
+SARSASoftmax$Algorithm <- "SARSA Softmax"
+
+SARSASoftmax$Under <- SARSASoftmax$TotalMigrations - SARSASoftmax$OverutilizedMigrations
+QlearningEgreedy$Under <- QlearningEgreedy$TotalMigrations - QlearningEgreedy$OverutilizedMigrations
+QlearningSoftmax$Under <- QlearningSoftmax$TotalMigrations - QlearningSoftmax$OverutilizedMigrations
+SARSAEgreedy$Under <- SARSAEgreedy$TotalMigrations - SARSAEgreedy$OverutilizedMigrations
+
+
+merged <- rbind(QlearningEgreedy, QlearningSoftmax, SARSAEgreedy, SARSASoftmax)
+
+#NOW LETS CREATE A LINE GRAPH FOR ENERGY CONSUMPTION
+library(ggplot2)
+
+ggplot(merged, (aes(x= Runs, y=EnergyConsumption, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Energy Consumption Vs. Run") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3","#138D75","#D68910")) +
+  ylab("Energy Consumption (kWh)") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+
+ggplot(merged, (aes(x= Runs, y=TotalMigrations, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Total Migrations Vs. Run") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3","#138D75","#D68910")) +
+  ylab("Total Migrations") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=OverutilizedMigrations, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Over-utilized Migrations Vs. Run") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3","#138D75","#D68910")) +
+  ylab("Over-utilized Migrations") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=Under, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Under-utilized Migrations Vs. Run") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3","#138D75","#D68910")) +
+  ylab("Under-utilized Migrations") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=SLAV, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Service Level Agreement Violations (SLAVs) Vs. Run") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3","#138D75","#D68910")) +
+  ylab("SLAVs") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=ESV, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("ESV Vs. Run") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3","#138D75","#D68910")) +
+  ylab("ESV") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
