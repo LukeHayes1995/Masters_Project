@@ -304,6 +304,138 @@ ggplot(merged, (aes(x= Runs, y=ESV, fill=Algorithm, color=Algorithm))) +
   )
 
 
+
+
+
+
+#NOW ITS TIME TO DO THE SAME THING FOR THE LRMMT VS BEST ALGORITHMS 
+
+#LETS DO THE LRMMT ALG FIRST 
+
+lrmmt <- read.csv("C:/Users/lhaye/Downloads/LrMmt_ Results.csv", encoding = "UTF-8")
+
+#LETS KEEP ALL THE INFORMATION FOR THE MINUTE 
+
+colnames(lrmmt) <- c("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+#NOW WE WANT TO DISCARD ALL THE ROWS WHERE ALPHA AND GAMMA ARE NOT EQUAL TO 0.2 
+
+
+#CREATE A CONFIG COLUMN 
+
+lrmmt$Algorithm <- "Lr-Mmt"
+
+
+best <- read.csv("C:/Users/lhaye/Downloads/Best_Lr-RL_Pretrained.csv", encoding = "UTF-8")
+
+#LETS KEEP ALL THE INFORMATION FOR THE MINUTE 
+
+colnames(best) <- c("Alg", "Alpha", "Gamma", "Runs", "EnergyConsumption", "TotalMigrations", "OverutilizedMigrations", "PDM", "SLATAH", "SLAV", "ESV")
+
+#NOW WE WANT TO DISCARD ALL THE ROWS WHERE ALPHA AND GAMMA ARE NOT EQUAL TO 0.2 
+
+
+#CREATE A CONFIG COLUMN 
+
+best$Algorithm <- "Lr-RL"
+
+best$Under <- best$TotalMigrations - best$OverutilizedMigrations
+lrmmt$Under <- lrmmt$TotalMigrations - lrmmt$OverutilizedMigrations
+
+#BEFORE WE MERGE CAN WE GET A NEW DATAFRAME WITH THE ESV PERCENTAGE DIFFERENCE OVER THE 30 RUNS
+
+new <- ((best$ESV - lrmmt$ESV)/ lrmmt$ESV) * 100 
+print(new)
+
+merged <- rbind(lrmmt, best)
+
+#NOW LETS CREATE A LINE GRAPH FOR ENERGY CONSUMPTION
+library(ggplot2)
+
+ggplot(merged, (aes(x= Runs, y=EnergyConsumption, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Lr-Mmt Vs. Lr-RL - Energy Consumption") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3")) +
+  ylab("Energy Consumption (kWh)") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+
+ggplot(merged, (aes(x= Runs, y=TotalMigrations, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Lr-Mmt Vs. Lr-RL - Total Migrations") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3")) +
+  ylab("Total Migrations") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=OverutilizedMigrations, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Lr-Mmt Vs. Lr-RL - Over-utilized Migrations") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3")) +
+  ylab("Over-utilized Migrations") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=Under, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Lr-Mmt Vs. Lr-RL - Under-utilized Migrations") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3")) +
+  ylab("Under-utilized Migrations") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=SLAV, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Lr-Mmt Vs. Lr-RL - Service Level Agreement Violations (SLAVs)") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3")) +
+  ylab("SLAVs") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+ggplot(merged, (aes(x= Runs, y=ESV, fill=Algorithm, color=Algorithm))) + 
+  geom_line(size=1) +
+  ggtitle("Lr-Mmt Vs. Lr-RL - ESV") +
+  theme_minimal() + 
+  scale_colour_manual(values= c("#CB4335","#2471A3")) +
+  ylab("ESV") +
+  xlab("Run") +
+  theme(
+    plot.title = element_text(vjust = 0, hjust = 0.5, size = 11),
+    panel.grid.major.y = element_line(size = 0.02, colour = "grey60"),
+    panel.grid.minor.y = element_line(size = 0.0005, colour = "grey60")
+  )
+
+
+#WE NEED TO GET A GRAPH TO SHOW THE ESV DIFFERENCE IN PERCENT 
+
+print(merged)
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
