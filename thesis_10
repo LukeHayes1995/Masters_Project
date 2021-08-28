@@ -90,10 +90,6 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
-\tableofcontents
-\listoffigures
-\listoftables
-\printglossary[title=List of Acronyms,type=\acronymtype]
 
 \frontmatter
 % replace PROGRAMME with Data Analytics, Artificial Intelligence, or Artificial Intelligence - Online
@@ -108,12 +104,15 @@ Signature: & ~~\hrulefill \\
 \mainmatter
 
 \begin{abstracts}
-The abstract should summarize the substantive results of the work and not merely list topics to be discussed. An abstract is an outline/brief summary of your paper and your whole project ... 
-
-It should be terse and usually written in the present tense and impersonal style: "A new graph community detection algorithm is proposed based on spectral features. It is compared against several strong baselines ...".
+The increase of commercial usage of services that utilize cloud computing has led to the rapid growth of the required resources to facilitate this environment. This includes extremely large data centers which utilize huge amounts of power and energy. This large use of energy coupled with the poor efficiency of the vast majority of data centers is a large issue of concern. This research proposes an approach to deal with data center inefficiency, thus reducing the energy consumed. A Reinforcement Learning algorithm is proposed that will select Virtual Machines to migrate in the event of a server becoming over-utilized. Intelligent selection of Virtual Machines that will be migrated will lead to less hosts becoming both over and under utilized, resulting in energy savings. The proposed algorithm achieves a saving of 10.37\% in energy consumption when compared to a state-of-the-art algorithm, Lr-Mmt. 
 
 \textbf{Keywords: } keyword1, keyword2, keyword3, keyword4, keyword5
 \end{abstracts}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\printglossary[title=List of Acronyms,type=\acronymtype]
 
 \chapter{Introduction}
 \label{chap:introduction}
@@ -970,7 +969,6 @@ SARSA&1.0&0.4 \\
 \chapter{Q-Learning Vs. SARSA}
 Table 8.1 contains each algorithmic combination along with the best performing hyper-parameters for that algorithm. In the subsequent sections each of these configurations will be evaluated across each of the performance measures outlined in chapter 6. The best performing algorithm will then be selected for comparison against the state-of-the-art algorithm, Lr-Mmt in the next chapter.
 
-
 \begin{center}
 \begin{tabular}{||c c c c||} 
  \hline
@@ -1040,8 +1038,10 @@ Finally, we come to the most important metric as it combines the energy consumpt
 \caption{ESV Results for 30 Day Workload.}
 \end{figure}
 
+\newpage
+
 \section{Conclusion}
-The aim of this experiment was to do a low-level analysis of the each different algorithmic configuration, with their optimal hyper-parameters, to see what configuration gave the best performance. This best performing algorithm will then be bench-marked against the state-of-the-art VM selection algorithm, Lr-Mmt.  
+This experiment aimed to do a detailed analysis of each algorithmic configuration, with their optimal hyper-parameters, to see what configuration gave the best performance. The results of the experiment conclude that the SARSA Softmax achieved the best results with SARSA $\epsilon$-greedy, Q-Learning $\epsilon$-greedy and Q-Learning ranking second third and fourth best respectively. The SARSA Softmax algorithm will then be bench-marked against the state-of-the-art VM selection algorithm, Lr-Mmt.  
 
 \begin{center}
 \begin{tabular}{||c c c c c||} 
@@ -1061,7 +1061,7 @@ SARSA&$\epsilon$-greedy&1.0&0.4&2 \\
 \captionof{table}{Algorithm Combination Ranking Results}\label{SE}
 \end{center}
 
-\chapter{RL Algorithm (Lr-RL) Vs. Lr-Mmt}
+\chapter{Lr-RL Vs. Lr-Mmt}
 \section{Overview}
 The aim of this chapter is to answer the final research question posed in the introduction to this thesis, by comparing the performance of the RL algorithm to that of the state-of-the-art Lr-Mmt algorithm. To carry out this experiment the best configuration, established in the previous chapter, was taken and trained a number of times on the workloads it was about to encounter. Both the Lr-Mmt and Lr-RL algorithms were then run on a set of 30 different workloads. The subsequent sections carry out detailed analysis of how these algorithms compare on each of the data center performance evaluation measures. 
 
@@ -1119,7 +1119,7 @@ The demand for cloud computing has had a meteoric rise, leading to a large numbe
 \item How does the performance of Reinforcement Learning approach presented compare to Lr-Mmt, a state-of-the-art VM Selection policy?
 \end{enumerate}
 
-Experiments carried out in Section 7 aimed to answer the first two research questions by analysing a series of hyper-parameters, Alpha and Gamma, to find the best performing parameters for each algorithm. These experiments concluded that for Q-Learning a low Gamma value was critical and an increase would cause a large decrease in performance. A change in Alpha had much less of an effect on performance although a lower value was optimal. An Alpha and Gamma value of 0.2 were found to be optimal for Q-Learning. With the SARSA algorithm the experiment concluded that the hyper-parameters were both not critical for performance and that the algorithm performed in a similar manner regardless of the values of each. However, an Alpha value of 1.0 and a Gamma value of 0.4 consistently gave a slight performance increase. 
+Experiments carried out in Chapter 7 aimed to answer the first two research questions by analysing a series of hyper-parameters, Alpha and Gamma, to find the best performing parameters for each algorithm. These experiments concluded that for Q-Learning a low Gamma value was critical and an increase would cause a large decrease in performance. A change in Alpha had much less of an effect on performance although a lower value was optimal. An Alpha and Gamma value of 0.2 were found to be optimal for Q-Learning. With the SARSA algorithm the experiment concluded that the hyper-parameters were both not critical for performance and that the algorithm performed in a similar manner regardless of the values of each. However, an Alpha value of 1.0 and a Gamma value of 0.4 consistently gave a slight performance increase. 
 
 Chapter 9 conducted an experiment to answer the third and final research question. The aim here was to compare the performance of the RL VM Selection algorithm (Lr-RL), to that of the state-of-the-art algorithm Lr-Mmt. The aim here was to identify if the proposed algorithm showed any improvements over the established Lr-Mmt approach. The experiment concluded that the Lr-RL algorithm performed significantly better across a 30 day workload. The algorithm resulted in an average daily saving of 10.37\% on energy, 107.9\% on migrations, 5.6\% on SLAVs and 16.6\% on ESV. These results prove that the RL approach to VM Selection is highly capable of reducing the energy consumption of data centers without reducing the level of service supplied to the customer. 
 
